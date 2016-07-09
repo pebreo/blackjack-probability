@@ -1,0 +1,83 @@
+        <table class="table table-striped">
+          <colgroup>
+            <col class="col-md-6">
+            <col class="col-md-6">
+            <thead>
+            <th>Sample Data, n = {{selected_sample_size}}
+            </th>
+            <th>Sample Mean</th>
+            </thead>
+          </colgroup>
+          <tbody>
+          <tr ng-if="is_rep_size_small()" ng-repeat="d in created_samples">
+
+              <td class="col-md-6">S<sub>{{$index+1}}</sub> = {{d.sample}}</td>
+              <td class="col-md-6">x&#772;<sub>{{$index+1}}</sub> = {{d.mean}}</td>
+
+          </tr>
+          <tr ng-if="is_rep_size_1k()">
+
+              <td class="col-md-6">S<sub>1</sub> = {{created_samples[0].sample}}</td>
+              <td class="col-md-6">x&#772;<sub>{{$index+1}}</sub> = {{created_samples[0].mean}}</td>
+
+          </tr>
+           <tr ng-if="is_rep_size_1k()">
+
+              <td class="col-md-6">...</td>
+              <td class="col-md-6">...</td>
+
+          </tr>
+           <tr ng-if="is_rep_size_1k()">
+
+              <td class="col-md-6">...</td>
+              <td class="col-md-6">...</td>
+
+          </tr>
+          <tr ng-if="is_rep_size_1k()">
+
+              <td class="col-md-6">...</td>
+              <td class="col-md-6">...</td>
+
+          </tr>
+           <tr ng-if="is_rep_size_1k()">
+
+              <td class="col-md-6">S<sub>1000</sub> = {{created_samples[999].sample}}</td>
+              <td class="col-md-6">x&#772;<sub>1000</sub> = {{created_samples[999].mean}}</td>
+
+          </tr>
+
+
+            <tr ng-if="is_rep_size_10k()">
+
+              <td class="col-md-6">S<sub>1</sub> = {{created_samples[0].sample}}</td>
+              <td class="col-md-6">x&#772;<sub>{{$index+1}}</sub> = {{created_samples[0].mean}}</td>
+
+          </tr>
+           <tr ng-if="is_rep_size_10k()">
+
+              <td class="col-md-6">...</td>
+              <td class="col-md-6">...</td>
+
+          </tr>
+           <tr ng-if="is_rep_size_10k()">
+
+              <td class="col-md-6">...</td>
+              <td class="col-md-6">...</td>
+
+          </tr>
+          <tr ng-if="is_rep_size_10k()">
+
+              <td class="col-md-6">...</td>
+              <td class="col-md-6">...</td>
+
+          </tr>
+           <tr ng-if="is_rep_size_10k()">
+
+              <td class="col-md-6">S<sub>10,000</sub> = {{created_samples[9999].sample}}</td>
+              <td class="col-md-6">x&#772;<sub>10,000</sub> = {{created_samples[9999].mean}}</td>
+
+          </tr>
+
+          </tbody>
+
+        </table>
