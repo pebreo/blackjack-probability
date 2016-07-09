@@ -3,7 +3,7 @@
 
 http://stackoverflow.com/questions/9960908/permutations-in-javascript
 
-# http://pebreo.github.io/visualizing-sdsm
+# http://pebreo.github.io/blackjack-probability
 
 Installation
 ---------
