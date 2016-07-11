@@ -1,9 +1,7 @@
+
 describe("Basic", function() {
     var logic;
-    beforeEach(function() {
-        //logic = new Funcs();
-
-    });
+    beforeEach(module('myApp'));
 
     it("should know its turn", function() {
         expect(3).toBe(3);
