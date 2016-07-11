@@ -1,10 +1,17 @@
 
 describe("Basic", function() {
-    var logic;
-    beforeEach(module('myApp'));
+    var myservice;
 
-    it("should know its turn", function() {
-        expect(3).toBe(3);
+    // setup the angular module
+    beforeEach(module('myApp'));
+    
+    // setup the service 
+    beforeEach(inject(function(_myservice_) {
+        myservice = _myservice_;
+    }));
+
+    it("myservice.baz should be a certain string", function() {
+        expect(myservice.baz).toBe('baz value!');
 
 
     });
