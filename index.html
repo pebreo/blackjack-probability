@@ -85,16 +85,7 @@
 
         <ul class="list-group">
           <li class="list-group-item">
-             <p><h4>Dealer</h4></p>
-            <div class="panel panel-default">
-              <div class="panel-body">
-                <p>blah</p>
-              </div>
-            </div>
-
-          </li>
-          <li class="list-group-item">
-             <p><h4>Player (You)</h4></p>
+            <p><h4>Dealer</h4></p>
             <div class="panel panel-default">
               <div class="panel-body">
                 <p>blah</p>
@@ -103,9 +94,24 @@
             <form role="form">
 
               <div class="form-group">
-                <button ng-click="make_normal()" type="submit" class="btn btn-success">Surrender</button>
-                <button ng-click="make_skewed()" type="submit" class="btn btn-success">Hit</button>
-                <button ng-click="make_uniform()" type="submit" class="btn btn-success">Stand</button>
+                <button ng-click="start_game()" ng-class="{disabled: start_switch}" type="submit" class="btn btn-success">Deal</button>
+              </div>
+
+            </form>
+          </li>
+          <li class="list-group-item">
+            <p><h4>Player (You)</h4></p>
+            <div class="panel panel-default">
+              <div class="panel-body">
+                <p>blah</p>
+              </div>
+            </div>
+            <form role="form">
+
+              <div class="form-group">
+                <button  ng-class="{disabled: !start_switch}" ng-click="make_normal()" type="submit" class="btn btn-success disabled">Surrender</button>
+                <button  ng-class="{disabled: !start_switch}" ng-click="make_skewed()" type="submit" class="btn btn-success disabled">Hit</button>
+                <button  ng-class="{disabled: !start_switch}" ng-click="make_uniform()" type="submit" class="btn btn-success disabled">Stand</button>
               </div>
 
             </form>
@@ -126,8 +132,9 @@
 
 <script src="js/app.js"></script>
 <script src="js/services.js"></script>
-
 <script src="js/controllers.js"></script>
+<script src="js/directives.js"></script>
+
 <script src="js/bootstrap.min.js"></script>
 </body>
 </html>
