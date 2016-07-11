@@ -11,12 +11,17 @@
         'math',
         function ($rootScope, $scope, $log, myservice, math) {
 
+            $scope.start_switch = false;
 
+            $scope.is_end = function() {
+                return true;
+            };
             $scope.x = 0;
-            $scope.$watch('x', function () {
 
-                $log.log($scope.x);
-            });
+            $scope.start_game = function() {
+                $scope.start_switch = true;
+            };
+
 
 
         }]);

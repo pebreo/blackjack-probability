@@ -4,7 +4,7 @@
     var app = angular.module('myApp');
 
     app.service('myservice', function () {
-        this.baz = 1;
+        this.baz = 'baz value!';
     });
 
     app.service('math', function () {
