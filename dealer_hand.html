@@ -5,8 +5,8 @@
       </li>
       <li ng-repeat="c in samples">
         <a class="card rank-{{c.rank}} {{c.suit}}" href="#">
-        <span class="rank">{{c.rank}}</span>
-        <span class="suit">{{c.suit}}</span>
+        <span class="rank">{{c.rank|capface}}</span>
+        <span class="suit">{{c.suit|unsafe}}</span>
         </a>
       </li>
 
