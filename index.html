@@ -23,8 +23,9 @@
 
 
   <!-- Bootstrap core CSS -->
-  <link href="css/bootstrap.min.css" rel="stylesheet">
 
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="css/cards.css" media="screen" />
   <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
   <link href="../../assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
 
@@ -61,6 +62,10 @@
       border-bottom: none;
     }
 
+    .playingCards .card {
+        font-size: 24px;
+    }
+
   </style>
 </head>
 
@@ -68,9 +73,9 @@
 <div class="container">
 
   <div class="page-header">
-    <h1 class="text-center">Black Jack Game with Probabilities</h1>
+    <!--<h1 class="text-center">Black Jack Game with Probabilities</h1>-->
 
-    <h2 class="text-center">by Paul Ebreo</h2>
+    <!--<h2 class="text-center">by Paul Ebreo</h2>-->
 
     <p class="lead text-center">A game of Black Jack which let's you understand permutations.</p>
   </div>
@@ -88,7 +93,7 @@
             <p><h4>Dealer</h4></p>
             <div class="panel panel-default">
               <div class="panel-body">
-                <p>blah</p>
+                <dealer-hand></dealer-hand>
               </div>
             </div>
             <form role="form">
@@ -103,13 +108,12 @@
             <p><h4>Player (You)</h4></p>
             <div class="panel panel-default">
               <div class="panel-body">
-                <p>blah</p>
+                <player-hand></player-hand>
               </div>
             </div>
             <form role="form">
 
               <div class="form-group">
-                <button  ng-class="{disabled: !start_switch}" ng-click="make_normal()" type="submit" class="btn btn-success disabled">Surrender</button>
                 <button  ng-class="{disabled: !start_switch}" ng-click="make_skewed()" type="submit" class="btn btn-success disabled">Hit</button>
                 <button  ng-class="{disabled: !start_switch}" ng-click="make_uniform()" type="submit" class="btn btn-success disabled">Stand</button>
               </div>

@@ -4,10 +4,17 @@
 
     var app = angular.module('myApp');
 
-    app.directive('myElem', function () {
+    app.directive('dealerHand', function () {
         return {
             restrict: 'E',
-            templateUrl: 'set_items.html'
+            templateUrl: 'dealer_hand.html'
+        };
+    });
+
+    app.directive('playerHand', function () {
+        return {
+            restrict: 'E',
+            templateUrl: 'player_hand.html'
         };
     });
 
