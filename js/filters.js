@@ -5,8 +5,8 @@
 
     app.filter('unsafe', function(){
         return function(input) {
-
-            //$scope.h = "&" + rank + ";";
+            var rank;
+            rank = "&" + input + ";";
             //return rank;
             return rank.trustAsHtml;
         }

@@ -26,9 +26,9 @@
             $log.log($scope.samples);
 
             $scope.isBlank = function(rank) {
-                //if(rank==0) {return true}
+                if(rank=='0') {return true}
                 return false;
-            }
+            };
 
         }]);
 

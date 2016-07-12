@@ -37,6 +37,8 @@
         this.sample_deck = function (deck, n) {
             // only sample the non-back cards
             var s = _.chain(deck).slice(start=1).sampleSize(n).value();
+            //var s = _.chain(deck).slice(start=0).sampleSize(n).value();
+            console.log(s);
             return s;
         };
     });
