@@ -1,18 +1,12 @@
 <div class="playingCards faceImages  rotateHand">
     <ul class="table">
-      <li>
+      <li ng-repeat="c in samples">
         <a class="card back" href="#">*</a>
       </li>
-      <li>
-        <a class="card rank-2 diams" href="#">
-        <span class="rank">2</span>
-        <span class="suit">&diams;</span>
-        </a>
-      </li>
-      <li>
-        <a class="card rank-q hearts" href="#">
-        <span class="rank">Q</span>
-        <span class="suit">&hearts;</span>
+      <li ng-repeat="c in samples">
+        <a class="card rank-{{c.rank}} {{c.suit}}" href="#">
+        <span class="rank">{{c.rank}}</span>
+        <span class="suit">{{c.suit}}</span>
         </a>
       </li>
 

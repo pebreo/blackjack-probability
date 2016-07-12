@@ -27,10 +27,16 @@
                    id += 1;
                }
             }
+            // insert blank card
+            Array.prototype.insert = function (index) {
+                this.splice.apply(this, [index, 0].concat(this.slice.call(arguments, 1)));
+            };
+            deck.insert(0,{id:0, rank:0, suit:'back'});
             return deck;
         };
         this.sample_deck = function (deck, n) {
-            var s = _.sampleSize(deck, n);
+            // only sample the non-back cards
+            var s = _.chain(deck).slice(start=1).sampleSize(n).value();
             return s;
         };
     });

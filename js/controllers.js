@@ -12,7 +12,7 @@
         function ($rootScope, $scope, $log, myservice, math) {
 
             $scope.start_switch = false;
-
+            $scope.samples = [];
             $scope.is_end = function() {
                 return true;
             };
@@ -22,9 +22,13 @@
                 $scope.start_switch = true;
             };
             var d = myservice.make_deck();
-            var samples = myservice.sample_deck(d, 4);
-            $log.log(samples);
+            $scope.samples = myservice.sample_deck(d, 4);
+            $log.log($scope.samples);
 
+            $scope.isBlank = function(rank) {
+                //if(rank==0) {return true}
+                return false;
+            }
 
         }]);
 
