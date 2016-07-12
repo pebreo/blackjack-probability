@@ -5,7 +5,36 @@
 
     app.service('myservice', function () {
         this.baz = 'baz value!';
+        this.make_deck = function () {
+            //var suits = ['clubs', 'diamonds', 'hearts', 'spades'];
+            var suits = ['clubs', 'diams', 'hearts', 'spades'];
+            //var values = [[1, 11], [2], [3], [4], [5], [6], [7], [8], [9], [10], [10], [10], [10]];
+            var ranks = ['a','2','3','4','5','6','7','8','9','10','j','q','k'];
+            //var names = ['ace', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'jack', 'queen', 'king']
+            var deck = [];
+            var id = 1;
+            // ever suit
+            for(i=0;i<suits.length;i++) {
+               // every value
+               for(j=0;j<ranks.length;j++) {
+                   deck.push(
+                    {
+                        id: id,
+                        rank: ranks[j],
+                        suit: suits[i]
+                    }
+                   );
+                   id += 1;
+               }
+            }
+            return deck;
+        };
+        this.sample_deck = function (deck, n) {
+            var s = _.sampleSize(deck, n);
+            return s;
+        };
     });
+
 
     app.service('math', function () {
 

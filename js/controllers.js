@@ -21,7 +21,9 @@
             $scope.start_game = function() {
                 $scope.start_switch = true;
             };
-
+            var d = myservice.make_deck();
+            var samples = myservice.sample_deck(d, 4);
+            $log.log(samples);
 
 
         }]);
