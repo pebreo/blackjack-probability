@@ -10,7 +10,7 @@
         'myservice',
         'math',
         function ($rootScope, $scope, $log, myservice, math) {
-
+            $scope.logic = myservice;
             $scope.start_switch = false;
             $scope.samples = [];
             $scope.is_end = function() {

@@ -5,12 +5,22 @@
 
     app.service('myservice', function () {
         this.baz = 'baz value!';
-
+        this.player_hand = [];
+        this.dealer_hand = [];
         this.str2int = function (value) {
           if(/^(\-|\+)?([0-9]+|Infinity)$/.test(value))
             return Number(value);
           return NaN;
         }
+        this.deal_card = function(deck, n) {
+          var card;
+            card = _.sampleSize(deck, n)[0];
+            console.log(card);
+            //found = _.find(deck,function(c) {return c.id == card.id});
+            removed = _.remove(deck, function(c){return c.id == card.id})[0];
+            console.log(removed);
+            return card;
+        };
         this.rank2integer = function(rank) {
             var rank_int = [];
             switch(rank){

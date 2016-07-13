@@ -1,5 +1,5 @@
 
-describe("Deck functions", function() {
+xdescribe("Deck functions", function() {
     var myservice;
 
     // setup the angular module
@@ -69,17 +69,40 @@ describe("Deck functions", function() {
 });
 
 
-describe("Handlestr", function() {
-    var logic;
-    beforeEach(function() {
+describe("Deal function", function() {
+    var myservice;
+    // setup the angular module
+    beforeEach(module('myApp'));
+
+    // setup the service
+    beforeEach(inject(function(_myservice_) {
+        myservice = _myservice_;
+    }));
+
+    it("should make the deck smaller", function() {
+        var deck = myservice.make_deck();
+        var card;
+        // remove once
+        expect(deck.length).toEqual(52);
+        card = myservice.deal_card(deck, 1);
+        expect(deck.length).toEqual(51);
+
+        // remove again
+        card = myservice.deal_card(deck, 1);
+        expect(deck.length).toEqual(50);
 
     });
 
-    it("should handle computerlost", function() {
-        expect(false).toEqual(false);
+    it("should make the deck not have the card anymore when dealing", function() {
+        var deck = myservice.make_deck();
+        var card;
+        // remove once
+        expect(deck.length).toEqual(52);
+        card = myservice.deal_card(deck, 1);
+        expect(deck.length).toEqual(51);
     });
 
-    xit("should handle computerwon", function() {
+    it("should deal n cards", function() {
         expect(9).toEqual(3);
 
     });
