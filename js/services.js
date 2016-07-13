@@ -19,6 +19,16 @@
             removed = _.remove(deck, function(c){return c.id == card.id})[0];
             return card;
         };
+        this.blackjack_deal = function(deck){
+            var card;
+            card = this.deal_card(deck);
+            card.show = false;
+            this.dealer_hand.push(card);
+
+            card = this.deal_card(deck);
+            this.dealer_hand.push(card);
+
+        };
         this.rank2integer = function(rank) {
             var rank_int = [];
             switch(rank){

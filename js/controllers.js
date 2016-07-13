@@ -10,9 +10,12 @@
         'myservice',
         'math',
         function ($rootScope, $scope, $log, myservice, math) {
-            $scope.logic = myservice;
+            var logic = myservice;
             $scope.start_switch = false;
             $scope.samples = [];
+            $scope.dealer_hand = [];
+            $scope.player_hand = [];
+            $scope.deck = [];
             $scope.is_end = function() {
                 return true;
             };
@@ -21,14 +24,26 @@
             $scope.start_game = function() {
                 $scope.start_switch = true;
             };
-            var d = myservice.make_deck();
-            $scope.samples = myservice.sample_deck(d, 4);
-            $log.log($scope.samples);
 
             $scope.isBlank = function(rank) {
                 if(rank=='0') {return true}
                 return false;
             };
+
+            $scope.first_deal = function(){
+                $scope.deck = logic.make_deck();
+                logic.blackjack_deal($scope.deck);
+                console.log(logic.dealer_hand);
+                $scope.dealer_hand = logic.dealer_hand;
+                $scope.player_hand = logic.player_hand;
+            };
+
+            $scope.$watch('start_switch', function(){
+                if($scope.start_switch === true) {
+                    $scope.first_deal();
+                }
+            });
+
 
         }]);
 
