@@ -8,22 +8,65 @@
         this.player_hand = [];
         this.dealer_hand = [];
         this.str2int = function (value) {
-          if(/^(\-|\+)?([0-9]+|Infinity)$/.test(value))
-            return Number(value);
-          return NaN;
+            if (/^(\-|\+)?([0-9]+|Infinity)$/.test(value))
+                return Number(value);
+            return NaN;
         };
-        this.logic_reset = function(){
+        this.logic_reset = function () {
             this.player_hand = [];
             this.dealer_hand = [];
         }
-        this.deal_card = function(deck) {
-          var card;
-            card = _.sampleSize(deck,1)[0];
+        this.calc_hand_value_old = function (hand) {
+            var hand_value;
+
+            function sum_card(sum, card) {
+                return sum + card.rank_integer;
+            }
+
+            hand_value = _.reduce(hand, sum_card, 0);
+            return hand_value;
+        };
+
+        this.calc_hand_value = function(hand){
+            var hand_values = [];
+            var hand_sum = 0;
+            var found_ace = undefined;
+
+            // count when ace is worth 1
+            _.forEach(hand, function (card) {
+                hand_sum += card.rank_integer[0];
+            });
+            hand_values.push(hand_sum);
+            hand_sum = 0;
+
+            // count when ace is worth 11
+            found_ace = _.find(hand, function (card) {
+                return card.rank_integer.length == 2
+            });
+            if (found_ace !== undefined) {
+                console.log('found ace');
+                _.forEach(hand, function (card) {
+                    if (card.rank_integer.length > 1) {
+                        //console.log('found ace card in loop');
+                        hand_sum += card.rank_integer[1];
+                    } else {
+                        hand_sum += card.rank_integer[0];
+                    }
+                });
+                hand_values.push(hand_sum);
+            }
+            return hand_values;
+        };
+        this.deal_card = function (deck) {
+            var card;
+            card = _.sampleSize(deck, 1)[0];
             //found = _.find(deck,function(c) {return c.id == card.id});
-            removed = _.remove(deck, function(c){return c.id == card.id})[0];
+            removed = _.remove(deck, function (c) {
+                return c.id == card.id
+            })[0];
             return card;
         };
-        this.blackjack_deal = function(deck){
+        this.blackjack_deal = function (deck) {
             var card;
             card = this.deal_card(deck);
             card.show = false;
@@ -39,9 +82,9 @@
             this.player_hand.push(card);
 
         };
-        this.rank2integer = function(rank) {
+        this.rank2integer = function (rank) {
             var rank_int = [];
-            switch(rank){
+            switch (rank) {
                 case 'a':
                     rank_int.push(1);
                     rank_int.push(11);
@@ -65,38 +108,38 @@
             //var suits = ['clubs', 'diamonds', 'hearts', 'spades'];
             var suits = ['clubs', 'diams', 'hearts', 'spades'];
             //var values = [[1, 11], [2], [3], [4], [5], [6], [7], [8], [9], [10], [10], [10], [10]];
-            var ranks = ['a','2','3','4','5','6','7','8','9','10','j','q','k'];
+            var ranks = ['a', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'j', 'q', 'k'];
             //var names = ['ace', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'jack', 'queen', 'king']
             var deck = [];
             var id = 1;
             // ever suit
-            for(i=0;i<suits.length;i++) {
-               // every value
-               for(j=0;j<ranks.length;j++) {
-                   deck.push(
-                    {
-                        id: id,
-                        rank: ranks[j],
-                        rank_integer: this.rank2integer(ranks[j]),
-                        suit: suits[i],
-                        show: true
-                    }
-                   );
-                   id += 1;
-               }
+            for (i = 0; i < suits.length; i++) {
+                // every value
+                for (j = 0; j < ranks.length; j++) {
+                    deck.push(
+                        {
+                            id: id,
+                            rank: ranks[j],
+                            rank_integer: this.rank2integer(ranks[j]),
+                            suit: suits[i],
+                            show: true
+                        }
+                    );
+                    id += 1;
+                }
             }
             // insert blank card
             /*
-            Array.prototype.insert = function (index) {
-                this.splice.apply(this, [index, 0].concat(this.slice.call(arguments, 1)));
-            };
-            deck.insert(0,{id:0, rank:0, suit:'back'});
-            */
+             Array.prototype.insert = function (index) {
+             this.splice.apply(this, [index, 0].concat(this.slice.call(arguments, 1)));
+             };
+             deck.insert(0,{id:0, rank:0, suit:'back'});
+             */
             return deck;
         };
         this.sample_deck = function (deck, n) {
             // only sample the non-back cards
-            var s = _.chain(deck).slice(start=1).sampleSize(n).value();
+            var s = _.chain(deck).slice(start = 1).sampleSize(n).value();
             //var s = _.chain(deck).slice(start=0).sampleSize(n).value();
             console.log(s);
             return s;

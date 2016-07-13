@@ -69,7 +69,7 @@ xdescribe("Deck functions", function() {
 });
 
 
-describe("Deal function", function() {
+xdescribe("Deal function", function() {
     var myservice;
     // setup the angular module
     beforeEach(module('myApp'));
@@ -118,6 +118,65 @@ describe("Deal function", function() {
         myservice.blackjack_deal(deck);
         // remove once
         expect(deck.length).toEqual(48);
+
+    });
+
+
+
+});
+
+
+describe("calc_hand_value", function() {
+    var myservice;
+    // setup the angular module
+    beforeEach(module('myApp'));
+
+    // setup the service
+    beforeEach(inject(function(_myservice_) {
+        myservice = _myservice_;
+    }));
+
+    it("should calculate when there is an ace card value", function() {
+        var ace = {
+            id: 1,
+            rank: 1,
+            rank_integer: [1,11],
+            suit: 'clubs',
+            show: true
+        };
+        var jack = {
+            id: 11,
+            rank: 11,
+            rank_integer: [10],
+            suit: 'clubs',
+            show: true
+        };
+
+        var hand = [ace,jack];
+        hand_value = myservice.calc_hand_value(hand);
+        expect(hand_value).toEqual([11,21]);
+
+    });
+
+    it("should calculate when there is no ace", function() {
+        var three = {
+            id: 3,
+            rank: 3,
+            rank_integer: [3],
+            suit: 'clubs',
+            show: true
+        };
+        var jack = {
+            id: 11,
+            rank: 11,
+            rank_integer: [10],
+            suit: 'clubs',
+            show: true
+        };
+
+        var hand = [three,jack];
+        hand_value = myservice.calc_hand_value(hand);
+        expect(hand_value).toEqual([13]);
 
     });
 
