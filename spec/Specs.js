@@ -33,19 +33,31 @@ describe("Deck functions", function() {
         expect(myservice.rank2integer('10')).toEqual([10]);
     });
 
-    it("should return 53 cards", function() {
+    it("should return 52", function() {
+        var deck = myservice.make_deck();
+        expect(deck.length).toEqual(52);
+    });
+
+
+    it("should have 4 suits", function() {
+        var deck = myservice.make_deck();
+        var groups = _.groupBy(deck, function(a) {return a.suit});
+        expect(Object.keys(groups).length).toEqual(4);
+    });
+
+    xit("should return 53 cards because one is a blank", function() {
         var deck = myservice.make_deck();
         expect(deck.length).toEqual(53);
     });
 
-    it("should have first card as blank", function() {
+    xit("should have first card as blank", function() {
         //JSON.stringify()
         var deck = myservice.make_deck();
         first_card = deck[0];
         expect(JSON.stringify(first_card)).toEqual(JSON.stringify({id:0, rank:0, suit:'back'}));
     });
-    
-    it("should have 5 suits because back has its own suit", function() {
+
+    xit("should have 5 suits because back has its own suit", function() {
         var deck = myservice.make_deck();
         var groups = _.groupBy(deck, function(a) {return a.suit});
         expect(Object.keys(groups).length).toEqual(5);

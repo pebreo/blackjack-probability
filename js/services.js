@@ -50,17 +50,20 @@
                         id: id,
                         rank: ranks[j],
                         rank_integer: this.rank2integer(ranks[j]),
-                        suit: suits[i]
+                        suit: suits[i],
+                        show: true
                     }
                    );
                    id += 1;
                }
             }
             // insert blank card
+            /*
             Array.prototype.insert = function (index) {
                 this.splice.apply(this, [index, 0].concat(this.slice.call(arguments, 1)));
             };
             deck.insert(0,{id:0, rank:0, suit:'back'});
+            */
             return deck;
         };
         this.sample_deck = function (deck, n) {
