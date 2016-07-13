@@ -93,17 +93,22 @@ describe("Deal function", function() {
 
     });
 
-    it("should make the deck not have the card anymore when dealing", function() {
+    it("should remove the card from the deck when dealt", function() {
         var deck = myservice.make_deck();
         var card;
         // remove once
         expect(deck.length).toEqual(52);
         card = myservice.deal_card(deck, 1);
-        expect(deck.length).toEqual(51);
+        result = _.find(deck, function(c){return c.id == card.id});
+        expect(result).toEqual(undefined);
     });
 
     it("should deal n cards", function() {
-        expect(9).toEqual(3);
+         var deck = myservice.make_deck();
+        var card;
+        // remove once
+        expect(deck.length).toEqual(52);
+        card = myservice.deal_card(deck, 1);
 
     });
 

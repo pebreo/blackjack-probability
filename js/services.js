@@ -12,13 +12,11 @@
             return Number(value);
           return NaN;
         }
-        this.deal_card = function(deck, n) {
+        this.deal_card = function(deck) {
           var card;
-            card = _.sampleSize(deck, n)[0];
-            console.log(card);
+            card = _.sampleSize(deck,1)[0];
             //found = _.find(deck,function(c) {return c.id == card.id});
             removed = _.remove(deck, function(c){return c.id == card.id})[0];
-            console.log(removed);
             return card;
         };
         this.rank2integer = function(rank) {
