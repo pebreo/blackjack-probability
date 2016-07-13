@@ -113,5 +113,16 @@ describe("Deal function", function() {
     });
 
 
+    it("should have 48 cards after dealing to player and dealer", function() {
+        var deck = myservice.make_deck();
+        myservice.blackjack_deal(deck);
+        // remove once
+        expect(deck.length).toEqual(48);
+
+    });
+
+
+
+
 
 });

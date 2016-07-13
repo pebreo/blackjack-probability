@@ -25,6 +25,14 @@
                 $scope.start_switch = true;
             };
 
+            $scope.reset_game = function(){
+                $scope.start_switch = false;
+                $scope.dealer_hand = [];
+                $scope.player_hand = [];
+                $scope.deck = [];
+                logic.logic_reset();
+            };
+
             $scope.isBlank = function(rank) {
                 if(rank=='0') {return true}
                 return false;

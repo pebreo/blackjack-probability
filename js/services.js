@@ -11,6 +11,10 @@
           if(/^(\-|\+)?([0-9]+|Infinity)$/.test(value))
             return Number(value);
           return NaN;
+        };
+        this.logic_reset = function(){
+            this.player_hand = [];
+            this.dealer_hand = [];
         }
         this.deal_card = function(deck) {
           var card;
@@ -27,6 +31,12 @@
 
             card = this.deal_card(deck);
             this.dealer_hand.push(card);
+
+            card = this.deal_card(deck);
+            this.player_hand.push(card);
+
+            card = this.deal_card(deck);
+            this.player_hand.push(card);
 
         };
         this.rank2integer = function(rank) {
