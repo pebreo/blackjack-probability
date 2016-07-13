@@ -5,6 +5,34 @@
 
     app.service('myservice', function () {
         this.baz = 'baz value!';
+
+        this.str2int = function (value) {
+          if(/^(\-|\+)?([0-9]+|Infinity)$/.test(value))
+            return Number(value);
+          return NaN;
+        }
+        this.rank2integer = function(rank) {
+            var rank_int = [];
+            switch(rank){
+                case 'a':
+                    rank_int.push(1);
+                    rank_int.push(11);
+                    break;
+                case 'j':
+                    rank_int.push(10);
+                    break;
+                case 'q':
+                    rank_int.push(10);
+                    break;
+                case 'k':
+                    rank_int.push(10);
+                    break;
+                default:
+                    rank_int.push(this.str2int(rank));
+            }
+            return rank_int;
+
+        };
         this.make_deck = function () {
             //var suits = ['clubs', 'diamonds', 'hearts', 'spades'];
             var suits = ['clubs', 'diams', 'hearts', 'spades'];
@@ -21,6 +49,7 @@
                     {
                         id: id,
                         rank: ranks[j],
+                        rank_integer: this.rank2integer(ranks[j]),
                         suit: suits[i]
                     }
                    );
