@@ -16,6 +16,10 @@
             $scope.dealer_hand = [];
             $scope.player_hand = [];
             $scope.deck = [];
+
+            $scope.dealer_hand_value = [];
+            $scope.player_hand_value = [];
+
             $scope.is_end = function() {
                 return true;
             };
@@ -44,6 +48,12 @@
                 console.log(logic.dealer_hand);
                 $scope.dealer_hand = logic.dealer_hand;
                 $scope.player_hand = logic.player_hand;
+
+                $scope.dealer_hand_value = logic.calc_hand_value($scope.dealer_hand);
+                console.log($scope.dealer_hand_value);
+
+                $scope.player_hand_value = logic.calc_hand_value($scope.player_hand);
+                console.log($scope.player_hand_value);
             };
 
             $scope.$watch('start_switch', function(){
