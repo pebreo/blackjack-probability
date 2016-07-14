@@ -419,7 +419,7 @@ describe("make_perms_with_hand_values", function() {
         expect(Object.keys(combo_vals)).toEqual(['2','11','21','22']);
     });
 
-    it("should make combinations for a single suit deck", function(){
+    xit("should make combinations for a single suit deck", function(){
         var deck = [];
 
         var str2int = function (value) {
@@ -456,7 +456,7 @@ describe("make_perms_with_hand_values", function() {
             var id = 1;
 
             // ever suit
-            for (i = 0; i < suits.length; i++) {
+            for (var i = 0; i < suits.length; i++) {
                 // every value
                 for (j = 0; j < ranks.length; j++) {
                     deck.push(
@@ -480,6 +480,83 @@ describe("make_perms_with_hand_values", function() {
         expect(Object.keys(combo_vals).length).toEqual(19);
 
     });
+
+    // this does not work with 52 values for some reason
+    it("should handle 52 items to calculate", function(){
+        console.log('should handle 52 items to calculate');
+        var items = [];
+        var combos;
+        for(var i=0;i<52;i++){
+            items.push(i+1);
+        }
+        combos = myservice.combs_choose([1,2,3,4], 3);
+
+        console.log(combos);
+    });
+
+    // This crashes
+    xit("should make combinations for a two suit deck", function(){
+        var deck = [];
+
+        var str2int = function (value) {
+            if (/^(\-|\+)?([0-9]+|Infinity)$/.test(value))
+                return Number(value);
+            return NaN;
+        };
+        var rank2integer = function (rank) {
+            var rank_int = [];
+            switch (rank) {
+                case 'a':
+                    rank_int.push(1);
+                    rank_int.push(11);
+                    break;
+                case 'j':
+                    rank_int.push(10);
+                    break;
+                case 'q':
+                    rank_int.push(10);
+                    break;
+                case 'k':
+                    rank_int.push(10);
+                    break;
+                default:
+                    rank_int.push(str2int(rank));
+            }
+            return rank_int;
+
+        };
+
+        var setup_deck = function () {
+            var suits = ['clubs'];
+            var ranks = ['a', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'j', 'q', 'k'];
+            var id = 1;
+
+            // ever suit
+            for (var i = 0; i < suits.length; i++) {
+                // every value
+                for (j = 0; j < ranks.length; j++) {
+                    deck.push(
+                        {
+                            id: id,
+                            rank: ranks[j],
+                            rank_integer: rank2integer(ranks[j]),
+                            suit: suits[i],
+                            show: true
+                        }
+                    );
+                    id += 1;
+                }
+            }
+        };
+        setup_deck();
+        console.log(deck.length);
+        var card_perms = myservice.combs_choose(deck, 2);
+        console.log(card_perms.length);
+        //var combo_vals = myservice.make_perms_with_hand_values(card_perms);
+
+
+    });
+
 
 
 

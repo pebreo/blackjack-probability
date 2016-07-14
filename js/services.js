@@ -66,6 +66,7 @@
         this.combs_choose = function (xs, r) {
             return combinations_choose(xs, r);
         };
+
         var permutations_choose = function (xs, r) {
             if (!r) return [];
             return xs.reduce(function (memo, cur, i) {
