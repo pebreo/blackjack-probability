@@ -12,10 +12,45 @@
                 return Number(value);
             return NaN;
         };
+        this.static_deck = [];
+        this.setup_static_deck = function () {
+            var suits = ['clubs', 'diams', 'hearts', 'spades'];
+            var ranks = ['a', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'j', 'q', 'k'];
+            var id = 1;
+
+            // ever suit
+            for (i = 0; i < suits.length; i++) {
+                // every value
+                for (j = 0; j < ranks.length; j++) {
+                    this.static_deck.push(
+                        {
+                            id: id,
+                            rank: ranks[j],
+                            rank_integer: this.rank2integer(ranks[j]),
+                            suit: suits[i],
+                            show: true
+                        }
+                    );
+                    id += 1;
+                }
+            }
+
+        };
         this.logic_reset = function () {
             this.player_hand = [];
             this.dealer_hand = [];
-        }
+        };
+        this.calc_needed_ranks = function (hand) {
+            var hand_value = [];
+            var needed_ranks = [];
+            var desired_card_value = 0;
+            hand_value = this.calc_hand_value(hand);
+            if (hand_value.length == 1) {
+                desired_card_value = 21 - hand_value[0];
+                console.log(desired_card_value);
+            }
+            return needed_ranks;
+        };
         this.calc_hand_value_old = function (hand) {
             var hand_value;
 
@@ -27,7 +62,7 @@
             return hand_value;
         };
 
-        this.calc_hand_value = function(hand){
+        this.calc_hand_value = function (hand) {
             var hand_values = [];
             var hand_sum = 0;
             var found_ace = undefined;

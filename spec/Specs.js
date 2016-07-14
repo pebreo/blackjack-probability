@@ -185,3 +185,107 @@ describe("calc_hand_value", function() {
 
 
 });
+
+describe("calc_needed_ranks", function() {
+    var myservice;
+    // setup the angular module
+    beforeEach(module('myApp'));
+
+    // setup the service
+    beforeEach(inject(function(_myservice_) {
+        myservice = _myservice_;
+    }));
+
+    xit("should calculate when there is no ace", function() {
+        var three = {
+            id: 3,
+            rank: 3,
+            rank_integer: [3],
+            suit: 'clubs',
+            show: true
+        };
+        var jack = {
+            id: 11,
+            rank: 11,
+            rank_integer: [10],
+            suit: 'clubs',
+            show: true
+        };
+
+        var hand = [three,jack];
+        hand_value = myservice.calc_needed_ranks(hand);
+        expect(hand_value).toEqual([13]);
+
+    });
+
+    xit("should calculate when there is an ace", function() {
+        var ace = {
+            id: 1,
+            rank: 1,
+            rank_integer: [1,11],
+            suit: 'clubs',
+            show: true
+        };
+        var jack = {
+            id: 11,
+            rank: 11,
+            rank_integer: [10],
+            suit: 'clubs',
+            show: true
+        };
+
+        var hand = [ace,jack];
+        hand_value = myservice.calc_needed_ranks(hand);
+        expect(hand_value).toEqual([11,21]);
+
+    });
+
+
+
+});
+
+
+describe("make_perms_with_hand_values", function() {
+    var myservice;
+    // setup the angular module
+    beforeEach(module('myApp'));
+
+    // setup the service
+    beforeEach(inject(function(_myservice_) {
+        myservice = _myservice_;
+    }));
+
+    it("should create static deck", function() {
+        myservice.setup_static_deck();
+        expect(myservice.static_deck.length).toEqual(52);
+
+    });
+
+    xit("should calculate when there is an ace", function() {
+        var ace = {
+            id: 1,
+            rank: 1,
+            rank_integer: [1,11],
+            suit: 'clubs',
+            show: true
+        };
+        var jack = {
+            id: 11,
+            rank: 11,
+            rank_integer: [10],
+            suit: 'clubs',
+            show: true
+        };
+
+        var hand = [ace,jack];
+        hand_value = myservice.calc_needed_ranks(hand);
+        expect(hand_value).toEqual([11,21]);
+
+    });
+
+
+
+
+
+
+});

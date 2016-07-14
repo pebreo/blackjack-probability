@@ -11,6 +11,7 @@
         'math',
         function ($rootScope, $scope, $log, myservice, math) {
             var logic = myservice;
+            logic.setup_static_deck();
             $scope.start_switch = false;
             $scope.samples = [];
             $scope.dealer_hand = [];
@@ -19,7 +20,6 @@
 
             $scope.dealer_hand_value = [];
             $scope.player_hand_value = [];
-
             $scope.is_end = function() {
                 return true;
             };
