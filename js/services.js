@@ -36,18 +36,120 @@
             }
 
         };
+
+        var combinations = function (list) {
+            var set = [],
+                listSize = list.length,
+                combinationsCount = (1 << listSize),
+                combination;
+
+            for (var i = 1; i < combinationsCount; i++) {
+                var combination = [];
+                for (var j = 0; j < listSize; j++) {
+                    if ((i & (1 << j))) {
+                        combination.push(list[j]);
+                    }
+                }
+                set.push(combination);
+            }
+            return set;
+        };
+
+        var combinations_choose = function (list, r) {
+            var combos = combinations(list);
+            var results = _.filter(combos, function (item) {
+                return item.length == r;
+            });
+            return results;
+        };
+
+        this.combs_choose = function (xs, r) {
+            return combinations_choose(xs, r);
+        };
+        var permutations_choose = function (xs, r) {
+            if (!r) return [];
+            return xs.reduce(function (memo, cur, i) {
+                var others = xs.slice(0, i).concat(xs.slice(i + 1)),
+                    perms = permutations_choose(others, r - 1),
+                    newElms = !perms.length ? [[cur]] :
+                        perms.map(function (perm) {
+                            return [cur].concat(perm)
+                        });
+                return memo.concat(newElms);
+            }, []);
+        };
+
+        this.perms_choose = function (xs, r) {
+            return permutations_choose(xs, r);
+        };
+        var make_hand_values = function (hand) {
+            var hand_values = [];
+            var hand_sum = 0;
+            var found_ace = undefined;
+
+
+            // count when ace is worth 1
+            _.forEach(hand, function (card) {
+                hand_sum += card.rank_integer[0];
+            });
+            hand_values.push({hand_value: hand_sum, hand: hand});
+            hand_sum = 0;
+
+            // count when ace is worth 11
+            found_ace = _.find(hand, function (card) {
+                return card.rank_integer.length == 2
+            });
+            if (found_ace !== undefined) {
+                console.log('found ace');
+                _.forEach(hand, function (card) {
+                    if (card.rank_integer.length > 1) {
+                        hand_sum += card.rank_integer[1];
+                    } else {
+                        hand_sum += card.rank_integer[0];
+                    }
+                });
+                hand_values.push({hand_value: hand_sum, hand: hand});
+            }
+            return hand_values;
+        };
+
+
+        this.make_perms_with_hand_values_old = function (card_perms) {
+            var perms_with_values = [];
+            _.each(card_perms, function (p) {
+                perms_with_values.push(make_hand_values(p));
+            });
+            return _.flatten(perms_with_values);
+        };
+
+        this.make_perms_with_hand_values = function (card_perms) {
+            var perms_with_values = [];
+            _.each(card_perms, function (p) {
+                perms_with_values.push(make_hand_values(p));
+            });
+            var p = _.flatten(perms_with_values);
+            return _.groupBy(p, function(hands){return hands.hand_value});
+        };
+
         this.logic_reset = function () {
             this.player_hand = [];
             this.dealer_hand = [];
         };
-        this.calc_needed_ranks = function (hand) {
+
+        this.get_needed_ranks = function (hand) {
+            if(this.static_deck === undefined) {
+                throw 'static_deck not defined';
+            };
             var hand_value = [];
             var needed_ranks = [];
             var desired_card_value = 0;
             hand_value = this.calc_hand_value(hand);
             if (hand_value.length == 1) {
                 desired_card_value = 21 - hand_value[0];
-                console.log(desired_card_value);
+                var perms_with_hand_values = this.make_perms_with_hand_values(this.static_deck, 3);
+                console.log(perms_with_hand_values);
+                var desired_hands = perms_with_hand_values[desired_card_value];
+                console.log(desired_hands);
             }
             return needed_ranks;
         };

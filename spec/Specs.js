@@ -126,7 +126,7 @@ xdescribe("Deal function", function() {
 });
 
 
-describe("calc_hand_value", function() {
+xdescribe("calc_hand_value", function() {
     var myservice;
     // setup the angular module
     beforeEach(module('myApp'));
@@ -186,7 +186,11 @@ describe("calc_hand_value", function() {
 
 });
 
-describe("calc_needed_ranks", function() {
+
+
+
+
+xdescribe("calc_needed_ranks", function() {
     var myservice;
     // setup the angular module
     beforeEach(module('myApp'));
@@ -196,7 +200,7 @@ describe("calc_needed_ranks", function() {
         myservice = _myservice_;
     }));
 
-    xit("should calculate when there is no ace", function() {
+    it("should calculate when there is no ace", function() {
         var three = {
             id: 3,
             rank: 3,
@@ -213,7 +217,8 @@ describe("calc_needed_ranks", function() {
         };
 
         var hand = [three,jack];
-        hand_value = myservice.calc_needed_ranks(hand);
+        myservice.setup_static_deck();
+        hand_value = myservice.get_needed_ranks(hand);
         expect(hand_value).toEqual([13]);
 
     });
@@ -233,16 +238,17 @@ describe("calc_needed_ranks", function() {
             suit: 'clubs',
             show: true
         };
-
-        var hand = [ace,jack];
-        hand_value = myservice.calc_needed_ranks(hand);
-        expect(hand_value).toEqual([11,21]);
-
+        myservice.setup_static_deck();
+        var deck = [ace,jack];
+        var card_perms = myservice.get_needed_ranks(hand);
+        console.log(card_perms);
+        expect(true).toEqual(false);
     });
 
 
 
 });
+
 
 
 describe("make_perms_with_hand_values", function() {
@@ -258,14 +264,25 @@ describe("make_perms_with_hand_values", function() {
     it("should create static deck", function() {
         myservice.setup_static_deck();
         expect(myservice.static_deck.length).toEqual(52);
+        ranks = Object.keys(_.groupBy(myservice.static_deck, function(card){return card.rank}));
+        suits = Object.keys(_.groupBy(myservice.static_deck, function(card){return card.suit}));
+        expect(ranks.length).toEqual(13);
+        expect(suits.length).toEqual(4);
 
     });
 
-    xit("should calculate when there is an ace", function() {
-        var ace = {
-            id: 1,
-            rank: 1,
-            rank_integer: [1,11],
+    it("should correct combinations length for 3 cards", function() {
+        var three = {
+            id: 3,
+            rank: 3,
+            rank_integer: [3],
+            suit: 'clubs',
+            show: true
+        };
+        var five = {
+            id: 5,
+            rank: 5,
+            rank_integer: [5],
             suit: 'clubs',
             show: true
         };
@@ -277,15 +294,228 @@ describe("make_perms_with_hand_values", function() {
             show: true
         };
 
-        var hand = [ace,jack];
-        hand_value = myservice.calc_needed_ranks(hand);
-        expect(hand_value).toEqual([11,21]);
+        var deck = [three,five,jack];
+        var card_perms = myservice.combs_choose(deck, 2);
+        var perm_vals = myservice.make_perms_with_hand_values(card_perms);
+        expect(Object.keys(perm_vals).length).toEqual(3);
+    });
+
+    it("should correct hand values for 3, 5, and jack", function() {
+        var three = {
+            id: 3,
+            rank: 3,
+            rank_integer: [3],
+            suit: 'clubs',
+            show: true
+        };
+        var five = {
+            id: 5,
+            rank: 5,
+            rank_integer: [5],
+            suit: 'clubs',
+            show: true
+        };
+        var jack = {
+            id: 11,
+            rank: 11,
+            rank_integer: [10],
+            suit: 'clubs',
+            show: true
+        };
+
+        var deck = [three,five,jack];
+        var card_perms = myservice.combs_choose(deck, 2);
+        var combo_vals = myservice.make_perms_with_hand_values(card_perms);
+        //console.log(perm_vals);
+        expect(Object.keys(combo_vals)).toEqual(['8','13','15']);
+    });
+
+
+    it("should correct hand values for two clubs, two of spades, five of clubs", function() {
+        var two = {
+            id: 2,
+            rank: 2,
+            rank_integer: [2],
+            suit: 'clubs',
+            show: true
+        };
+        var two_spades = {
+            id: 2,
+            rank: 2,
+            rank_integer: [2],
+            suit: 'spades',
+            show: true
+        };
+        var five = {
+            id: 5,
+            rank: 5,
+            rank_integer: [5],
+            suit: 'clubs',
+            show: true
+        };
+
+
+        var deck = [two,two_spades,five];
+        var card_perms = myservice.combs_choose(deck, 2);
+        var combo_vals = myservice.make_perms_with_hand_values(card_perms);
+        //console.log(combo_vals);
+        expect(Object.keys(combo_vals)).toEqual(['4','7']);
+        expect(combo_vals['4'].length).toEqual(1);
+        expect(combo_vals['7'].length).toEqual(2);
+    });
+
+    it("should correct hand values for an ace and jack", function() {
+        var ace = {
+            id: 1,
+            rank: 1,
+            rank_integer: [1,11],
+            suit: 'clubs',
+            show: true
+        };
+
+       var jack = {
+            id: 11,
+            rank: 11,
+            rank_integer: [10],
+            suit: 'clubs',
+            show: true
+        };
+
+
+        var deck = [ace,jack];
+        var card_perms = myservice.combs_choose(deck, 2);
+        var combo_vals = myservice.make_perms_with_hand_values(card_perms);
+        expect(Object.keys(combo_vals)).toEqual(['11','21']);
+    });
+
+    it("should correct hand values for an ace of clubs, ace of spades, and jack", function() {
+        var ace = {
+            id: 1,
+            rank: 1,
+            rank_integer: [1,11],
+            suit: 'clubs',
+            show: true
+        };
+        var ace_spades = {
+            id: 43,
+            rank: 1,
+            rank_integer: [1,11],
+            suit: 'spades',
+            show: true
+        };
+       var jack = {
+            id: 11,
+            rank: 11,
+            rank_integer: [10],
+            suit: 'clubs',
+            show: true
+        };
+
+
+        var deck = [ace,ace_spades,jack];
+        var card_perms = myservice.combs_choose(deck, 2);
+        //console.log(card_perms);
+        var combo_vals = myservice.make_perms_with_hand_values(card_perms);
+        expect(Object.keys(combo_vals)).toEqual(['2','11','21','22']);
+    });
+
+    it("should make combinations for a single suit deck", function(){
+        var deck = [];
+
+        var str2int = function (value) {
+            if (/^(\-|\+)?([0-9]+|Infinity)$/.test(value))
+                return Number(value);
+            return NaN;
+        };
+        var rank2integer = function (rank) {
+            var rank_int = [];
+            switch (rank) {
+                case 'a':
+                    rank_int.push(1);
+                    rank_int.push(11);
+                    break;
+                case 'j':
+                    rank_int.push(10);
+                    break;
+                case 'q':
+                    rank_int.push(10);
+                    break;
+                case 'k':
+                    rank_int.push(10);
+                    break;
+                default:
+                    rank_int.push(str2int(rank));
+            }
+            return rank_int;
+
+        };
+
+        var setup_deck = function () {
+            var suits = ['clubs'];
+            var ranks = ['a', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'j', 'q', 'k'];
+            var id = 1;
+
+            // ever suit
+            for (i = 0; i < suits.length; i++) {
+                // every value
+                for (j = 0; j < ranks.length; j++) {
+                    deck.push(
+                        {
+                            id: id,
+                            rank: ranks[j],
+                            rank_integer: rank2integer(ranks[j]),
+                            suit: suits[i],
+                            show: true
+                        }
+                    );
+                    id += 1;
+                }
+            }
+        };
+        setup_deck();
+        console.log(deck.length);
+        var card_perms = myservice.combs_choose(deck, 2);
+        var combo_vals = myservice.make_perms_with_hand_values(card_perms);
+
+        expect(Object.keys(combo_vals).length).toEqual(19);
 
     });
 
 
 
+    xit("should make combinations for a full deck", function() {
+      var two = {
+                id: 2,
+                rank: 2,
+                rank_integer: [2],
+                suit: 'clubs',
+                show: true
+      };
+        var two_spades = {
+            id: 2,
+            rank: 2,
+            rank_integer: [2],
+            suit: 'spades',
+            show: true
+        };
+        var five = {
+            id: 5,
+            rank: 5,
+            rank_integer: [5],
+            suit: 'clubs',
+            show: true
+        };
 
+
+        var deck = [two,two_spades,five];
+        myservice.setup_static_deck();
+        console.log(myservice.static_deck.length + ' staticdeck length');
+        var card_perms = myservice.combs_choose(myservice.static_deck, 2);
+        var combo_vals = myservice.make_perms_with_hand_values(card_perms);
+
+        console.log(Object.keys(combo_vals));
+
+    });
 
 
 });
