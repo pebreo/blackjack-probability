@@ -188,6 +188,22 @@
 
                 desired_hands = combo_vals[desired_card_value];
             }
+            if (hand_value.length == 2) {
+                desired_card_value1 = 21 - hand_value[0];
+                desired_card_value2 = 21 - hand_value[1];
+                var card_combos = this.combs_choose(deck, 3);
+                var combo_vals = this.make_combos_with_hand_values(card_combos);
+
+                if(desired_card_value2 != 0) {
+                    desired_hands = Array.prototype.concat([],
+                        combo_vals[desired_card_value1],
+                        combo_vals[desired_card_value2]
+                    )
+                } else {
+                    desired_hands = combo_vals[desired_card_value1];
+                }
+
+            }
             return desired_hands;
         };
 

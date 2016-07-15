@@ -191,7 +191,7 @@ xdescribe("calc_hand_value", function() {
 
 
 
-describe("make_perms_with_hand_values", function() {
+xdescribe("make_perms_with_hand_values", function() {
     var myservice;
     // setup the angular module
     beforeEach(module('myApp'));
@@ -514,7 +514,7 @@ describe("get_needed_ranks", function() {
     }));
 
 
-    it("should correct combinations of hand values", function(){
+    it("should return correct combinations of hand values", function(){
         var small_deck = [];
         var three = {
             id: 3,
@@ -590,7 +590,7 @@ describe("get_needed_ranks", function() {
 
         //console.log(small_deck.length);
         var combo_vals = myservice.get_needed_ranks(hand, small_deck);
-        console.log(combo_vals);
+        //console.log(combo_vals);
         expect(Object.keys(combo_vals).length).toEqual(2);
 
     });
@@ -614,12 +614,17 @@ describe("get_needed_ranks", function() {
         var hand = [three,jack];
         myservice.setup_static_deck();
         hand_value = myservice.get_needed_ranks(hand);
-        console.log(hand_value.length);
-        expect(hand_value.length).toEqual(3);
+        //console.log(hand_value.length);
+        expect(hand_value.length).toEqual(200);
 
     });
 
-    xit("should calculate when there is an ace", function() {
+    // should handle when you can't get to 21 e.g. no more cards to get 2 or 3
+
+    // should handle when you have aces by merging one array with another
+    // e.g. c = Array.prototype.concat([], L1, L2)
+
+    it("should calculate when there is an ace", function() {
         var ace = {
             id: 1,
             rank: 1,
@@ -634,11 +639,67 @@ describe("get_needed_ranks", function() {
             suit: 'clubs',
             show: true
         };
-        myservice.setup_static_deck();
-        var deck = [ace,jack];
-        var card_perms = myservice.get_needed_ranks(hand);
-        console.log(card_perms);
-        expect(true).toEqual(false);
+        var small_deck = [];
+
+        var str2int = function (value) {
+            if (/^(\-|\+)?([0-9]+|Infinity)$/.test(value))
+                return Number(value);
+            return NaN;
+        };
+        var rank2integer = function (rank) {
+            var rank_int = [];
+            switch (rank) {
+                case 'a':
+                    rank_int.push(1);
+                    rank_int.push(11);
+                    break;
+                case 'j':
+                    rank_int.push(10);
+                    break;
+                case 'q':
+                    rank_int.push(10);
+                    break;
+                case 'k':
+                    rank_int.push(10);
+                    break;
+                default:
+                    rank_int.push(str2int(rank));
+            }
+            return rank_int;
+
+        };
+
+        var setup_deck = function () {
+            var suits = ['clubs'];
+            var ranks = ['a', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'j', 'q', 'k'];
+            var id = 1;
+
+            // ever suit
+            for (var i = 0; i < suits.length; i++) {
+                // every value
+                for (j = 0; j < ranks.length; j++) {
+                    small_deck.push(
+                        {
+                            id: id,
+                            rank: ranks[j],
+                            rank_integer: rank2integer(ranks[j]),
+                            suit: suits[i],
+                            show: true
+                        }
+                    );
+                    id += 1;
+                }
+            }
+        };
+
+
+        setup_deck();
+
+
+        var hand = [ace,jack];
+        var hand_values = myservice.get_needed_ranks(hand, small_deck);
+        console.log(hand_values);
+        expect(hand_values.length).toEqual(3);
     });
 
 
