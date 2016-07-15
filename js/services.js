@@ -129,7 +129,7 @@
                 return card.rank_integer.length == 2
             });
             if (found_ace !== undefined) {
-                console.log('found ace');
+                //console.log('found ace');
                 _.forEach(hand, function (card) {
                     if (card.rank_integer.length > 1) {
                         hand_sum += card.rank_integer[1];
@@ -142,6 +142,9 @@
             return hand_values;
         };
 
+        this.make_combos_with_hand_values = function(card_combos) {
+            return this.make_perms_with_hand_values(card_combos);
+        };
 
         this.make_perms_with_hand_values_old = function (card_perms) {
             var perms_with_values = [];
@@ -167,24 +170,27 @@
             this.dealer_hand = [];
         };
 
-        this.get_needed_ranks = function (hand) {
+        this.get_needed_ranks = function (hand, deck) {
+            var deck = (deck === undefined) ? this.static_deck : deck;
             if (this.static_deck === undefined) {
                 throw 'static_deck not defined';
             }
-            ;
             var hand_value = [];
             var needed_ranks = [];
             var desired_card_value = 0;
+            var desired_hands;
+
             hand_value = this.calc_hand_value(hand);
             if (hand_value.length == 1) {
                 desired_card_value = 21 - hand_value[0];
-                var perms_with_hand_values = this.make_perms_with_hand_values(this.static_deck, 3);
-                console.log(perms_with_hand_values);
-                var desired_hands = perms_with_hand_values[desired_card_value];
-                console.log(desired_hands);
+                var card_combos = this.combs_choose(deck, 3);
+                var combo_vals = this.make_combos_with_hand_values(card_combos);
+
+                desired_hands = combo_vals[desired_card_value];
             }
-            return needed_ranks;
+            return desired_hands;
         };
+
         this.calc_hand_value_old = function (hand) {
             var hand_value;
 
@@ -213,7 +219,7 @@
                 return card.rank_integer.length == 2
             });
             if (found_ace !== undefined) {
-                console.log('found ace');
+                //console.log('found ace');
                 _.forEach(hand, function (card) {
                     if (card.rank_integer.length > 1) {
                         //console.log('found ace card in loop');
