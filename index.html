@@ -71,11 +71,47 @@
       margin-top: -0.05em;
     }
 
+    .playingCards .card.back {
+      background-image: -webkit-gradient(radial, center center, 20, center center, 80, from(#ff0000), color-stop(0.4, #f00), to(#f00303));
+    }
+
+    .bg-green {
+      background-color: forestgreen;
+    }
+
+    .panel  {
+      background-color: forestgreen;
+    }
+    .panel-body {
+      background-color: forestgreen;
+    }
+    .panel>.list-group, .panel>.panel-collapse>.list-group {
+      background-color: forestgreen;
+    }
+
+    body {
+      background-color: forestgreen;
+    }
+    .ul {
+      background-color: forestgreen;
+    }
+    .list-group-item {
+      background-color: forestgreen;
+    }
+
+    .form .form-group {
+      background-color: forestgreen;
+    }
+
+    .col-md-12 {
+      background-color: forestgreen;
+    }
+
   </style>
 </head>
 
-<body ng-app="myApp">
-<div class="container">
+<body ng-app="myApp" >
+<div  class="container bg-green">
 
   <div class="page-header">
     <!--<h1 class="text-center">Black Jack Game with Probabilities</h1>-->
@@ -104,8 +140,8 @@
             <form role="form">
 
               <div class="form-group">
-                <button ng-click="start_game()" ng-class="{disabled: start_switch}" type="submit" class="btn btn-success">Deal</button>
-                <button ng-click="reset_game()" ng-class="{disabled: !start_switch}" type="submit" class="btn btn-success">Reset</button>
+                <button ng-click="start_game()" ng-class="{disabled: start_switch}" type="submit" class="btn btn-primary">Deal</button>
+                <button ng-click="reset_game()" ng-class="{disabled: !start_switch}" type="submit" class="btn btn-primary">Reset</button>
               </div>
 
             </form>
@@ -120,8 +156,8 @@
             <form role="form">
 
               <div class="form-group">
-                <button  ng-class="{disabled: !start_switch}" ng-click="make_skewed()" type="submit" class="btn btn-success disabled">Hit</button>
-                <button  ng-class="{disabled: !start_switch}" ng-click="make_uniform()" type="submit" class="btn btn-success disabled">Stand</button>
+                <button  ng-class="{disabled: !start_switch}" ng-click="make_skewed()" type="submit" class="btn btn-primary disabled">Hit</button>
+                <button  ng-class="{disabled: !start_switch}" ng-click="make_uniform()" type="submit" class="btn btn-primary disabled">Stand</button>
               </div>
 
             </form>

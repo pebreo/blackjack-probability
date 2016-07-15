@@ -244,10 +244,10 @@
         this.blackjack_deal = function (deck) {
             var card;
             card = this.deal_card(deck);
-            card.show = false;
             this.dealer_hand.push(card);
 
             card = this.deal_card(deck);
+            card.show = false;
             this.dealer_hand.push(card);
 
             card = this.deal_card(deck);
