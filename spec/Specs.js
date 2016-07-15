@@ -735,10 +735,14 @@ describe("get_needed_ranks", function() {
         --
         the reason i need this information is because
         add more card_combos like this:
+        var card_combos = [];
         for i in range(max_hits):
-                Array.prototype.concat(card_combos,myservice.combs_choose(myservice.static_deck, i+1));
+                // 49 choose 5
+                card_combos = Array.prototype.concat(card_combos,myservice.combs_choose(myservice.static_deck, i+1));
                 var combo_vals = myservice.make_perms_with_hand_values(card_combos);
 
+        
+        Honestly, i don't think it will get this far because of the dealers moves.
 
         */
     });
