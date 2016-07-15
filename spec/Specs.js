@@ -714,5 +714,34 @@ describe("get_needed_ranks", function() {
         expect(true).toEqual(false);
     });
 
+    it("should calculate the max number of hits", function(){
+        /*
+
+        if i have the lowest possible hand which is a 
+
+        what about an ace + ace which is a 2 (1+1) or 12 (11+1) 
+
+        if i have a 3+3 then the longest path to 21 is to get the different 21 - 6 = 15
+
+        so that would be :
+        2+2+3+3+5  - i'd have to check if any of these numbers are shown (this.
+
+        so i have to do: combos_choose(deck, 2)
+        and: combos_choose(deck, 5)
+
+        if i have a (2+2) = 4 then the logest distance is 21 - 4 = 17
+        2+2+3+3+3+3  
+
+        --
+        the reason i need this information is because
+        add more card_combos like this:
+        for i in range(max_hits):
+                Array.prototype.concat(card_combos,myservice.combs_choose(myservice.static_deck, i+1));
+                var combo_vals = myservice.make_perms_with_hand_values(card_combos);
+
+
+        */
+    });
+
 
 });
