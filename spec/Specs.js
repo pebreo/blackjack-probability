@@ -434,7 +434,7 @@ xdescribe("make_perms_with_hand_values", function() {
         expect(combos.length).toEqual(3);
     });
 
-        // this does not work with 52 values for some reason
+    
     it("should handle 10 items to calculate", function(){
         //console.log('should handle 52 items to calculate');
         var items = [];
@@ -448,7 +448,7 @@ xdescribe("make_perms_with_hand_values", function() {
         expect(combos.length).toEqual(45);
     });
 
-     // this does not work with 52 values for some reason
+     
     it("should handle 52 items, choose 2", function(){
         console.log('should handle 52 items to calculate');
         var items = [];
@@ -702,6 +702,17 @@ describe("get_needed_ranks", function() {
         expect(hand_values.length).toEqual(3);
     });
 
+    it("should work for a 4 = 2 + 2 hand value", function(){
+        /*
+        if i have a 2 + 2 then i have a 4. then i need a 17 which whould be a 10 + 7
+        or a 2 + 2 + 3 + j 
+
+        that means i have to calculate the maximum number of low cards that i think are in the deck.
+        so basically things that are not in shown in my hand and not shown in the dealers hand.
+
+        */
+        expect(true).toEqual(false);
+    });
 
 
 });
