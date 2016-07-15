@@ -702,7 +702,23 @@ describe("get_needed_ranks", function() {
         expect(hand_values.length).toEqual(3);
     });
 
-    it("should work for a 4 = 2 + 2 hand value", function(){
+    it("should return concatenated card combos", function(){
+        var mock_deck = [];
+        for(var i=0;i<5;i++) { mock_deck.push(i+1);}
+        var hand_value = 6;
+        var desired_hand_value = 21 - hand_value;
+        var card_combos = myservice.make_card_combos(mock_deck, desired_hand_value);
+        // should have 
+        expect(card_combos.length).toEqual(30);
+
+        var hand_value = 7;
+        var desired_hand_value = 21 - hand_value;
+        var card_combos = myservice.make_card_combos(mock_deck, desired_hand_value);
+        expect(card_combos.length).toEqual(25);
+
+    });
+
+    xit("should work for a 4 = 2 + 2 hand value", function(){
         /*
         if i have a 2 + 2 then i have a 4. then i need a 17 which whould be a 10 + 7
         or a 2 + 2 + 3 + j 
@@ -714,7 +730,7 @@ describe("get_needed_ranks", function() {
         expect(true).toEqual(false);
     });
 
-    it("should calculate the max number of hits", function(){
+    xit("should calculate the max number of hits", function(){
         /*
 
         if i have the lowest possible hand which is a 

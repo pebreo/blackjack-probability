@@ -169,6 +169,25 @@
             this.player_hand = [];
             this.dealer_hand = [];
         };
+        this.make_card_combos = function(deck, desired_card_value) {
+            var card_combos = [];
+            var self = this;
+            // when the desired (target) hand value is >= 15 that is you have
+            // a hand value of 6 or less then we will create combinations
+            // where k=1, k=2, k=3, k=4
+            if(desired_card_value >= 15) {
+                [1,2,3,4].forEach(function(k){
+                    var c = self.combs_choose(deck, k);
+                    card_combos = Array.prototype.concat(card_combos, c);
+                });
+            } else {
+                [1,2,3].forEach(function(k){
+                    var c = self.combs_choose(deck, k);
+                    card_combos = Array.prototype.concat(card_combos, c);
+                });
+            } 
+            return card_combos;
+        }
 
         this.get_needed_ranks = function (hand, deck) {
             var deck = (deck === undefined) ? this.static_deck : deck;
@@ -183,7 +202,7 @@
             hand_value = this.calc_hand_value(hand);
             if (hand_value.length == 1) {
                 desired_card_value = 21 - hand_value[0];
-                var card_combos = this.combs_choose(deck, 3);
+                var card_combos = this.make_card_combos(deck, desired_card_value);
                 var combo_vals = this.make_combos_with_hand_values(card_combos);
 
                 desired_hands = combo_vals[desired_card_value];
@@ -191,7 +210,12 @@
             if (hand_value.length == 2) {
                 desired_card_value1 = 21 - hand_value[0];
                 desired_card_value2 = 21 - hand_value[1];
-                var card_combos = this.combs_choose(deck, 3);
+                //var card_combos = this.combs_choose(deck, 3);
+                var card_combos = [];
+                Array.prototype.concat(card_combos,
+                    this.make_card_combos(deck, desired_card_value1),
+                    this.make_card_combos(deck, desired_card_value2)
+                );
                 var combo_vals = this.make_combos_with_hand_values(card_combos);
 
                 if(desired_card_value2 != 0) {
