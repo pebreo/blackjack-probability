@@ -37,7 +37,7 @@
 
         };
 
-        var combinations = function (list) {
+        var combinations_old = function (list) {
             var set = [],
                 listSize = list.length,
                 combinationsCount = (1 << listSize),
@@ -55,13 +55,41 @@
             return set;
         };
 
-        var combinations_choose = function (list, r) {
-            var combos = combinations(list);
+        var combinations_choose_old = function (list, r) {
+            var combos = combinations_old(list);
             var results = _.filter(combos, function (item) {
                 return item.length == r;
             });
             return results;
         };
+
+        var combinations_choose = function(set, k)
+        {
+            var i, j, combs, head, tailcombs;
+            if (k > set.length || k <= 0) {
+                return [];
+            }
+            if (k == set.length) {
+                return [set];
+            }
+            if (k == 1) {
+                combs = [];
+                for (i = 0; i < set.length; i++) {
+                    combs.push([set[i]]);
+                }
+                return combs;
+            }
+            combs = [];
+            for (i = 0; i < set.length - k + 1; i++) {
+                head = set.slice(i, i + 1);
+                tailcombs = combinations_choose(set.slice(i + 1), k - 1);
+                for (j = 0; j < tailcombs.length; j++) {
+                    combs.push(head.concat(tailcombs[j]));
+                }
+            }
+            return combs;
+        };
+
 
         this.combs_choose = function (xs, r) {
             return combinations_choose(xs, r);
@@ -129,7 +157,9 @@
                 perms_with_values.push(make_hand_values(p));
             });
             var p = _.flatten(perms_with_values);
-            return _.groupBy(p, function(hands){return hands.hand_value});
+            return _.groupBy(p, function (hands) {
+                return hands.hand_value
+            });
         };
 
         this.logic_reset = function () {
@@ -138,9 +168,10 @@
         };
 
         this.get_needed_ranks = function (hand) {
-            if(this.static_deck === undefined) {
+            if (this.static_deck === undefined) {
                 throw 'static_deck not defined';
-            };
+            }
+            ;
             var hand_value = [];
             var needed_ranks = [];
             var desired_card_value = 0;

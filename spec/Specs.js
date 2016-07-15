@@ -271,7 +271,7 @@ describe("make_perms_with_hand_values", function() {
 
     });
 
-    it("should correct combinations length for 3 cards", function() {
+    it("should return correct combinations length for 3 cards", function() {
         var three = {
             id: 3,
             rank: 3,
@@ -300,7 +300,7 @@ describe("make_perms_with_hand_values", function() {
         expect(Object.keys(perm_vals).length).toEqual(3);
     });
 
-    it("should correct hand values for 3, 5, and jack", function() {
+    it("should return correct hand values for 3, 5, and jack", function() {
         var three = {
             id: 3,
             rank: 3,
@@ -331,7 +331,7 @@ describe("make_perms_with_hand_values", function() {
     });
 
 
-    it("should correct hand values for two clubs, two of spades, five of clubs", function() {
+    it("should return correct hand values for two clubs, two of spades, five of clubs", function() {
         var two = {
             id: 2,
             rank: 2,
@@ -364,7 +364,7 @@ describe("make_perms_with_hand_values", function() {
         expect(combo_vals['7'].length).toEqual(2);
     });
 
-    it("should correct hand values for an ace and jack", function() {
+    it("should return correct hand values for an ace and jack", function() {
         var ace = {
             id: 1,
             rank: 1,
@@ -388,7 +388,7 @@ describe("make_perms_with_hand_values", function() {
         expect(Object.keys(combo_vals)).toEqual(['11','21']);
     });
 
-    it("should correct hand values for an ace of clubs, ace of spades, and jack", function() {
+    it("should return correct hand values for an ace of clubs, ace of spades, and jack", function() {
         var ace = {
             id: 1,
             rank: 1,
@@ -419,7 +419,7 @@ describe("make_perms_with_hand_values", function() {
         expect(Object.keys(combo_vals)).toEqual(['2','11','21','22']);
     });
 
-    xit("should make combinations for a single suit deck", function(){
+    it("should make combinations for a single suit deck", function(){
         var deck = [];
 
         var str2int = function (value) {
@@ -482,85 +482,48 @@ describe("make_perms_with_hand_values", function() {
     });
 
     // this does not work with 52 values for some reason
-    it("should handle 52 items to calculate", function(){
+    it("should handle 3 items to calculate", function(){
+        //console.log('should handle 52 items to calculate');
+        var items = [];
+        var combos;
+        for(var i=0;i<3;i++) {
+            items.push(i + 1);
+        }
+        //console.log('items length' + items.length);
+        combos = myservice.combs_choose(items, 2);
+        expect(combos.length).toEqual(3);
+    });
+
+        // this does not work with 52 values for some reason
+    it("should handle 10 items to calculate", function(){
+        //console.log('should handle 52 items to calculate');
+        var items = [];
+        var combos;
+        for(var i=0;i<10;i++) {
+            items.push(i + 1);
+        }
+        //console.log(' 10 items length should be 10: ' + items.length);
+        combos = myservice.combs_choose(items, 2);
+        //console.log(combos.length);
+        expect(combos.length).toEqual(45);
+    });
+
+     // this does not work with 52 values for some reason
+    it("should handle 52 items, choose 2", function(){
         console.log('should handle 52 items to calculate');
         var items = [];
         var combos;
-        for(var i=0;i<52;i++){
-            items.push(i+1);
+        for(var i=0;i<52;i++) {
+            items.push(i + 1);
         }
-        combos = myservice.combs_choose([1,2,3,4], 3);
-
-        console.log(combos);
-    });
-
-    // This crashes
-    xit("should make combinations for a two suit deck", function(){
-        var deck = [];
-
-        var str2int = function (value) {
-            if (/^(\-|\+)?([0-9]+|Infinity)$/.test(value))
-                return Number(value);
-            return NaN;
-        };
-        var rank2integer = function (rank) {
-            var rank_int = [];
-            switch (rank) {
-                case 'a':
-                    rank_int.push(1);
-                    rank_int.push(11);
-                    break;
-                case 'j':
-                    rank_int.push(10);
-                    break;
-                case 'q':
-                    rank_int.push(10);
-                    break;
-                case 'k':
-                    rank_int.push(10);
-                    break;
-                default:
-                    rank_int.push(str2int(rank));
-            }
-            return rank_int;
-
-        };
-
-        var setup_deck = function () {
-            var suits = ['clubs'];
-            var ranks = ['a', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'j', 'q', 'k'];
-            var id = 1;
-
-            // ever suit
-            for (var i = 0; i < suits.length; i++) {
-                // every value
-                for (j = 0; j < ranks.length; j++) {
-                    deck.push(
-                        {
-                            id: id,
-                            rank: ranks[j],
-                            rank_integer: rank2integer(ranks[j]),
-                            suit: suits[i],
-                            show: true
-                        }
-                    );
-                    id += 1;
-                }
-            }
-        };
-        setup_deck();
-        console.log(deck.length);
-        var card_perms = myservice.combs_choose(deck, 2);
-        console.log(card_perms.length);
-        //var combo_vals = myservice.make_perms_with_hand_values(card_perms);
-
-
+        //console.log(' 52 items length should be: ' + items.length);
+        combos = myservice.combs_choose(items, 2);
+        expect(combos.length).toEqual(1326)
     });
 
 
 
-
-    xit("should make combinations for a full deck", function() {
+    it("should make combinations for a full deck", function() {
       var two = {
                 id: 2,
                 rank: 2,
@@ -587,10 +550,11 @@ describe("make_perms_with_hand_values", function() {
         var deck = [two,two_spades,five];
         myservice.setup_static_deck();
         console.log(myservice.static_deck.length + ' staticdeck length');
-        var card_perms = myservice.combs_choose(myservice.static_deck, 2);
-        var combo_vals = myservice.make_perms_with_hand_values(card_perms);
+        var card_combos = myservice.combs_choose(myservice.static_deck, 2);
+        var combo_vals = myservice.make_perms_with_hand_values(card_combos);
 
-        console.log(Object.keys(combo_vals));
+        expect(card_combos.length).toEqual(1326);
+        expect(Object.keys(combo_vals)).toEqual(['2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22']);
 
     });
 
