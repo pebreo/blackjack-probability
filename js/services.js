@@ -206,6 +206,7 @@
                 var combo_vals = this.make_combos_with_hand_values(card_combos);
 
                 desired_hands = combo_vals[desired_card_value];
+                
             }
             if (hand_value.length == 2) {
                 desired_card_value1 = 21 - hand_value[0];

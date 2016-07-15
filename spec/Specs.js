@@ -590,8 +590,9 @@ describe("get_needed_ranks", function() {
 
         //console.log(small_deck.length);
         var combo_vals = myservice.get_needed_ranks(hand, small_deck);
+        console.log(JSON.stringify(combo_vals));
         //console.log(combo_vals);
-        expect(Object.keys(combo_vals).length).toEqual(2);
+        expect(Object.keys(combo_vals).length).toEqual(6);
 
     });
 
@@ -615,7 +616,8 @@ describe("get_needed_ranks", function() {
         myservice.setup_static_deck();
         hand_value = myservice.get_needed_ranks(hand);
         //console.log(hand_value.length);
-        expect(hand_value.length).toEqual(200);
+        // console.log(JSON.stringify(hand_value));
+        expect(hand_value.length).toEqual(258);
 
     });
 
@@ -702,19 +704,28 @@ describe("get_needed_ranks", function() {
         expect(hand_values.length).toEqual(3);
     });
 
-    it("should return concatenated card combos", function(){
+    it("should return concatenated card combos when hand value is > 6", function(){
         var mock_deck = [];
-        for(var i=0;i<5;i++) { mock_deck.push(i+1);}
+        for(var i=0;i<10;i++) { mock_deck.push(i+1);}
+        var hand_value = 7;
+        var desired_hand_value = 21 - hand_value;
+        var card_combos = myservice.make_card_combos(mock_deck, desired_hand_value);
+        // should have 
+        // 10choose1 + 10choose2 + 10choose3 = 175
+        expect(card_combos.length).toEqual(175);
+
+    });
+
+    it("should return concatenated card combos when hand value is 6", function(){
+        var mock_deck = [];
+        for(var i=0;i<10;i++) { mock_deck.push(i+1);}
         var hand_value = 6;
         var desired_hand_value = 21 - hand_value;
         var card_combos = myservice.make_card_combos(mock_deck, desired_hand_value);
         // should have 
-        expect(card_combos.length).toEqual(30);
+        // 10choose1 + 10choose2 + 10choose3 + 10choose4 = 385
+        expect(card_combos.length).toEqual(385);
 
-        var hand_value = 7;
-        var desired_hand_value = 21 - hand_value;
-        var card_combos = myservice.make_card_combos(mock_deck, desired_hand_value);
-        expect(card_combos.length).toEqual(25);
 
     });
 
