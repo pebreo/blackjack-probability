@@ -807,6 +807,7 @@ describe("get_needed_ranks", function() {
 
     });
 
+    // not valid tests, i think
     xit("should work for a 4 = 2 + 2 hand value", function(){
         /*
         if i have a 2 + 2 then i have a 4. then i need a 17 which whould be a 10 + 7
@@ -819,6 +820,7 @@ describe("get_needed_ranks", function() {
         expect(true).toEqual(false);
     });
 
+    // not valid tests, i think
     xit("should calculate the max number of hits", function(){
         /*
 
