@@ -590,7 +590,7 @@ describe("get_needed_ranks", function() {
 
         //console.log(small_deck.length);
         var combo_vals = myservice.get_needed_ranks(hand, small_deck);
-        console.log(JSON.stringify(combo_vals));
+        //console.log(JSON.stringify(combo_vals));
         //console.log(combo_vals);
         expect(Object.keys(combo_vals).length).toEqual(6);
 
@@ -626,7 +626,7 @@ describe("get_needed_ranks", function() {
     // should handle when you have aces by merging one array with another
     // e.g. c = Array.prototype.concat([], L1, L2)
 
-    it("should calculate when there is an ace", function() {
+    it("should calculate when there is an ace - single suit deck", function() {
         var ace = {
             id: 1,
             rank: 1,
@@ -700,8 +700,86 @@ describe("get_needed_ranks", function() {
 
         var hand = [ace,jack];
         var hand_values = myservice.get_needed_ranks(hand, small_deck);
-        console.log(hand_values);
-        expect(hand_values.length).toEqual(3);
+        // console.log(JSON.stringify(hand_values));
+        expect(hand_values.length).toEqual(12);
+    });
+
+    it("should calculate when there is an ace - two suit deck", function() {
+        var ace = {
+            id: 1,
+            rank: 1,
+            rank_integer: [1,11],
+            suit: 'clubs',
+            show: true
+        };
+        var jack = {
+            id: 11,
+            rank: 11,
+            rank_integer: [10],
+            suit: 'clubs',
+            show: true
+        };
+        var small_deck = [];
+
+        var str2int = function (value) {
+            if (/^(\-|\+)?([0-9]+|Infinity)$/.test(value))
+                return Number(value);
+            return NaN;
+        };
+        var rank2integer = function (rank) {
+            var rank_int = [];
+            switch (rank) {
+                case 'a':
+                    rank_int.push(1);
+                    rank_int.push(11);
+                    break;
+                case 'j':
+                    rank_int.push(10);
+                    break;
+                case 'q':
+                    rank_int.push(10);
+                    break;
+                case 'k':
+                    rank_int.push(10);
+                    break;
+                default:
+                    rank_int.push(str2int(rank));
+            }
+            return rank_int;
+
+        };
+
+        var setup_deck = function () {
+            var suits = ['clubs','diams'];
+            var ranks = ['a', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'j', 'q', 'k'];
+            var id = 1;
+
+            // ever suit
+            for (var i = 0; i < suits.length; i++) {
+                // every value
+                for (j = 0; j < ranks.length; j++) {
+                    small_deck.push(
+                        {
+                            id: id,
+                            rank: ranks[j],
+                            rank_integer: rank2integer(ranks[j]),
+                            suit: suits[i],
+                            show: true
+                        }
+                    );
+                    id += 1;
+                }
+            }
+        };
+
+
+        setup_deck();
+
+
+        var hand = [ace,jack];
+        var hand_values = myservice.get_needed_ranks(hand, small_deck);
+        // console.log(JSON.stringify(hand_values));
+        expect(hand_values.length).toEqual(65);
     });
 
     it("should return concatenated card combos when hand value is > 6", function(){

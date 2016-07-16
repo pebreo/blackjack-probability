@@ -175,12 +175,17 @@
             // when the desired (target) hand value is >= 15 that is you have
             // a hand value of 6 or less then we will create combinations
             // where k=1, k=2, k=3, k=4
+            if(desired_card_value == 0) {
+                var card_combos = [];
+                return card_combos;
+            }
             if(desired_card_value >= 15) {
                 [1,2,3,4].forEach(function(k){
                     var c = self.combs_choose(deck, k);
                     card_combos = Array.prototype.concat(card_combos, c);
                 });
-            } else {
+            }
+            if(desired_card_value < 15) {
                 [1,2,3].forEach(function(k){
                     var c = self.combs_choose(deck, k);
                     card_combos = Array.prototype.concat(card_combos, c);
@@ -206,24 +211,25 @@
                 var combo_vals = this.make_combos_with_hand_values(card_combos);
 
                 desired_hands = combo_vals[desired_card_value];
-                
+                // console.log(desired_hands);
             }
             if (hand_value.length == 2) {
                 desired_card_value1 = 21 - hand_value[0];
                 desired_card_value2 = 21 - hand_value[1];
                 //var card_combos = this.combs_choose(deck, 3);
-                var card_combos = [];
-                Array.prototype.concat(card_combos,
+                var card_combos = Array.prototype.concat([],
                     this.make_card_combos(deck, desired_card_value1),
                     this.make_card_combos(deck, desired_card_value2)
                 );
+                // var card_combos = this.make_card_combos(deck, desired_card_value1);
                 var combo_vals = this.make_combos_with_hand_values(card_combos);
+                console.log(card_combos.length + 'combo vals length');
 
                 if(desired_card_value2 != 0) {
                     desired_hands = Array.prototype.concat([],
                         combo_vals[desired_card_value1],
                         combo_vals[desired_card_value2]
-                    )
+                    );
                 } else {
                     desired_hands = combo_vals[desired_card_value1];
                 }
