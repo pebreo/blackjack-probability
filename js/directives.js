@@ -17,5 +17,11 @@
             templateUrl: 'player_hand.html'
         };
     });
+    app.directive('probabilityTable', function () {
+        return {
+            restrict: 'E',
+            templateUrl: 'prob_items.html'
+        };
+    });
 
 }());
