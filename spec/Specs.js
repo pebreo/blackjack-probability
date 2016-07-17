@@ -503,7 +503,7 @@ xdescribe("make_perms_with_hand_values", function() {
 
 
 
-describe("get_needed_ranks", function() {
+xdescribe("get_needed_ranks", function() {
     var myservice;
     // setup the angular module
     beforeEach(module('myApp'));
@@ -853,6 +853,49 @@ describe("get_needed_ranks", function() {
 
         */
     });
+
+    xit("should have the data structure to display the probabilities", function(){
+        /*
+
+            [
+            { rank_str: "1,2"
+              hands : [
+              {
+               description:"2 of (hearts,diams)",
+               probability: "1/3"
+              },
+              {
+                description: "3 of (diams)",
+                probability: "2/3"
+              }
+              ]
+              total_probability: "2/9"
+            }
+            ]
+        */
+        
+    });
+
+
+});
+
+
+describe("Deck functions", function() {
+    var transform;
+
+    // setup the angular module
+    beforeEach(module('myApp'));
+
+    // setup the service
+    beforeEach(inject(function(_transform_) {
+        transform = _transform_;
+    }));
+
+    it("transform should be a certain string", function() {
+        expect(transform.baz).toBe('ba value!');
+    });
+
+
 
 
 });
