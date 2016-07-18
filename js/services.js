@@ -285,10 +285,10 @@
             var obj = {};
             card = _.sampleSize(deck, 1)[0];
             //found = _.find(deck,function(c) {return c.id == card.id});
-            removed = _.remove(deck, function (c) {
+            new_deck = _.remove(deck, function (c) {
                 return !(c.id == card.id)
             });
-            obj = {card: card, deck: removed};
+            obj = {card: card, deck: new_deck};
             return obj;
         };
         this.blackjack_deal = function (deck) {
