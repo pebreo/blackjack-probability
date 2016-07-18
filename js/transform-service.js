@@ -100,14 +100,9 @@
             return 'dummy';
         };
 
-        this.make_suits_group_string_arr = function(dh_grouped) {
-            var self = this;
-            suits_grouped = _.map(dh_grouped, function (rank_str_set, key) {
-                var obj = {};
-                var suit_by_rank_set = [];
-                var suits = [];
-
+        this.transform_step1 = function(rank_str_set, key){
                 // for each hand_set
+                var self = this;
                 var rank_suit_pair = [];
 
                 //make this a fxn
@@ -124,9 +119,13 @@
                     });
                 });
                 // make this a fxn
-                rs_pair1 = _.groupBy(rank_suit_pair, 'rank');
-                // make this a fxn
-                rs_pair2 = _.map(rs_pair1, function (rank_set, key) {
+                var rs_pair1 = _.groupBy(rank_suit_pair, 'rank');
+                return rs_pair1;
+        };
+
+        this.transform_step2 = function(rs_pair1) {
+                var self = this;
+                return  _.map(rs_pair1, function (rank_set, key) {
                     var obj = {};
                     var suits = _.map(rank_set, function (r) {
                         return r.suit
@@ -141,9 +140,11 @@
                     };
                     return obj;
                 });
+        };
 
-
-                rs_pair3 = _.map(rs_pair2, function (rank, key) {
+        this.transform_step3 = function(rs_pair2) {
+            var self = this;
+            return _.map(rs_pair2, function (rank, key) {
 
                     var obj = {};
 
@@ -158,16 +159,18 @@
                     };
                     return obj;
                 });
-                // rs_pair3 is good
-                //console.log(rs_pair3);
-                // make this a fxn
+        };
+
+        this.transform_make_r_string_html = function(rs_pair3) {
                 var r_string = [];
                 var prob_str = '';
                 _.each(rs_pair3, function (rank, key) {
                     r_string.push(rank.rank_string);
                 });
-                var r_string_html = r_string.join(' and ');
+                return r_string.join(' and ');
+        };
 
+        this.transform_make_probability_text = function(rs_pair3) {
                 var total_numerator = 1;
                 var total_denom = 1;
                 var fractions = [];
@@ -178,10 +181,27 @@
                         total_denom *= parseInt(a[1]);
                     });
                 });
-                var probability_text = fractions.join(' * ') + ' = ' + total_numerator.toString() + '/' + total_denom.toString();
-                //console.log(JSON.stringify(rs_pair4));
+                return fractions.join(' * ') + ' = ' + total_numerator.toString() + '/' + total_denom.toString();
+        };
 
-                //group2 = _.groupBy(suit_by_rank_set2, 'rank');
+        this.make_suits_group_string_arr = function(dh_grouped) {
+            var self = this;
+            suits_grouped = _.map(dh_grouped, function (rank_str_set, key) {
+                var obj = {};
+                var suit_by_rank_set = [];
+                var suits = [];
+
+
+                rs_pair1 = self.transform_step1(rank_str_set, key);
+
+                rs_pair2 = self.transform_step2(rs_pair1);
+
+                rs_pair3 = self.transform_step3(rs_pair2);
+   
+                var r_string_html = self.transform_make_r_string_html(rs_pair3)
+
+                var probability_text = self.transform_make_probability_text(rs_pair3);
+
                 obj = {
                     hand_value: key,
                     rank_str: key,

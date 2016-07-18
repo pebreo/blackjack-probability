@@ -880,7 +880,7 @@ xdescribe("get_needed_ranks", function() {
 });
 
 
-describe("Deck functions", function() {
+describe("Transform functions", function() {
     var transform;
 
     // setup the angular module
@@ -892,6 +892,161 @@ describe("Deck functions", function() {
     }));
 
     it("should return a string with desired attributes", function() {
+        test_desired_cards = [
+            {
+            "hand_value": 10,
+            "hand": [
+              {
+                "id": 10,
+                "rank": "10",
+                "rank_integer": [
+                  10
+                ],
+                "suit": "clubs",
+                "show": true
+              }
+            ]
+            },
+            {
+            "hand_value": 10,
+            "hand": [
+              {
+                "id": 15,
+                "rank": "2",
+                "rank_integer": [
+                  2
+                ],
+                "suit": "diams",
+                "show": true
+              },
+              {
+                "id": 21,
+                "rank": "8",
+                "rank_integer": [
+                  8
+                ],
+                "suit": "diams",
+                "show": true
+                }
+                ]
+            },
+                        {
+            "hand_value": 10,
+            "hand": [
+              {
+                "id": 15,
+                "rank": "2",
+                "rank_integer": [
+                  2
+                ],
+                "suit": "clubs",
+                "show": true
+              },
+              {
+                "id": 21,
+                "rank": "8",
+                "rank_integer": [
+                  8
+                ],
+                "suit": "spades",
+                "show": true
+                }
+                ]
+            }
+
+        ];
+
+        expected_data = [
+                          {
+                            "hand_value": "10",
+                            "rank_str": "10",
+                            "rank_str_html": "[10 of (&clubs;)]",
+                            "prob_text": "1\/3 = 1\/3"
+                          },
+                          {
+                            "hand_value": "2,8",
+                            "rank_str": "2,8",
+                            "rank_str_html": "[2 of (&diams; or &clubs;)] and [8 of (&diams; or &spades;)]",
+                            "prob_text": "1\/3 * 1\/3 * 1\/3 * 1\/3 = 1\/81"
+                          }
+                        ];
+
+        var dh_grouped = transform.make_dh_grouped(test_desired_cards);
+        var ans = transform.make_suits_group_string_arr(dh_grouped);
+        // console.log(JSON.stringify(ans));
+        expect(JSON.stringify(ans)).toEqual(JSON.stringify(expected_data));
+
+    });
+
+    xit("should calculate prrobability", function() {
+        test_desired_cards = [
+            {
+            "hand_value": 10,
+            "hand": [
+              {
+                "id": 10,
+                "rank": "10",
+                "rank_integer": [
+                  10
+                ],
+                "suit": "clubs",
+                "show": true
+              }
+            ]
+            },
+            {
+            "hand_value": 10,
+            "hand": [
+              {
+                "id": 15,
+                "rank": "2",
+                "rank_integer": [
+                  2
+                ],
+                "suit": "diams",
+                "show": true
+              },
+              {
+                "id": 21,
+                "rank": "8",
+                "rank_integer": [
+                  8
+                ],
+                "suit": "diams",
+                "show": true
+                }
+                ]
+            },
+                        {
+            "hand_value": 10,
+            "hand": [
+              {
+                "id": 15,
+                "rank": "2",
+                "rank_integer": [
+                  2
+                ],
+                "suit": "clubs",
+                "show": true
+              },
+              {
+                "id": 21,
+                "rank": "8",
+                "rank_integer": [
+                  8
+                ],
+                "suit": "spades",
+                "show": true
+                }
+                ]
+            }
+
+        ];
+
+
+    });
+
+  it("should have a good transform1", function() {
         test_desired_cards = [
             {
             "hand_value": 10,
