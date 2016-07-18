@@ -7,6 +7,7 @@
         this.baz = 'baz value!';
         this.player_hand = [];
         this.dealer_hand = [];
+        this.current_deck = [];
         this.str2int = function (value) {
             if (/^(\-|\+)?([0-9]+|Infinity)$/.test(value))
                 return Number(value);
@@ -281,28 +282,30 @@
         };
         this.deal_card = function (deck) {
             var card;
+            var obj = {};
             card = _.sampleSize(deck, 1)[0];
             //found = _.find(deck,function(c) {return c.id == card.id});
             removed = _.remove(deck, function (c) {
-                return c.id == card.id
-            })[0];
-            return card;
+                return !(c.id == card.id)
+            });
+            obj = {card: card, deck: removed};
+            return obj;
         };
         this.blackjack_deal = function (deck) {
             var card;
-            card = this.deal_card(deck);
-            this.dealer_hand.push(card);
+            obj = this.deal_card(deck);
+            this.dealer_hand.push(obj.card);
 
-            card = this.deal_card(deck);
-            card.show = false;
-            this.dealer_hand.push(card);
+            obj = this.deal_card(obj.deck);
+            obj.card.show = false;
+            this.dealer_hand.push(obj.card);
 
-            card = this.deal_card(deck);
-            this.player_hand.push(card);
+            obj = this.deal_card(obj.deck);
+            this.player_hand.push(obj.card);
 
-            card = this.deal_card(deck);
-            this.player_hand.push(card);
-
+            obj = this.deal_card(obj.deck);
+            this.player_hand.push(obj.card);
+            return obj.deck;
         };
         this.rank2integer = function (rank) {
             var rank_int = [];
