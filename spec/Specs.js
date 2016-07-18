@@ -978,7 +978,7 @@ describe("Transform functions", function() {
 
     });
 
-    xit("should calculate prrobability", function() {
+    it("should calculate prrobability", function() {
         test_desired_cards = [
             {
             "hand_value": 10,
@@ -1089,7 +1089,7 @@ describe("Transform functions", function() {
             "hand_value": 10,
             "hand": [
               {
-                "id": 15,
+                "id": 16,
                 "rank": "2",
                 "rank_integer": [
                   2
@@ -1098,7 +1098,7 @@ describe("Transform functions", function() {
                 "show": true
               },
               {
-                "id": 21,
+                "id": 33,
                 "rank": "8",
                 "rank_integer": [
                   8

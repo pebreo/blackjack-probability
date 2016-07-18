@@ -25,10 +25,10 @@
                 }
                 return hand_with_rank_str;
             });
-
             var dh_grouped = _.groupBy(dh_with_rank_str, function (hand_set) {
                 return hand_set.rank_str;
             });
+            // console.log(JSON.stringify(dh_grouped));
             return dh_grouped;
         };
 
@@ -113,13 +113,16 @@
                             {
                                 rank: card.rank,
                                 suit: card.suit,
-                                probability: self.get_probability(card.rank, card.suit)
+                                probability: self.get_probability(card.rank, card.suit),
+                                hand_value: hand_set.hand_value,
+                                card_id: card.id
                             }
                         );
                     });
                 });
                 // make this a fxn
                 var rs_pair1 = _.groupBy(rank_suit_pair, 'rank');
+                // console.log(JSON.stringify(rs_pair1)); 
                 return rs_pair1;
         };
 
@@ -127,17 +130,42 @@
                 var self = this;
                 return  _.map(rs_pair1, function (rank_set, key) {
                     var obj = {};
-                    var suits = _.map(rank_set, function (r) {
-                        return r.suit
+                    var suits = _.map(rank_set, function (rank) {
+                        return rank.suit
                     });
-                    var probs = _.chain(rank_set).map(function (r) {
-                        return r.probability
-                    }).value();
+                    var probs = _.map(rank_set, function (rank) {
+                        return rank.probability
+                    });
+                    var card_ids = _.map(rank_set,function (r) {
+                        return r.card_id
+                    });
                     obj = {
                         rank: key,
                         suits: suits,
-                        probs: probs
+                        probs: probs,
+                        card_ids: card_ids
                     };
+                    return obj;
+                });
+        };
+        this.transform_step2_too_fancy = function(rs_pair1) {
+                var self = this; 
+                return  _.map(rs_pair1, function (rank_set, key) {
+                    var obj = {};
+                    var suits =  _.reduce(rank_set, function(hash, card){
+                        (hash[card.rank] || (hash[card.rank] = [])).push(card.suit);
+                        return hash;
+                    }, {});
+                    var probs = _.map(rank_set,function (r) {
+                        return r.probability
+                    });
+
+                    obj = {
+                        rank: key,
+                        suits: suits[key],
+                        probs: probs,
+                        card_ids: card_ids
+                    }
                     return obj;
                 });
         };
@@ -191,11 +219,11 @@
                 var suit_by_rank_set = [];
                 var suits = [];
 
-
+                // console.log(JSON.stringify(rank_str_set)); 
                 rs_pair1 = self.transform_step1(rank_str_set, key);
-
+                // console.log(JSON.stringify(rs_pair1))
                 rs_pair2 = self.transform_step2(rs_pair1);
-
+                // console.log(JSON.stringify(rs_pair2));
                 rs_pair3 = self.transform_step3(rs_pair2);
    
                 var r_string_html = self.transform_make_r_string_html(rs_pair3)
