@@ -1,8 +1,6 @@
 
 # Permutations in Javascript
 
-http://stackoverflow.com/questions/9960908/permutations-in-javascript
-
 # http://pebreo.github.io/blackjack-probability
 
 Development Setup
@@ -58,4 +56,33 @@ Standard house rules says if dealer has value of <= 16 then they must hit.
 After dealer moves, whoever has the closest 
 
 If both players have 21, they both tie.
+```
+
+Known Issues / To Do
+--------------------
+```
+todo: I need to display when the player wins or loses.
+
+1) The app does not currently allow splitting hands. For example, if you have 2 Aces,
+you can split them into two hands and place bets independently.
+
+2) The app does not allow you to place bets. There is a whole set of rules
+to place bets. The originally purpose of this game was to show simple probabilities
+of drawing cards from a deck. Adding bets would be a bonus but it is not urgent.
+
+3) In calculating the combinations of cards need to reach 21, I limited k = 1,2,3, or 4.
+The reason I limit k to a maximum of 4 is because it takes to long to calculate
+anything past k=4. 
+
+The k value is from the formula n choose k, where k is the number of slots. So
+if I have 52 cards to choose from I would have k=2 slots : 52 choose 2.
+
+When k=5, the superset of combinations, i.e. the sum of (52 choose 1) 
++ (52 choose 2) + (52 choose 3) + (52 choose 4) is about 1.9 million combinations -
+so it kind of hangs the app. A possibility solution would be to use angular promises
+so that I can prevent the UI from freezing by rendering the cards and when the calculation
+is finished then it will draw it when the calculation is done.
+
+
+
 ```
