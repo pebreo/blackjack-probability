@@ -403,9 +403,8 @@
                 //    console.log('calc hand value');
                 //    console.log(logic.calc_hand_value($scope.dealer_hand));
                 //}
-                console.log('best hand dealer ' + dh_value);
-                console.log('best hand player ' + ph_value);
-
+                //console.log('best hand dealer ' + dh_value);
+                //console.log('best hand player ' + ph_value);
 
                 // check dealer bust
                 if(dh_value > 21) {
@@ -415,21 +414,22 @@
                 }
                 // tie
                 if (dh_value === ph_value) {
-                   return "tie";
-                } else if(dh_value <= 21) {
-                    if(dh_value > ph_value) {
+                    if(dh_value <= 21 && dh_value <= 21) {
+                        return "tie";
+                    }
+                }
+                if(dh_value <= 21) {
+                    if (dh_value > ph_value) {
                         return "dealer_win";
                     }
-
-                } else if(ph_value <= 21)
+                }
+                if(ph_value <= 21)
                 {
                     if (ph_value > dh_value) {
                         return "player_win";
                     }
                 }
-                else {
                     return "tie";
-                }
             };
     });
 
