@@ -54,6 +54,14 @@
 
                 $scope.player_hand_value = logic.calc_hand_value($scope.player_hand);
                 console.log($scope.player_hand_value);
+
+                // calculate desired cards
+                // myservice.get_needed_ranks(hand, deck)
+
+
+                // display probability
+                // transform.make_dh_grouped(desired_cards)
+                // transform.make_suits_group_string_arr(dh_grouped)
             };
 
             $scope.$watch('start_switch', function(){

@@ -893,7 +893,35 @@ describe("Transform functions", function() {
         myservice = _myservice_;
     }));
 
-    xit("should return a string with desired attributes", function() {
+    it("make_suits_group_string_arr should work", function() {
+        var ace = {
+            id: 13,
+            rank: 1,
+            rank_integer: [1,11],
+            suit: 'clubs',
+            show: false
+        };
+        var ace_spades = {
+            id: 43,
+            rank: 1,
+            rank_integer: [1,11],
+            suit: 'spades',
+            show: true
+        };
+       var jack = {
+            id: 11,
+            rank: 11,
+            rank_integer: [10],
+            suit: 'clubs',
+            show: true
+        };
+        var jack_spades = {
+            id: 31,
+            rank: 11,
+            rank_integer: [10],
+            suit: 'spades',
+            show: true
+        };
         test_desired_cards = [
             {
             "hand_value": 10,
@@ -972,10 +1000,14 @@ describe("Transform functions", function() {
                             "prob_text": "1\/3 * 1\/3 * 1\/3 * 1\/3 = 1\/81"
                           }
                         ];
+        myservice.setup_static_deck();
+        var player_hand = [ace,jack];
+        var dealer_hand = [ace_spades,jack_spades] 
+        // myservice.blackjack_deal(myservice.static_deck);
 
         var dh_grouped = transform.make_dh_grouped(test_desired_cards);
         var ans = transform.make_suits_group_string_arr(dh_grouped);
-        // console.log(JSON.stringify(ans));
+        console.log(JSON.stringify(ans));
         expect(JSON.stringify(ans)).toEqual(JSON.stringify(expected_data));
 
     });
