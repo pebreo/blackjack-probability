@@ -36,15 +36,18 @@
             };
 
             $scope.start_game = function() {
+                $scope.reset_game();
                 $scope.start_switch = true;
             };
 
             $scope.reset_game = function(){
+                $scope.message = '';
                 $scope.start_switch = false;
                 $scope.dealer_hand = [];
                 $scope.player_hand = [];
                 $scope.deck = [];
                 logic.logic_reset();
+
             };
 
             $scope.isBlank = function(rank) {
@@ -120,12 +123,12 @@
 
             $scope.lose_message = function(){
                 $scope.message = 'You bust. Try again.';
-                //$scope.freeze_buttons();
+                $scope.freeze_buttons();
                 //$scope.reset_game();
             };
 
             $scope.freeze_buttons = function(){
-
+                $scope.start_switch = false;
             };
 
             $scope.$watch('start_switch', function(){
