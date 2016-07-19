@@ -138,14 +138,17 @@
                 $scope.decide_winner()
             };
 
+            // IDEA: you can use $watch to watch $scope.dealer_hand_value
+            // and do $timeout.cancel(calculation)
             $scope.dealer_move_experiment2 = function () {
                 // unhide card
+
                 logic.dealer_hand[1].show = true;
                 $scope.dealer_hand = logic.dealer_hand;
                 var was_canceled = false;
                 // decided to hit or stand
                 var dealer_hand_value = _.min(logic.calc_hand_value($scope.dealer_hand));
-                var calculation = $interval(function(){
+                $scope.calculation = $interval(function(){
                     if(dealer_hand_value >= 17) {
                         $interval.cancel();
                     }
@@ -313,6 +316,10 @@
                 // display probability
                 // transform.make_dh_grouped(desired_cards)
                 // transform.make_suits_group_string_arr(dh_grouped)
+            });
+            
+            $scope.$watch('dealer_hand_value', function () {
+                //$timeout.cancel($scope.calculation);
             });
 
 
