@@ -55,6 +55,7 @@
                 $scope.dealer_hand = [];
                 $scope.player_hand = [];
                 $scope.deck = [];
+                $scope.desired_cards_prob_html = [];
                 logic.logic_reset();
 
             };
