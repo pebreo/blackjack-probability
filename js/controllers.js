@@ -44,7 +44,7 @@
 
             $scope.first_deal = function(){
                 $scope.deck = logic.make_deck();
-                logic.blackjack_deal($scope.deck);
+                $scope.deck = logic.blackjack_deal($scope.deck);
                 console.log(logic.dealer_hand);
                 $scope.dealer_hand = logic.dealer_hand;
                 $scope.player_hand = logic.player_hand;

@@ -1046,7 +1046,7 @@ describe("Transform functions", function() {
 
     });
 
-  it("should have a good transform1", function() {
+  xit("should have a good transform1", function() {
         test_desired_cards = [
             {
             "hand_value": 10,
@@ -1132,7 +1132,59 @@ describe("Transform functions", function() {
         expect(JSON.stringify(ans)).toEqual(JSON.stringify(expected_data));
 
     });
+    
 
+  it("should calculate if card can be included in our probability calculation", inject(function(myservice) {
+        var ace = {
+            id: 1,
+            rank: 1,
+            rank_integer: [1,11],
+            suit: 'clubs',
+            show: false
+        };
+        var ace_spades = {
+            id: 43,
+            rank: 1,
+            rank_integer: [1,11],
+            suit: 'spades',
+            show: true
+        };
+       var jack = {
+            id: 11,
+            rank: 11,
+            rank_integer: [10],
+            suit: 'clubs',
+            show: true
+        };
+        var jack_spades = {
+            id: 31,
+            rank: 11,
+            rank_integer: [10],
+            suit: 'spades',
+            show: true
+        };
+
+        myservice.setup_static_deck();
+        myservice.dealer_hand = [ace,jack];
+        myservice.player_hand = [ace_spades,jack_spades] 
+        
+        // id 1
+        var isavailable = transform.is_in_deck(1, myservice.static_deck);
+        expect(isavailable).toEqual(true);
+
+        // id 43 - should not be available because it is shown
+        var isavailable = transform.is_in_deck(43, myservice.static_deck);
+        expect(isavailable).toEqual(false);
+
+        // id 11 - should not be available because it is shown
+        var isavailable = transform.is_in_deck(11, myservice.static_deck);
+        expect(isavailable).toEqual(false);
+
+        // id 31 - - should not be available because it is shown
+        var isavailable = transform.is_in_deck(31, myservice.static_deck);
+        expect(isavailable).toEqual(false);
+
+    }));
 
 
 
