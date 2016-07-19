@@ -15,16 +15,24 @@
             logic.setup_static_deck();
             $scope.start_switch = false;
             $scope.samples = [];
+            $scope.current_deck = [];
+
             $scope.dealer_hand = [];
             $scope.player_hand = [];
-            $scope.current_deck = [];
 
             $scope.dealer_hand_value = [];
             $scope.player_hand_value = [];
+
+            $scope.action_marker = true;
+
             $scope.is_end = function() {
                 return true;
             };
             $scope.x = 0;
+
+            $scope.toggleActionMarker = function(){
+                $scope.action_marker = !$scope.action_marker;
+            };
 
             $scope.start_game = function() {
                 $scope.start_switch = true;
@@ -59,6 +67,7 @@
                 console.log(logic.dealer_hand);
 
                 $scope.dealer_hand_value = logic.calc_hand_value($scope.dealer_hand);
+
                 //console.log($scope.dealer_hand_value);
 
                 $scope.player_hand_value = logic.calc_hand_value($scope.player_hand);
@@ -73,7 +82,30 @@
                 // transform.make_suits_group_string_arr(dh_grouped)
             };
 
-            $scope.deal_card = function(){
+            $scope.deal_to_player = function(){
+                $scope.toggleActionMarker();
+                var obj = myservice.deal_card($scope.current_deck);
+                $scope.current_deck = obj.deck;
+                myservice.player_hand.push(obj.card);
+            };
+
+            $scope.player_stand = function(){
+                // turn off buttons
+
+                // dealer makes move
+                //$scope.dealer_move()
+            };
+
+            $scope.dealer_move = function(){
+              // unhide card
+
+                // decided to hit or stand
+
+                // decide winner
+                // $scope.decide_winner()
+            };
+
+            $scope.decide_winner = function(){
 
             };
 
@@ -82,6 +114,14 @@
                     $scope.first_deal();
                 }
             });
+
+            $scope.$watch('action_marker', function(){
+                console.log('action');
+            });
+
+
+
+
 
 
         }]);
