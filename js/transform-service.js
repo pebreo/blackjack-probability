@@ -101,14 +101,14 @@
         };
         this.is_in_deck = function(card_id, deck) {
             // get the player dealer cards
-            console.log(deck.length);
+            // console.log(deck.length);
             var player_dealer_cards = Array.prototype.concat([],myservice.player_hand, myservice.dealer_hand);
             var shown_cards = _.filter(player_dealer_cards, 'show');
             var sc_ids = _.map(shown_cards, function(card){return card.id});
             var available_cards = _.filter(deck, function(card){
                 return !(_.includes(sc_ids, card.id));
             }); 
-            console.log(available_cards.length);
+            // console.log(available_cards.length);
             var available_card_ids = _.map(available_cards, 'id');
             return _.includes(available_card_ids, card_id);
 
@@ -237,7 +237,7 @@
                 rs_pair1 = self.transform_step1(rank_str_set, key);
                 // console.log(JSON.stringify(rs_pair1))
                 rs_pair2 = self.transform_step2(rs_pair1);
-                // console.log(JSON.stringify(rs_pair2));
+                console.log(JSON.stringify(rs_pair2)); 
                 rs_pair3 = self.transform_step3(rs_pair2);
    
                 var r_string_html = self.transform_make_r_string_html(rs_pair3)
