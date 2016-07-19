@@ -11,7 +11,7 @@
           <tbody>
           <tr ng-repeat="d in desired_cards_prob_html">
 
-              <td class="col-md-6">{{d.rank_str_html}}</td>
+              <td class="col-md-6"><span ng-bind-html="d.rank_str_html | unsafe2"></span></td>
               <td class="col-md-6">{{d.prob_text}}</td>
 
           </tr>

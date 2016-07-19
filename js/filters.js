@@ -3,14 +3,13 @@
 
     var app = angular.module('myApp');
 
-    app.filter('unsafe', function(){
+    app.filter('unsafe', ['$sce', function($sce){
         return function(input) {
-            var rank;
-            rank = "&" + input + ";";
-            //return rank;
-            return rank.trustAsHtml;
-        }
-    });
+            return $sce.trustAsHtml;
+        };
+    }]);
+
+    app.filter('unsafe2', function($sce){return $sce.trustAsHtml;});
 
     app.filter('capface', function(){
         return function(input){
