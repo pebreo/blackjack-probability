@@ -114,6 +114,20 @@
             return _.includes(available_card_ids, card_id);
 
         };
+
+        this.get_available_cards = function(deck, player_hand, dealer_hand) {
+            player_hand = player_hand !== undefined ? player_hand : myservice.player_hand;
+            dealer_hand = dealer_hand !== undefined ? dealer_hand : myservice.dealer_hand;
+            // console.log(deck.length);
+            var player_dealer_cards = Array.prototype.concat([], player_hand, dealer_hand);
+            var shown_cards = _.filter(player_dealer_cards, 'show');
+            var sc_ids = _.map(shown_cards, function(card){return card.id});
+            var available_cards = _.filter(deck, function(card){
+                return !(_.includes(sc_ids, card.id));
+            }); 
+            return available_cards;
+
+        };
         this.transform_step1 = function(rank_str_set, key){
                 // for each hand_set
                 var self = this;
@@ -244,7 +258,7 @@
                 return r_string.join(' and ');
         };
 
-        this.transform_make_probability_text = function(rs_pair3) {
+        this.transform_make_probability_text_old = function(rs_pair3) {
                 var total_numerator = 1;
                 var total_denom = 1;
                 var fractions = [];
@@ -254,6 +268,22 @@
                         total_numerator *= parseInt(a[0]);
                         total_denom *= parseInt(a[1]);
                     });
+                });
+                return fractions.join(' * ') + ' = ' + total_numerator.toString() + '/' + total_denom.toString();
+        };
+        this.transform_make_probability_text = function(rs_pair3, static_deck, player_hand, dealer_hand) {
+                var self = this;
+                player_hand = player_hand !== undefined ? player_hand : myservice.player_hand;
+                dealer_hand = dealer_hand !== undefined ? dealer_hand : myservice.dealer_hand;
+                var total_numerator = 1;
+                var running_denom = self.get_available_cards(static_deck, player_hand, dealer_hand).length;
+                var total_denom = 1;
+                var fractions = [];
+                _.each(rs_pair3, function (rank, key) {
+                    fractions.push(rank.prob_numerator.toString() + '/' + running_denom.toString());
+                    total_numerator *= parseInt(rank.prob_numerator);
+                    total_denom = parseInt(total_denom) * parseInt(running_denom);
+                    running_denom = running_denom - 1;
                 });
                 return fractions.join(' * ') + ' = ' + total_numerator.toString() + '/' + total_denom.toString();
         };
@@ -273,10 +303,10 @@
                 // console.log(JSON.stringify(rs_pair2)); 
                 rs_pair3 = self.transform_step3(rs_pair2);
                 // console.log(JSON.stringify(rs_pair3)); 
-                var r_string_html = self.transform_make_r_string_html(rs_pair3)
+                var r_string_html = self.transform_make_r_string_html(rs_pair3);
 
-                var probability_text = self.transform_make_probability_text(rs_pair3);
-
+                // var probability_text = self.transform_make_probability_text(rs_pair3);
+                var probability_text = self.transform_make_probability_text(rs_pair3, myservice.static_deck, myservice.player_hand, myservice.dealer_hand);
                 obj = {
                     hand_value: key,
                     rank_str: key,

@@ -893,7 +893,7 @@ describe("Transform functions", function() {
         myservice = _myservice_;
     }));
 
-    it("should return a string with desired attributes", function() {
+    xit("should return a string with desired attributes", function() {
         test_desired_cards = [
             {
             "hand_value": 10,
@@ -1034,7 +1034,7 @@ describe("Transform functions", function() {
     });
 
 
-  it("make_dh_grouped should work", function() {
+  xit("make_dh_grouped should work", function() {
         test_desired_cards = [
             {
             "hand_value": 10,
@@ -1196,13 +1196,51 @@ describe("Transform functions", function() {
         var player_hand = [ace,jack];
         var dealer_hand = [ace_spades,jack_spades] 
         
-        var rs_pair3 = transform.transform_step3(test_rs_pair2, myservice.static_deck, player_hand, dealer_hand);
+        var rs_pair3 = transform.transform_step3(test_rs_pair2);
         expect(JSON.stringify(rs_pair3)).toEqual(JSON.stringify(expected_data));
         // expect(false).toEqual(true);
 
     });
         
+    it("make_probability_text should work", function() {
+        var ace = {
+            id: 13,
+            rank: 1,
+            rank_integer: [1,11],
+            suit: 'clubs',
+            show: false
+        };
+        var ace_spades = {
+            id: 43,
+            rank: 1,
+            rank_integer: [1,11],
+            suit: 'spades',
+            show: true
+        };
+       var jack = {
+            id: 11,
+            rank: 11,
+            rank_integer: [10],
+            suit: 'clubs',
+            show: true
+        };
+        var jack_spades = {
+            id: 31,
+            rank: 11,
+            rank_integer: [10],
+            suit: 'spades',
+            show: true
+        };
+        var test_rs_pair3 = [{"rank_string":"[2 of (&diams; or &clubs;)]","probability_string":"1/58","prob":[["1","3"],["1","3"]],"prob_numerator":2},{"rank_string":"[8 of (&diams; or &spades;)]","probability_string":"1/58","prob":[["1","3"],["1","3"]],"prob_numerator":2}];
+        var expected_data = [];
+        myservice.setup_static_deck();
+        var player_hand = [ace,jack];
+        var dealer_hand = [ace_spades,jack_spades] 
+        
+        var prob_text = transform.transform_make_probability_text(test_rs_pair3, myservice.static_deck, player_hand, dealer_hand);
+        expect(prob_text).toEqual('2/49 * 2/48 = 4/2352');
 
+    });
 
 
 
