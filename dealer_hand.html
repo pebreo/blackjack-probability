@@ -1,12 +1,12 @@
 <div class="playingCards faceImages  rotateHand">
     <ul class="table">
-      <li ng-if="c.show" ng-repeat="c in getDealerHand()">
+      <li ng-if="c.show" ng-repeat="c in dealer_hand">
         <a class="card rank-{{c.rank}} {{c.suit}}" href="#">
         <span class="rank">{{c.rank|capface}}</span>
         <span class="suit">{{c.suit|unsafe}}</span>
         </a>
       </li>
-      <li ng-if="!c.show" ng-repeat="c in getDealerHand()">
+      <li ng-if="!c.show" ng-repeat="c in dealer_hand">
         <a class="card back" href="#">*</a>
       </li>
 

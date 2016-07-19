@@ -26,6 +26,7 @@
             $scope.action_marker = true;
             $scope.message = '';
 
+
             $scope.is_end = function() {
                 return true;
             };
@@ -67,6 +68,7 @@
                 $scope.current_deck = logic.make_deck();
                 logic.setup_static_deck();
                 $scope.current_deck = logic.blackjack_deal($scope.current_deck);
+                $scope.dealer_hand = logic.dealer_hand;
                 console.log('dealer hand');
                 console.log(logic.dealer_hand);
 
@@ -77,13 +79,7 @@
                 $scope.player_hand_value = logic.calc_hand_value(logic.player_hand);
                 console.log($scope.player_hand_value);
 
-                // calculate desired cards
-                // myservice.get_needed_ranks(hand, deck)
 
-
-                // display probability
-                // transform.make_dh_grouped(desired_cards)
-                // transform.make_suits_group_string_arr(dh_grouped)
             };
 
             $scope.deal_to_player = function(){
@@ -95,6 +91,9 @@
             };
 
             $scope.player_stand = function(){
+                 $scope.toggleActionMarker();
+                //$scope.freeze_buttons();
+                $scope.dealer_move();
                 // turn off buttons
 
                 // dealer makes move
@@ -103,8 +102,18 @@
 
             $scope.dealer_move = function(){
               // unhide card
+                logic.dealer_hand[1].show = true;
+                $scope.dealer_hand = logic.dealer_hand;
 
                 // decided to hit or stand
+                var dealer_hand_value = _.min(logic.calc_hand_value($scope.dealer_hand));
+                while(dealer_hand_value < 17) {
+                    var obj = logic.deal_card($scope.current_deck);
+                    $scope.current_deck = obj.deck;
+                    logic.dealer_hand.push(obj.card);
+                    $scope.dealer_hand = logic.dealer_hand;
+                    dealer_hand_value = _.min(logic.calc_hand_value($scope.dealer_hand));
+                };
 
                 // decide winner
                 // $scope.decide_winner()
@@ -139,6 +148,13 @@
 
             $scope.$watch('action_marker', function(){
                 console.log('action');
+                // calculate desired cards
+                // myservice.get_needed_ranks(hand, deck)
+
+
+                // display probability
+                // transform.make_dh_grouped(desired_cards)
+                // transform.make_suits_group_string_arr(dh_grouped)
             });
 
 
