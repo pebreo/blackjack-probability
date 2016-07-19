@@ -17,7 +17,7 @@
             $scope.samples = [];
             $scope.dealer_hand = [];
             $scope.player_hand = [];
-            $scope.deck = [];
+            $scope.current_deck = [];
 
             $scope.dealer_hand_value = [];
             $scope.player_hand_value = [];
@@ -43,18 +43,26 @@
                 return false;
             };
 
+            $scope.getPlayerHand = function(){
+                return logic.player_hand;
+            };
+
+            $scope.getDealerHand = function(){
+                return logic.dealer_hand;
+            };
+
             $scope.first_deal = function(){
-                $scope.deck = logic.make_deck();
-                $scope.deck = logic.blackjack_deal($scope.deck);
+                $scope.current_deck = logic.make_deck();
+                logic.setup_static_deck();
+                $scope.current_deck = logic.blackjack_deal($scope.current_deck);
+                console.log('dealer hand');
                 console.log(logic.dealer_hand);
-                $scope.dealer_hand = logic.dealer_hand;
-                $scope.player_hand = logic.player_hand;
 
                 $scope.dealer_hand_value = logic.calc_hand_value($scope.dealer_hand);
-                console.log($scope.dealer_hand_value);
+                //console.log($scope.dealer_hand_value);
 
                 $scope.player_hand_value = logic.calc_hand_value($scope.player_hand);
-                console.log($scope.player_hand_value);
+                //console.log($scope.player_hand_value);
 
                 // calculate desired cards
                 // myservice.get_needed_ranks(hand, deck)
@@ -63,6 +71,10 @@
                 // display probability
                 // transform.make_dh_grouped(desired_cards)
                 // transform.make_suits_group_string_arr(dh_grouped)
+            };
+
+            $scope.deal_card = function(){
+
             };
 
             $scope.$watch('start_switch', function(){
