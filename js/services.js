@@ -446,6 +446,11 @@
         };
     });
 
+    // using promises
+    /*
+
+    Usage: animateService.anim().then(function(result){ .. dosomething});
+     */
     app.service('animateService', ['$timeout', '$q', 'Scopes','myservice', function ($timeout, $q, Scopes, myservice) {
         return {
             anim: function () {
