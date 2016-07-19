@@ -198,7 +198,7 @@
                     }, 0);
                     obj = {
                         rank: key,
-                        suits: suits,
+                        suits: _.uniq(suits),
                         probs: probs,
                         prob_numerator: prob_numerator,
                         card_ids: card_ids
@@ -221,7 +221,7 @@
 
                     obj = {
                         rank: key,
-                        suits: suits[key],
+                        suits: _.uniq(suits[key]),
                         probs: probs,
                         card_ids: card_ids
                     }
