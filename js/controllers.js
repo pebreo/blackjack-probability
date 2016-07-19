@@ -131,7 +131,37 @@
                 }
             };
 
-            $scope.decide_winner = function () {
+            $scope.check_dealer_bust = function (player_hand) {
+                //console.log(logic.check_bust(logic.calc_hand_value(player_hand)));
+                if (logic.check_bust(logic.calc_hand_value(player_hand)) === true) {
+                    $scope.show_message('player_wins');
+                }
+            };
+
+            $scope.decide_winner = function(){
+                var outcome = logic.decide_winner(logic.player_hand, $scope.dealer_hand);
+                console.log('the message' + outcome);
+                switch(outcome){
+                    case "tie":
+                        $scope.show_message('You both tie.');
+                        $scope.freeze_buttons();
+                        break;
+                    case "player_win":
+                       $scope.show_message('You win!');
+                        $scope.freeze_buttons();
+                        break;
+                    case "dealer_win":
+                        $scope.show_message('Dealer wins. Try again.');
+                        $scope.freeze_buttons();
+                        break;
+                    default:
+                        $scope.message = '';
+                        break;
+                }
+            };
+
+            $scope.decide_winner_old = function () {
+
                 //var dh_value = _.min(logic.calc_hand_value($scope.dealer_hand));
                 //var ph_value = _.min(logic.calc_hand_value(logic.player_hand));
                 var dh_value = logic.get_best_hand_value(logic.calc_hand_value($scope.dealer_hand));
@@ -145,36 +175,55 @@
                 console.log('best hand dealer ' + dh_value);
                 console.log('best hand player ' + ph_value);
 
+
+                // check dealer bust
+                if(dh_value > 21) {
+                    console.log('dh value greater than 21');
+                     $scope.show_message("player_win");
+                    return;
+                };
                 // tie
                 if (dh_value === ph_value) {
-                    $scope.show_message('tie');
-                } else if((dh_value === 21) || (dh_value > ph_value)) {
-                    $scope.show_message('dealer_win');
+                    $scope.show_message("tie");
+                } else if(dh_value <= 21) {
+                    if(dh_value > ph_value) {
+                        $scope.show_message("dealer_win");
+                    }
 
-                } else if((ph_value == 21) || (ph_value > dh_value)) {
-                    $scope.show_message('player_win');
-
-                } else {
-                    $scope.show_message('');
+                } else if(ph_value <= 21)
+                {
+                    if (ph_value > dh_value) {
+                        $scope.show_message("player_win");
+                    }
                 }
+                else {
+                    $scope.show_message("tie");
+                };
             };
 
-            $scope.show_message = function (message) {
+            $scope.show_message = function(message) {
+                $scope.message = message;
+                $scope.freeze_buttons();
+            };
+
+            $scope.show_message_old = function (message) {
+                console.log('the message' + message);
                 switch(message){
-                    case 'tie':
+                    case "tie":
                         $scope.message = 'You both tie!';
                         $scope.freeze_buttons();
                         break;
-                    case 'player_win':
+                    case "player_win":
                         $scope.message = 'You win!';
                         $scope.freeze_buttons();
                         break;
-                    case 'dealer_win':
+                    case "dealer_win":
                         $scope.message = 'Dealer wins. Try again.';
                         $scope.freeze_buttons();
                         break;
                     default:
                         $scope.message = '';
+                        break;
                 }
             };
 

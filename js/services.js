@@ -391,6 +391,46 @@
             console.log(s);
             return s;
         };
+        this.decide_winner = function (player_hand, dealer_hand) {
+                var self = this;
+                //var dh_value = _.min(logic.calc_hand_value($scope.dealer_hand));
+                //var ph_value = _.min(logic.calc_hand_value(logic.player_hand));
+                var dh_value = self.get_best_hand_value(self.calc_hand_value(dealer_hand));
+                var ph_value = self.get_best_hand_value(self.calc_hand_value(player_hand));
+                //if(dh_value === undefined) {
+                //    console.log('undefined dh_value');
+                //    console.log($scope.dealer_hand);
+                //    console.log('calc hand value');
+                //    console.log(logic.calc_hand_value($scope.dealer_hand));
+                //}
+                console.log('best hand dealer ' + dh_value);
+                console.log('best hand player ' + ph_value);
+
+
+                // check dealer bust
+                if(dh_value > 21) {
+                    console.log('dh value greater than 21');
+                    return "player_win";
+
+                }
+                // tie
+                if (dh_value === ph_value) {
+                   return "tie";
+                } else if(dh_value <= 21) {
+                    if(dh_value > ph_value) {
+                        return "dealer_win";
+                    }
+
+                } else if(ph_value <= 21)
+                {
+                    if (ph_value > dh_value) {
+                        return "player_win";
+                    }
+                }
+                else {
+                    return "tie";
+                }
+            };
     });
 
 
