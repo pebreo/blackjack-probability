@@ -33,6 +33,7 @@
             $scope.action_marker = true;
             $scope.message = '';
 
+            $scope.desired_cards_prob_html = [];
 
             $scope.is_end = function () {
                 return true;
@@ -90,8 +91,7 @@
                 $scope.player_hand_value = logic.calc_hand_value(logic.player_hand);
                 //console.log($scope.player_hand_value);
                 probService.getData().then(function(result){
-                   console.log('prob data');
-                    console.log(result);
+                    $scope.desired_cards_prob_html = result;
                 });
 
             };

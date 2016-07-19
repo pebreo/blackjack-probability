@@ -9,18 +9,13 @@
             </thead>
           </colgroup>
           <tbody>
-          <tr ng-if="is_rep_size_small()" ng-repeat="d in created_samples">
+          <tr ng-repeat="d in desired_cards_prob_html">
 
-              <td class="col-md-6">S<sub>{{$index+1}}</sub> = {{d.sample}}</td>
-              <td class="col-md-6">x&#772;<sub>{{$index+1}}</sub> = {{d.mean}}</td>
-
-          </tr>
-          <tr>
-
-              <td class="col-md-6">[2 of (&spades;,&hearts;,&diams;,&clubs;)] and [3 of (&spades;,&hearts;,&diams;,&clubs;)]</td>
-              <td class="col-md-6">2/48 * 3/48 = 6/2304</td>
+              <td class="col-md-6">{{d.rank_str_html}}</td>
+              <td class="col-md-6">{{d.prob_text}}</td>
 
           </tr>
+
 
           </tbody>
 
