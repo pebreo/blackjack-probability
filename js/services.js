@@ -64,8 +64,7 @@
             return results;
         };
 
-        var combinations_choose = function(set, k)
-        {
+        var combinations_choose = function (set, k) {
             var i, j, combs, head, tailcombs;
             if (k > set.length || k <= 0) {
                 return [];
@@ -143,7 +142,7 @@
             return hand_values;
         };
 
-        this.make_combos_with_hand_values = function(card_combos) {
+        this.make_combos_with_hand_values = function (card_combos) {
             return this.make_perms_with_hand_values(card_combos);
         };
 
@@ -171,37 +170,39 @@
             this.dealer_hand = [];
             this.setup_static_deck();
         };
-        this.get_best_hand_value = function(hand_values){
+        this.get_best_hand_value = function (hand_values) {
             // get anything less than 21
             var max_hand_value = _.max(hand_values);
-            if(max_hand_value > 21) {
+            if (max_hand_value > 21) {
                 return max_hand_value;
             }
-            var values = _.filter(hand_values, function(value){return value <= 21});
+            var values = _.filter(hand_values, function (value) {
+                return value <= 21
+            });
             return _.max(values);
         };
-        this.make_card_combos = function(deck, desired_card_value) {
+        this.make_card_combos = function (deck, desired_card_value) {
             var card_combos = [];
             var self = this;
             // when the desired (target) hand value is >= 15 that is you have
             // a hand value of 6 or less then we will create combinations
             // where k=1, k=2, k=3, k=4
-            if(desired_card_value == 0) {
+            if (desired_card_value == 0) {
                 var card_combos = [];
                 return card_combos;
             }
-            if(desired_card_value >= 15) {
-                [1,2,3,4].forEach(function(k){
+            if (desired_card_value >= 15) {
+                [1, 2, 3, 4].forEach(function (k) {
                     var c = self.combs_choose(deck, k);
                     card_combos = Array.prototype.concat(card_combos, c);
                 });
             }
-            if(desired_card_value < 15) {
-                [1,2,3].forEach(function(k){
+            if (desired_card_value < 15) {
+                [1, 2, 3].forEach(function (k) {
                     var c = self.combs_choose(deck, k);
                     card_combos = Array.prototype.concat(card_combos, c);
                 });
-            } 
+            }
             return card_combos;
         }
 
@@ -236,7 +237,7 @@
                 var combo_vals = this.make_combos_with_hand_values(card_combos);
                 console.log(card_combos.length + 'combo vals length');
 
-                if(desired_card_value2 != 0) {
+                if (desired_card_value2 != 0) {
                     desired_hands = Array.prototype.concat([],
                         combo_vals[desired_card_value1],
                         combo_vals[desired_card_value2]
@@ -318,14 +319,16 @@
             return obj.deck;
         };
 
-        this.check_bust = function(hand_values){
+        this.check_bust = function (hand_values) {
             var greater_than_21;
-            if(hand_values.length == 2) {
+            if (hand_values.length == 2) {
                 greater_than_21 = _.filter(hand_values, function (value) {
-                        return value > 21
-                    }).length == 2;
+                    return value > 21
+                }).length == 2;
             } else {
-                greater_than_21 = _.map(hand_values, function(value){return value > 21})[0];
+                greater_than_21 = _.map(hand_values, function (value) {
+                    return value > 21
+                })[0];
             }
             return greater_than_21;
         };
@@ -392,47 +395,75 @@
             return s;
         };
         this.decide_winner = function (player_hand, dealer_hand) {
-                var self = this;
-                //var dh_value = _.min(logic.calc_hand_value($scope.dealer_hand));
-                //var ph_value = _.min(logic.calc_hand_value(logic.player_hand));
-                var dh_value = self.get_best_hand_value(self.calc_hand_value(dealer_hand));
-                var ph_value = self.get_best_hand_value(self.calc_hand_value(player_hand));
-                //if(dh_value === undefined) {
-                //    console.log('undefined dh_value');
-                //    console.log($scope.dealer_hand);
-                //    console.log('calc hand value');
-                //    console.log(logic.calc_hand_value($scope.dealer_hand));
-                //}
-                //console.log('best hand dealer ' + dh_value);
-                //console.log('best hand player ' + ph_value);
+            var self = this;
+            //var dh_value = _.min(logic.calc_hand_value($scope.dealer_hand));
+            //var ph_value = _.min(logic.calc_hand_value(logic.player_hand));
+            var dh_value = self.get_best_hand_value(self.calc_hand_value(dealer_hand));
+            var ph_value = self.get_best_hand_value(self.calc_hand_value(player_hand));
+            //if(dh_value === undefined) {
+            //    console.log('undefined dh_value');
+            //    console.log($scope.dealer_hand);
+            //    console.log('calc hand value');
+            //    console.log(logic.calc_hand_value($scope.dealer_hand));
+            //}
+            //console.log('best hand dealer ' + dh_value);
+            //console.log('best hand player ' + ph_value);
 
-                // check dealer bust
-                if(dh_value > 21) {
-                    console.log('dh value greater than 21');
-                    return "player_win";
+            // check dealer bust
+            if (dh_value > 21) {
+                console.log('dh value greater than 21');
+                return "player_win";
 
-                }
-                // tie
-                if (dh_value === ph_value) {
-                    if(dh_value <= 21 && dh_value <= 21) {
-                        return "tie";
-                    }
-                }
-                if(dh_value <= 21) {
-                    if (dh_value > ph_value) {
-                        return "dealer_win";
-                    }
-                }
-                if(ph_value <= 21)
-                {
-                    if (ph_value > dh_value) {
-                        return "player_win";
-                    }
-                }
+            }
+            // tie
+            if (dh_value === ph_value) {
+                if (dh_value <= 21 && dh_value <= 21) {
                     return "tie";
-            };
+                }
+            }
+            if (dh_value <= 21) {
+                if (dh_value > ph_value) {
+                    return "dealer_win";
+                }
+            }
+            if (ph_value <= 21) {
+                if (ph_value > dh_value) {
+                    return "player_win";
+                }
+            }
+            return "tie";
+        };
+    });
+    app.service('Scopes', function () {
+        var mem = {};
+        return {
+            store: function (key, value) {
+                mem[key] = value;
+            },
+            get: function (key) {
+                return mem[key];
+            }
+        };
     });
 
+    app.service('animateService', ['$timeout', '$q', 'Scopes','myservice', function ($timeout, $q, Scopes, myservice) {
+        return {
+            anim: function () {
+                var $scope = Scopes.get('MyCtrl');
+                var o = $q.defer();
+                var result = {};
+                $timeout(function () {
+
+
+                    result = myservice.deal_card($scope.current_deck);
+                    o.resolve(result);
+                }, 500);
+
+                return o.promise;
+            }
+        };
+
+    }]);
 
     app.service('math', function () {
 

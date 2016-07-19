@@ -7,10 +7,15 @@
         '$rootScope',
         '$scope',
         '$log',
+        '$q',
+        '$timeout',
         'myservice',
         'transform',
         'math',
-        function ($rootScope, $scope, $log, myservice, transform, math) {
+        'animateService',
+        'Scopes',
+        function ($rootScope, $scope, $log, $q, $timeout, myservice, transform, math, animateService, Scopes) {
+            Scopes.store('MyCtrl', $scope);
             var logic = myservice;
             logic.setup_static_deck();
             $scope.start_switch = false;
@@ -103,7 +108,34 @@
                 //$scope.dealer_move()
             };
 
-            $scope.dealer_move = function () {
+
+            $scope.dealer_move = function() {
+                // unhide card
+                logic.dealer_hand[1].show = true;
+                $scope.dealer_hand = logic.dealer_hand;
+
+                // decided to hit or stand
+                var dealer_hand_value = _.min(logic.calc_hand_value($scope.dealer_hand));
+                while (dealer_hand_value < 17) {
+                    var obj = {};
+                    animateService.anim().then(function(result){
+                        obj = result;
+                    });
+                    console.log('obj');
+                    console.log(obj);
+                    $scope.current_deck = obj.deck;
+                    logic.dealer_hand.push(obj.card);
+                    $scope.dealer_hand = [];
+                    $scope.dealer_hand = logic.dealer_hand;
+                    dealer_hand_value = _.min(logic.calc_hand_value($scope.dealer_hand));
+                    console.log('deck size' + $scope.current_deck.length);
+                };
+
+                // decide winner
+                $scope.decide_winner()
+            };
+
+            $scope.dealer_move_old = function () {
                 // unhide card
                 logic.dealer_hand[1].show = true;
                 $scope.dealer_hand = logic.dealer_hand;
