@@ -171,6 +171,11 @@
             this.dealer_hand = [];
             this.setup_static_deck();
         };
+        this.get_best_hand_value = function(hand_values){
+            // get anything less than 21
+            var values = _.filter(hand_values, function(value){return value <= 21});
+            return _.max(values);
+        };
         this.make_card_combos = function(deck, desired_card_value) {
             var card_combos = [];
             var self = this;

@@ -27,21 +27,21 @@
             $scope.message = '';
 
 
-            $scope.is_end = function() {
+            $scope.is_end = function () {
                 return true;
             };
             $scope.x = 0;
 
-            $scope.toggleActionMarker = function(){
+            $scope.toggleActionMarker = function () {
                 $scope.action_marker = !$scope.action_marker;
             };
 
-            $scope.start_game = function() {
+            $scope.start_game = function () {
                 $scope.reset_game();
                 $scope.start_switch = true;
             };
 
-            $scope.reset_game = function(){
+            $scope.reset_game = function () {
                 $scope.message = '';
                 $scope.start_switch = false;
                 $scope.dealer_hand = [];
@@ -51,20 +51,22 @@
 
             };
 
-            $scope.isBlank = function(rank) {
-                if(rank=='0') {return true}
+            $scope.isBlank = function (rank) {
+                if (rank == '0') {
+                    return true
+                }
                 return false;
             };
 
-            $scope.getPlayerHand = function(){
+            $scope.getPlayerHand = function () {
                 return logic.player_hand;
             };
 
-            $scope.getDealerHand = function(){
+            $scope.getDealerHand = function () {
                 return logic.dealer_hand;
             };
 
-            $scope.first_deal = function(){
+            $scope.first_deal = function () {
                 $scope.current_deck = logic.make_deck();
                 logic.setup_static_deck();
                 $scope.current_deck = logic.blackjack_deal($scope.current_deck);
@@ -82,7 +84,7 @@
 
             };
 
-            $scope.deal_to_player = function(){
+            $scope.deal_to_player = function () {
                 $scope.toggleActionMarker();
                 var obj = logic.deal_card($scope.current_deck);
                 $scope.current_deck = obj.deck;
@@ -90,8 +92,8 @@
                 $scope.check_bust(logic.player_hand);
             };
 
-            $scope.player_stand = function(){
-                 $scope.toggleActionMarker();
+            $scope.player_stand = function () {
+                $scope.toggleActionMarker();
                 //$scope.freeze_buttons();
                 $scope.dealer_move();
                 // turn off buttons
@@ -100,53 +102,91 @@
                 //$scope.dealer_move()
             };
 
-            $scope.dealer_move = function(){
-              // unhide card
+            $scope.dealer_move = function () {
+                // unhide card
                 logic.dealer_hand[1].show = true;
                 $scope.dealer_hand = logic.dealer_hand;
 
                 // decided to hit or stand
                 var dealer_hand_value = _.min(logic.calc_hand_value($scope.dealer_hand));
-                while(dealer_hand_value < 17) {
+                while (dealer_hand_value < 17) {
                     var obj = logic.deal_card($scope.current_deck);
                     $scope.current_deck = obj.deck;
                     logic.dealer_hand.push(obj.card);
                     $scope.dealer_hand = logic.dealer_hand;
                     dealer_hand_value = _.min(logic.calc_hand_value($scope.dealer_hand));
+                    console.log('deck size' + $scope.current_deck.length);
                 };
 
                 // decide winner
-                // $scope.decide_winner()
+                $scope.decide_winner()
             };
 
-            $scope.check_bust = function(player_hand){
+            $scope.check_bust = function (player_hand) {
                 //console.log(logic.check_bust(logic.calc_hand_value(player_hand)));
-                if(logic.check_bust(logic.calc_hand_value(player_hand)) === true){
+                if (logic.check_bust(logic.calc_hand_value(player_hand)) === true) {
                     $scope.lose_message();
                 }
             };
 
-            $scope.decide_winner = function(){
+            $scope.decide_winner = function () {
+                //var dh_value = _.min(logic.calc_hand_value($scope.dealer_hand));
+                //var ph_value = _.min(logic.calc_hand_value(logic.player_hand));
+                var dh_value = logic.get_best_hand_value(logic.calc_hand_value($scope.dealer_hand));
+                var ph_value = logic.get_best_hand_value(logic.calc_hand_value(logic.player_hand));
+                console.log('best hand dealer ' + dh_value);
+                console.log('best hand player ' + ph_value);
 
+                // tie
+                if (dh_value === ph_value) {
+                    $scope.show_message('tie');
+                } else if((dh_value === 21) || (dh_value > ph_value)) {
+                    $scope.show_message('dealer_win');
+
+                } else if((ph_value == 21) || (ph_value > dh_value)) {
+                    $scope.show_message('player_win');
+
+                } else {
+                    $scope.show_message('');
+                }
             };
 
-            $scope.lose_message = function(){
+            $scope.show_message = function (message) {
+                switch(message){
+                    case 'tie':
+                        $scope.message = 'You both tie!';
+                        $scope.freeze_buttons();
+                        break;
+                    case 'player_win':
+                        $scope.message = 'You win!';
+                        $scope.freeze_buttons();
+                        break;
+                    case 'dealer_win':
+                        $scope.message = 'Dealer wins. Try again.';
+                        $scope.freeze_buttons();
+                        break;
+                    default:
+                        $scope.message = '';
+                }
+            };
+
+            $scope.lose_message = function () {
                 $scope.message = 'You bust. Try again.';
                 $scope.freeze_buttons();
                 //$scope.reset_game();
             };
 
-            $scope.freeze_buttons = function(){
+            $scope.freeze_buttons = function () {
                 $scope.start_switch = false;
             };
 
-            $scope.$watch('start_switch', function(){
-                if($scope.start_switch === true) {
+            $scope.$watch('start_switch', function () {
+                if ($scope.start_switch === true) {
                     $scope.first_deal();
                 }
             });
 
-            $scope.$watch('action_marker', function(){
+            $scope.$watch('action_marker', function () {
                 console.log('action');
                 // calculate desired cards
                 // myservice.get_needed_ranks(hand, deck)
@@ -158,11 +198,9 @@
             });
 
 
-
-
-
-
-        }]);
+        }
+    ])
+    ;
 
 }());
 
