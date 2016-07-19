@@ -8,8 +8,9 @@
         '$scope',
         '$log',
         'myservice',
+        'transform',
         'math',
-        function ($rootScope, $scope, $log, myservice, math) {
+        function ($rootScope, $scope, $log, myservice, transform, math) {
             var logic = myservice;
             logic.setup_static_deck();
             $scope.start_switch = false;
