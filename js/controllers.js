@@ -24,6 +24,7 @@
             $scope.player_hand_value = [];
 
             $scope.action_marker = true;
+            $scope.message = '';
 
             $scope.is_end = function() {
                 return true;
@@ -66,12 +67,12 @@
                 console.log('dealer hand');
                 console.log(logic.dealer_hand);
 
-                $scope.dealer_hand_value = logic.calc_hand_value($scope.dealer_hand);
+                $scope.dealer_hand_value = logic.calc_hand_value(logic.dealer_hand);
 
                 //console.log($scope.dealer_hand_value);
 
-                $scope.player_hand_value = logic.calc_hand_value($scope.player_hand);
-                //console.log($scope.player_hand_value);
+                $scope.player_hand_value = logic.calc_hand_value(logic.player_hand);
+                console.log($scope.player_hand_value);
 
                 // calculate desired cards
                 // myservice.get_needed_ranks(hand, deck)
@@ -84,9 +85,10 @@
 
             $scope.deal_to_player = function(){
                 $scope.toggleActionMarker();
-                var obj = myservice.deal_card($scope.current_deck);
+                var obj = logic.deal_card($scope.current_deck);
                 $scope.current_deck = obj.deck;
-                myservice.player_hand.push(obj.card);
+                logic.player_hand.push(obj.card);
+                $scope.check_bust(logic.player_hand);
             };
 
             $scope.player_stand = function(){
@@ -105,7 +107,24 @@
                 // $scope.decide_winner()
             };
 
+            $scope.check_bust = function(player_hand){
+                //console.log(logic.check_bust(logic.calc_hand_value(player_hand)));
+                if(logic.check_bust(logic.calc_hand_value(player_hand)) === true){
+                    $scope.lose_message();
+                }
+            };
+
             $scope.decide_winner = function(){
+
+            };
+
+            $scope.lose_message = function(){
+                $scope.message = 'You bust. Try again.';
+                //$scope.freeze_buttons();
+                //$scope.reset_game();
+            };
+
+            $scope.freeze_buttons = function(){
 
             };
 

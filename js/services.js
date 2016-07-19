@@ -169,6 +169,7 @@
         this.logic_reset = function () {
             this.player_hand = [];
             this.dealer_hand = [];
+            this.setup_static_deck();
         };
         this.make_card_combos = function(deck, desired_card_value) {
             var card_combos = [];
@@ -306,6 +307,18 @@
             obj = this.deal_card(obj.deck);
             this.player_hand.push(obj.card);
             return obj.deck;
+        };
+
+        this.check_bust = function(hand_values){
+            var greater_than_21;
+            if(hand_values.length == 2) {
+                greater_than_21 = _.filter(hand_values, function (value) {
+                        return value > 21
+                    }).length == 2;
+            } else {
+                greater_than_21 = _.map(hand_values, function(value){return value > 21})[0];
+            }
+            return greater_than_21;
         };
         this.rank2integer = function (rank) {
             var rank_int = [];
