@@ -470,6 +470,8 @@
 
     }]);
 
+
+
     app.service('math', function () {
 
 
@@ -570,5 +572,21 @@
          */
 
     });
+
+    app.service('probService', ['$timeout', '$q', 'Scopes','myservice', 'transform', function ($timeout, $q, Scopes, myservice, transform) {
+        return {
+            getData: function () {
+                    var o = $q.defer();
+                    myservice.setup_static_deck();
+                    var desired_cards = myservice.get_needed_ranks(myservice.player_hand, myservice.static_deck);
+                    // var dh_grouped = transform.make_dh_grouped(desired_cards);
+                    // var result = transform.make_suits_group_string_arr(dh_grouped);
+                    o.resolve(desired_cards);
+
+                    return o.promise;
+            }
+        };
+
+    }]);
 
 }());

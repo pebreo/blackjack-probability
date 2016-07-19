@@ -14,8 +14,9 @@
         'transform',
         'math',
         'animateService',
+        'probService',
         'Scopes',
-        function ($rootScope, $scope, $log, $q, $timeout, $interval, myservice, transform, math, animateService, Scopes) {
+        function ($rootScope, $scope, $log, $q, $timeout, $interval, myservice, transform, math, animateService, probService, Scopes) {
             Scopes.store('MyCtrl', $scope);
             var logic = myservice;
             logic.setup_static_deck();
@@ -72,6 +73,7 @@
                 return logic.dealer_hand;
             };
 
+
             $scope.first_deal = function () {
                 $scope.current_deck = logic.make_deck();
                 logic.setup_static_deck();
@@ -87,7 +89,10 @@
 
                 $scope.player_hand_value = logic.calc_hand_value(logic.player_hand);
                 //console.log($scope.player_hand_value);
-
+                probService.getData().then(function(result){
+                   console.log('prob data');
+                    console.log(result);
+                });
 
             };
 
@@ -317,7 +322,7 @@
                 // transform.make_dh_grouped(desired_cards)
                 // transform.make_suits_group_string_arr(dh_grouped)
             });
-            
+
             $scope.$watch('dealer_hand_value', function () {
                 //$timeout.cancel($scope.calculation);
             });
