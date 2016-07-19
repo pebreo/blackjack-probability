@@ -228,7 +228,8 @@
                     obj = {
                         rank_string: rank_string,
                         probability_string: probability_string,
-                        prob: rank.probs
+                        prob: rank.probs,
+                        prob_numerator: rank.prob_numerator
                     };
                     return obj;
                 });
@@ -271,7 +272,7 @@
                 rs_pair2 = self.transform_step2(rs_pair1, myservice.static_deck, myservice.player_hand, myservice.dealer_hand);
                 // console.log(JSON.stringify(rs_pair2)); 
                 rs_pair3 = self.transform_step3(rs_pair2);
-   
+                // console.log(JSON.stringify(rs_pair3)); 
                 var r_string_html = self.transform_make_r_string_html(rs_pair3)
 
                 var probability_text = self.transform_make_probability_text(rs_pair3);

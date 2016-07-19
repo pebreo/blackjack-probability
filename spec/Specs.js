@@ -1150,19 +1150,59 @@ describe("Transform functions", function() {
             suit: 'spades',
             show: true
         };
-        test_rs_pair1 = {"2":[{"rank":"2","suit":"diams","probability":["1","3"],"hand_value":10,"card_id":15},{"rank":"2","suit":"clubs","probability":["1","3"],"hand_value":10,"card_id":16}],"8":[{"rank":"8","suit":"diams","probability":["1","3"],"hand_value":10,"card_id":21},{"rank":"8","suit":"spades","probability":["1","3"],"hand_value":10,"card_id":33}]}
-
+        var test_rs_pair1 = {"2":[{"rank":"2","suit":"diams","probability":["1","3"],"hand_value":10,"card_id":15},{"rank":"2","suit":"clubs","probability":["1","3"],"hand_value":10,"card_id":16}],"8":[{"rank":"8","suit":"diams","probability":["1","3"],"hand_value":10,"card_id":21},{"rank":"8","suit":"spades","probability":["1","3"],"hand_value":10,"card_id":33}]}
+        var expected_data = [{"rank":"2","suits":["diams","clubs"],"probs":[["1","3"],["1","3"]],"prob_numerator":2,"card_ids":[15,16]},{"rank":"8","suits":["diams","spades"],"probs":[["1","3"],["1","3"]],"prob_numerator":2,"card_ids":[21,33]}];
         myservice.setup_static_deck();
         var player_hand = [ace,jack];
         var dealer_hand = [ace_spades,jack_spades] 
         
-        // id 1
         var rs_pair3 = transform.transform_step2(test_rs_pair1, myservice.static_deck, player_hand, dealer_hand);
-        console.log(JSON.stringify(rs_pair3));
-        expect(false).toEqual(true);
+        expect(JSON.stringify(rs_pair3)).toEqual(JSON.stringify(expected_data));
 
     });
     
+    it("transform_step3 should work", function() {
+        var ace = {
+            id: 13,
+            rank: 1,
+            rank_integer: [1,11],
+            suit: 'clubs',
+            show: false
+        };
+        var ace_spades = {
+            id: 43,
+            rank: 1,
+            rank_integer: [1,11],
+            suit: 'spades',
+            show: true
+        };
+       var jack = {
+            id: 11,
+            rank: 11,
+            rank_integer: [10],
+            suit: 'clubs',
+            show: true
+        };
+        var jack_spades = {
+            id: 31,
+            rank: 11,
+            rank_integer: [10],
+            suit: 'spades',
+            show: true
+        };
+        var test_rs_pair2 = [{"rank":"2","suits":["diams","clubs"],"probs":[["1","3"],["1","3"]],"prob_numerator":2,"card_ids":[15,16]},{"rank":"8","suits":["diams","spades"],"probs":[["1","3"],["1","3"]],"prob_numerator":2,"card_ids":[21,33]}];
+        var expected_data = [{"rank_string":"[2 of (&diams; or &clubs;)]","probability_string":"1/58","prob":[["1","3"],["1","3"]],"prob_numerator":2},{"rank_string":"[8 of (&diams; or &spades;)]","probability_string":"1/58","prob":[["1","3"],["1","3"]],"prob_numerator":2}];
+        myservice.setup_static_deck();
+        var player_hand = [ace,jack];
+        var dealer_hand = [ace_spades,jack_spades] 
+        
+        var rs_pair3 = transform.transform_step3(test_rs_pair2, myservice.static_deck, player_hand, dealer_hand);
+        expect(JSON.stringify(rs_pair3)).toEqual(JSON.stringify(expected_data));
+        // expect(false).toEqual(true);
+
+    });
+        
+
 
 
 
