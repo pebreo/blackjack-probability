@@ -15,6 +15,7 @@
         };
         this.static_deck = [];
         this.setup_static_deck = function () {
+            this.static_deck = [];
             var suits = ['clubs', 'diams', 'hearts', 'spades'];
             var ranks = ['a', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'j', 'q', 'k'];
             var id = 1;
@@ -579,9 +580,9 @@
                     var o = $q.defer();
                     myservice.setup_static_deck();
                     var desired_cards = myservice.get_needed_ranks(myservice.player_hand, myservice.static_deck);
-                    // var dh_grouped = transform.make_dh_grouped(desired_cards);
-                    // var result = transform.make_suits_group_string_arr(dh_grouped);
-                    o.resolve(desired_cards);
+                    var dh_grouped = transform.make_dh_grouped(desired_cards);
+                    var result = transform.make_suits_group_string_arr(dh_grouped);
+                    o.resolve(result);
 
                     return o.promise;
             }

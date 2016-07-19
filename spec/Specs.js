@@ -503,7 +503,7 @@ xdescribe("make_perms_with_hand_values", function() {
 
 
 
-xdescribe("get_needed_ranks", function() {
+describe("get_needed_ranks", function() {
     var myservice;
     // setup the angular module
     beforeEach(module('myApp'));
@@ -893,7 +893,7 @@ describe("Transform functions", function() {
         myservice = _myservice_;
     }));
 
-    it("make_suits_group_string_arr should work", function() {
+    xit("make_suits_group_string_arr should work", function() {
         var ace = {
             id: 13,
             rank: 1,
