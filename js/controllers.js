@@ -70,16 +70,17 @@
                 $scope.current_deck = logic.make_deck();
                 logic.setup_static_deck();
                 $scope.current_deck = logic.blackjack_deal($scope.current_deck);
+                $scope.dealer_hand = [];
                 $scope.dealer_hand = logic.dealer_hand;
                 console.log('dealer hand');
-                console.log(logic.dealer_hand);
+                //console.log(logic.dealer_hand);
 
                 $scope.dealer_hand_value = logic.calc_hand_value(logic.dealer_hand);
 
                 //console.log($scope.dealer_hand_value);
 
                 $scope.player_hand_value = logic.calc_hand_value(logic.player_hand);
-                console.log($scope.player_hand_value);
+                //console.log($scope.player_hand_value);
 
 
             };
@@ -113,6 +114,7 @@
                     var obj = logic.deal_card($scope.current_deck);
                     $scope.current_deck = obj.deck;
                     logic.dealer_hand.push(obj.card);
+                    $scope.dealer_hand = [];
                     $scope.dealer_hand = logic.dealer_hand;
                     dealer_hand_value = _.min(logic.calc_hand_value($scope.dealer_hand));
                     console.log('deck size' + $scope.current_deck.length);
@@ -134,6 +136,12 @@
                 //var ph_value = _.min(logic.calc_hand_value(logic.player_hand));
                 var dh_value = logic.get_best_hand_value(logic.calc_hand_value($scope.dealer_hand));
                 var ph_value = logic.get_best_hand_value(logic.calc_hand_value(logic.player_hand));
+                //if(dh_value === undefined) {
+                //    console.log('undefined dh_value');
+                //    console.log($scope.dealer_hand);
+                //    console.log('calc hand value');
+                //    console.log(logic.calc_hand_value($scope.dealer_hand));
+                //}
                 console.log('best hand dealer ' + dh_value);
                 console.log('best hand player ' + ph_value);
 

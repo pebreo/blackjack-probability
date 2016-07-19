@@ -173,6 +173,10 @@
         };
         this.get_best_hand_value = function(hand_values){
             // get anything less than 21
+            var max_hand_value = _.max(hand_values);
+            if(max_hand_value > 21) {
+                return max_hand_value;
+            }
             var values = _.filter(hand_values, function(value){return value <= 21});
             return _.max(values);
         };
