@@ -981,7 +981,7 @@ describe("Transform functions", function() {
     });
 
 
-  it("should calculate if card can be included in our probability calculation", function() {
+  it("is_in_it should work", function() {
         var ace = {
             id: 1,
             rank: 1,
@@ -1033,75 +1033,8 @@ describe("Transform functions", function() {
 
     });
 
-    xit("should calculate prrobability", function() {
-        test_desired_cards = [
-            {
-            "hand_value": 10,
-            "hand": [
-              {
-                "id": 10,
-                "rank": "10",
-                "rank_integer": [
-                  10
-                ],
-                "suit": "clubs",
-                "show": true
-              }
-            ]
-            },
-            {
-            "hand_value": 10,
-            "hand": [
-              {
-                "id": 15,
-                "rank": "2",
-                "rank_integer": [
-                  2
-                ],
-                "suit": "diams",
-                "show": true
-              },
-              {
-                "id": 21,
-                "rank": "8",
-                "rank_integer": [
-                  8
-                ],
-                "suit": "diams",
-                "show": true
-                }
-                ]
-            },
-                        {
-            "hand_value": 10,
-            "hand": [
-              {
-                "id": 15,
-                "rank": "2",
-                "rank_integer": [
-                  2
-                ],
-                "suit": "clubs",
-                "show": true
-              },
-              {
-                "id": 21,
-                "rank": "8",
-                "rank_integer": [
-                  8
-                ],
-                "suit": "spades",
-                "show": true
-                }
-                ]
-            }
 
-        ];
-
-
-    });
-
-  it("should have a good transform1", function() {
+  it("make_dh_grouped should work", function() {
         test_desired_cards = [
             {
             "hand_value": 10,
@@ -1185,6 +1118,48 @@ describe("Transform functions", function() {
         var ans = transform.make_suits_group_string_arr(dh_grouped);
         // console.log(JSON.stringify(ans));
         expect(JSON.stringify(ans)).toEqual(JSON.stringify(expected_data));
+
+    });
+
+    it("transform_step2 should work", function() {
+        var ace = {
+            id: 13,
+            rank: 1,
+            rank_integer: [1,11],
+            suit: 'clubs',
+            show: false
+        };
+        var ace_spades = {
+            id: 43,
+            rank: 1,
+            rank_integer: [1,11],
+            suit: 'spades',
+            show: true
+        };
+       var jack = {
+            id: 11,
+            rank: 11,
+            rank_integer: [10],
+            suit: 'clubs',
+            show: true
+        };
+        var jack_spades = {
+            id: 31,
+            rank: 11,
+            rank_integer: [10],
+            suit: 'spades',
+            show: true
+        };
+        test_rs_pair1 = {"2":[{"rank":"2","suit":"diams","probability":["1","3"],"hand_value":10,"card_id":15},{"rank":"2","suit":"clubs","probability":["1","3"],"hand_value":10,"card_id":16}],"8":[{"rank":"8","suit":"diams","probability":["1","3"],"hand_value":10,"card_id":21},{"rank":"8","suit":"spades","probability":["1","3"],"hand_value":10,"card_id":33}]}
+
+        myservice.setup_static_deck();
+        var player_hand = [ace,jack];
+        var dealer_hand = [ace_spades,jack_spades] 
+        
+        // id 1
+        var rs_pair3 = transform.transform_step2(test_rs_pair1, myservice.static_deck, player_hand, dealer_hand);
+        console.log(JSON.stringify(rs_pair3));
+        expect(false).toEqual(true);
 
     });
     

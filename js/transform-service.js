@@ -99,10 +99,11 @@
         this.get_total_probability_string = function (rank_set) {
             return 'dummy';
         };
-        this.is_in_deck = function(card_id, deck) {
-            // get the player dealer cards
+        this.is_in_deck = function(card_id, deck, player_hand, dealer_hand) {
+            player_hand = player_hand !== undefined ? player_hand : myservice.player_hand;
+            dealer_hand = dealer_hand !== undefined ? dealer_hand : myservice.dealer_hand;
             // console.log(deck.length);
-            var player_dealer_cards = Array.prototype.concat([],myservice.player_hand, myservice.dealer_hand);
+            var player_dealer_cards = Array.prototype.concat([], player_hand, dealer_hand);
             var shown_cards = _.filter(player_dealer_cards, 'show');
             var sc_ids = _.map(shown_cards, function(card){return card.id});
             var available_cards = _.filter(deck, function(card){
@@ -139,7 +140,7 @@
                 return rs_pair1;
         };
 
-        this.transform_step2 = function(rs_pair1) {
+        this.transform_step2_old = function(rs_pair1) {
                 var self = this;
                 return  _.map(rs_pair1, function (rank_set, key) {
                     var obj = {};
@@ -161,6 +162,37 @@
                     return obj;
                 });
         };
+        this.transform_step2 = function(rs_pair1, static_deck, player_hand, dealer_hand) {
+                var self = this;
+                return  _.map(rs_pair1, function (rank_set, key) {
+                    var obj = {};
+                    var suits = _.map(rank_set, function (rank) {
+                        return rank.suit
+                    });
+                    var probs = _.map(rank_set, function (rank) {
+                        return rank.probability
+                    });
+                    var card_ids = _.map(rank_set,function (r) {
+                        return r.card_id
+                    });
+                    var prob_numerator = _.reduce(card_ids, function (sum, card_id) {
+                         if(self.is_in_deck(card_id, static_deck, player_hand, dealer_hand)){
+                            return sum = sum + 1;
+                         } {
+                            return sum = sum + 0;
+                         }
+                    }, 0);
+                    obj = {
+                        rank: key,
+                        suits: suits,
+                        probs: probs,
+                        prob_numerator: prob_numerator,
+                        card_ids: card_ids
+                    };
+                    return obj;
+                });
+        };
+
         this.transform_step2_too_fancy = function(rs_pair1) {
                 var self = this; 
                 return  _.map(rs_pair1, function (rank_set, key) {
@@ -236,8 +268,8 @@
                 // console.log(JSON.stringify(rank_str_set)); 
                 rs_pair1 = self.transform_step1(rank_str_set, key);
                 // console.log(JSON.stringify(rs_pair1))
-                rs_pair2 = self.transform_step2(rs_pair1);
-                console.log(JSON.stringify(rs_pair2)); 
+                rs_pair2 = self.transform_step2(rs_pair1, myservice.static_deck, myservice.player_hand, myservice.dealer_hand);
+                // console.log(JSON.stringify(rs_pair2)); 
                 rs_pair3 = self.transform_step3(rs_pair2);
    
                 var r_string_html = self.transform_make_r_string_html(rs_pair3)
