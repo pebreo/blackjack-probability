@@ -40,10 +40,6 @@
             };
             $scope.x = 0;
 
-            $scope.toggleActionMarker = function () {
-                $scope.action_marker = !$scope.action_marker;
-            };
-
             $scope.start_game = function () {
                 $scope.reset_game();
                 $scope.first_deal();
@@ -103,7 +99,6 @@
             };
 
             $scope.deal_to_player = function () {
-                $scope.toggleActionMarker();
                 var obj = logic.deal_card($scope.current_deck);
                 $scope.current_deck = obj.deck;
                 logic.player_hand.push(obj.card);
@@ -111,7 +106,6 @@
             };
 
             $scope.player_stand = function () {
-                $scope.toggleActionMarker();
                 //$scope.freeze_buttons();
                 $scope.dealer_move();
                 // turn off buttons
