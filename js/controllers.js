@@ -91,9 +91,13 @@
 
                 $scope.player_hand_value = logic.calc_hand_value(logic.player_hand);
                 //console.log($scope.player_hand_value);
+                //var t0 = performance.now();
                 probService.getData().then(function(result){
                     $scope.desired_cards_prob_html = result;
+                    //var t1 = performance.now();
+                    //console.log('duration ' + (t1-t0));
                 });
+
 
             };
 

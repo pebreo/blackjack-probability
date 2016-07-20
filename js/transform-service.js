@@ -183,22 +183,27 @@
                     var suits = _.map(rank_set, function (rank) {
                         return rank.suit
                     });
+                    suits = _.uniq(suits);
+
                     var probs = _.map(rank_set, function (rank) {
                         return rank.probability
                     });
                     var card_ids = _.map(rank_set,function (r) {
                         return r.card_id
                     });
-                    var prob_numerator = _.reduce(card_ids, function (sum, card_id) {
+                    var cards_available_to_count = _.reduce(card_ids, function (sum, card_id) {
                          if(self.is_in_deck(card_id, static_deck, player_hand, dealer_hand)){
                             return sum = sum + 1;
                          } {
                             return sum = sum + 0;
                          }
                     }, 0);
+
+                    prob_numerator = _.min([suits.length, cards_available_to_count]);
+
                     obj = {
                         rank: key,
-                        suits: _.uniq(suits),
+                        suits: suits,
                         probs: probs,
                         prob_numerator: prob_numerator,
                         card_ids: card_ids
