@@ -347,6 +347,8 @@
             total_prob = math.reduce_fraction.reduce(total_prob[0], total_prob[1]);
             console.log('total probabilyt ');
             console.log(JSON.stringify(total_prob));
+            var p = (total_prob[0] / total_prob[1]).toFixed(3)*100;
+            console.log("percent prob " + p);
             return suits_grouped;
         };
 
