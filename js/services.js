@@ -450,9 +450,9 @@
     // using promises
     /*
 
-    Usage: animateService.anim().then(function(result){ .. dosomething});
+     Usage: animateService.anim().then(function(result){ .. dosomething});
      */
-    app.service('animateService', ['$timeout', '$q', 'Scopes','myservice', function ($timeout, $q, Scopes, myservice) {
+    app.service('animateService', ['$timeout', '$q', 'Scopes', 'myservice', function ($timeout, $q, Scopes, myservice) {
         return {
             anim: function () {
                 var $scope = Scopes.get('MyCtrl');
@@ -470,7 +470,6 @@
         };
 
     }]);
-
 
 
     app.service('math', function () {
@@ -564,6 +563,140 @@
             //console.log(full_hist);
             return full_hist;
         };
+        this.lcm = function (arr) {
+            /*
+             function range(min, max) {
+             var arr = [];
+             for (var i = min; i <= max; i++) {
+             arr.push(i);
+             }
+             return arr;
+             }
+             */
+            var min, range;
+            range = arr;
+            if (arr[0] > arr[1]) {
+                min = arr[1];
+            }
+            else {
+                min = arr[0]
+            }
+
+            function gcd(a, b) {
+                return !b ? a : gcd(b, a % b);
+            }
+
+            function lcm(a, b) {
+                return (a * b) / gcd(a, b);
+            }
+
+            var multiple = min;
+            range.forEach(function (n) {
+                multiple = lcm(multiple, n);
+            });
+
+            return multiple;
+        };
+        this.add_fractions = function (frac1, frac2) {
+            var self = this;
+            // get the denominator
+            denom1 = frac1[1];
+            denom2 = frac2[1];
+            num1 = frac1[0];
+            num2 = frac2[0];
+
+            if (num1 === 0 && denom1 === 0) {
+                return [num2, denom2];
+            }
+            ;
+            if (num2 === 0 && denom2 === 0) {
+                return [num1, denom1];
+            }
+            ;
+
+            if (num1 === 0 && denom1 === 0) {
+                if (num1 === 0 && denom1 === 0) {
+                    return [0, 0];
+                }
+                ;
+            }
+            ;
+
+            if ((num1 !== 0) && (denom1 === 0)) {
+                return [0, 0];
+            }
+            ;
+            if ((num2 !== 0) && (denom2 === 0)) {
+                return [0, 0];
+            }
+
+            // get the least common multiple
+            var lcm = self.lcm([denom1, denom2]);
+            //console.log('lcm is  ' + lcm);
+            // calculate new numerotar for frac1
+            var mult1 = lcm / denom1;
+            var num1 = mult1 * num1;
+
+            // calculate the nume numerator for frac2
+            var mult2 = lcm / denom2;
+            var num2 = mult2 * num2;
+
+            var new_num = num1 + num2
+            return [new_num, lcm];
+        };
+
+        /*
+         Usage: reduce_fraction.reduce(9,12)
+         result: [3,4]
+         */
+        this.reduce_fraction = (function () {
+            //Euclid's Algorithm
+            var getGCD = function (n, d) {
+                var numerator = (n < d) ? n : d;
+                var denominator = (n < d) ? d : n;
+                var remainder = numerator;
+                var lastRemainder = numerator;
+
+                while (true) {
+                    lastRemainder = remainder;
+                    remainder = denominator % numerator;
+                    if (remainder === 0) {
+                        break;
+                    }
+                    denominator = numerator;
+                    numerator = remainder;
+                }
+                if (lastRemainder) {
+                    return lastRemainder;
+                }
+            };
+
+            var reduce = function (n, d) {
+                var gcd = getGCD(n, d);
+
+                return [n / gcd, d / gcd];
+            };
+
+            return {
+                getGCD: getGCD,
+                reduce: reduce
+            };
+
+        }());
+
+
+        /*
+         Usage: add_fractions_arr([ [1,2], [3,4], [4,5] ])
+          result: [41, 20]
+         */
+
+        this.add_fractions_arr = function (fractions_arr) {
+            var self = this;
+            return _.reduce(fractions_arr, function (sum, frac) {
+                return self.add_fractions(sum, frac);
+            }, [0, 0]);
+        };
+
         /*
          X = [
          {text: 1},
@@ -572,19 +705,20 @@
          a = _.map(X, 'text');
          */
 
+
     });
 
-    app.service('probService', ['$timeout', '$q', 'Scopes','myservice', 'transform', function ($timeout, $q, Scopes, myservice, transform) {
+    app.service('probService', ['$timeout', '$q', 'Scopes', 'myservice', 'transform', function ($timeout, $q, Scopes, myservice, transform) {
         return {
             getData: function () {
-                    var o = $q.defer();
-                    myservice.setup_static_deck();
-                    var desired_cards = myservice.get_needed_ranks(myservice.player_hand, myservice.static_deck);
-                    var dh_grouped = transform.make_dh_grouped(desired_cards);
-                    var result = transform.make_suits_group_string_arr(dh_grouped);
-                    o.resolve(result);
+                var o = $q.defer();
+                myservice.setup_static_deck();
+                var desired_cards = myservice.get_needed_ranks(myservice.player_hand, myservice.static_deck);
+                var dh_grouped = transform.make_dh_grouped(desired_cards);
+                var result = transform.make_suits_group_string_arr(dh_grouped);
+                o.resolve(result);
 
-                    return o.promise;
+                return o.promise;
             }
         };
 
