@@ -153,9 +153,9 @@
                 var was_canceled = false;
                 // decided to hit or stand
                 var dealer_hand_value = _.min(logic.calc_hand_value($scope.dealer_hand));
-                $scope.calculation = $interval(function(){
+                interval = $interval(function(){
                     if(dealer_hand_value >= 17) {
-                        $interval.cancel();
+                        $interval.cancel(interval);
                     }
                     else {
                         var obj = logic.deal_card($scope.current_deck);
