@@ -46,6 +46,7 @@
 
             $scope.start_game = function () {
                 $scope.reset_game();
+                $scope.first_deal();
                 $scope.start_switch = true;
             };
 
@@ -311,26 +312,17 @@
                 $scope.start_switch = false;
             };
 
-            $scope.$watch('start_switch', function () {
+            var end_listener = $scope.$watch('start_switch', function () {
                 if ($scope.start_switch === true) {
                     $scope.first_deal();
                 }
             });
 
-            $scope.$watch('action_marker', function () {
-                console.log('action');
-                // calculate desired cards
-                // myservice.get_needed_ranks(hand, deck)
+            // clear the watch because we are only using it one time
+            end_listener();
 
+           
 
-                // display probability
-                // transform.make_dh_grouped(desired_cards)
-                // transform.make_suits_group_string_arr(dh_grouped)
-            });
-
-            $scope.$watch('dealer_hand_value', function () {
-                //$timeout.cancel($scope.calculation);
-            });
 
 
         }
