@@ -13,11 +13,9 @@
         'myservice',
         'transform',
         'math',
-        'animateService',
         'probService',
-        'Scopes',
-        function ($rootScope, $scope, $log, $q, $timeout, $interval, myservice, transform, math, animateService, probService, Scopes) {
-            Scopes.store('MyCtrl', $scope);
+        function ($rootScope, $scope, $log, $q, $timeout, $interval, myservice, transform, math, probService) {
+            // Scopes.store('MyCtrl', $scope); // a service to store $scope that other services can use
             var logic = myservice;
             logic.setup_static_deck();
             $scope.start_switch = false;
@@ -88,13 +86,14 @@
 
                 $scope.player_hand_value = logic.calc_hand_value(logic.player_hand);
                 //console.log($scope.player_hand_value);
-                //var t0 = performance.now();
+                var t0 = performance.now();
                 probService.getData().then(function(result){
                     $scope.desired_cards_prob_html = result;
-                    //var t1 = performance.now();
-                    //console.log('duration ' + (t1-t0));
+                    var t1 = performance.now();
+                    console.log('duration ' + (t1-t0));
                 });
 
+                console.log('message below promise - this should go first');
 
             };
 
@@ -115,33 +114,33 @@
             };
 
 
-            $scope.dealer_move_experiment1 = function() {
-                // unhide card
-                logic.dealer_hand[1].show = true;
-                $scope.dealer_hand = logic.dealer_hand;
+            // $scope.dealer_move_experiment1 = function() {
+            //     // unhide card
+            //     logic.dealer_hand[1].show = true;
+            //     $scope.dealer_hand = logic.dealer_hand;
 
-                // decided to hit or stand
-                var dealer_hand_value = _.min(logic.calc_hand_value($scope.dealer_hand));
-                while (dealer_hand_value < 17) {
-                    var obj = {};
-                    animateService.anim().then(function(result){
-                        obj = result;
-                        console.log('after promise');
-                        console.log(obj);
-                         $scope.current_deck = obj.deck;
-                        logic.dealer_hand.push(obj.card);
-                        dealer_hand_value = _.min(logic.calc_hand_value($scope.dealer_hand));
-                    });
+            //     // decided to hit or stand
+            //     var dealer_hand_value = _.min(logic.calc_hand_value($scope.dealer_hand));
+            //     while (dealer_hand_value < 17) {
+            //         var obj = {};
+            //         animateService.anim().then(function(result){
+            //             obj = result;
+            //             console.log('after promise');
+            //             console.log(obj);
+            //              $scope.current_deck = obj.deck;
+            //             logic.dealer_hand.push(obj.card);
+            //             dealer_hand_value = _.min(logic.calc_hand_value($scope.dealer_hand));
+            //         });
 
-                    $scope.dealer_hand = [];
-                    $scope.dealer_hand = logic.dealer_hand;
+            //         $scope.dealer_hand = [];
+            //         $scope.dealer_hand = logic.dealer_hand;
 
-                    console.log('deck size' + $scope.current_deck.length);
-                };
+            //         console.log('deck size' + $scope.current_deck.length);
+            //     };
 
-                // decide winner
-                $scope.decide_winner()
-            };
+            //     // decide winner
+            //     $scope.decide_winner()
+            // };
 
             // IDEA: you can use $watch to watch $scope.dealer_hand_value
             // and do $timeout.cancel(calculation)

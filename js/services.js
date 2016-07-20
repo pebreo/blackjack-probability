@@ -435,41 +435,41 @@
             return "tie";
         };
     });
-    app.service('Scopes', function () {
-        var mem = {};
-        return {
-            store: function (key, value) {
-                mem[key] = value;
-            },
-            get: function (key) {
-                return mem[key];
-            }
-        };
-    });
+    // app.service('Scopes', function () {
+    //     var mem = {};
+    //     return {
+    //         store: function (key, value) {
+    //             mem[key] = value;
+    //         },
+    //         get: function (key) {
+    //             return mem[key];
+    //         }
+    //     };
+    // });
 
     // using promises
     /*
 
      Usage: animateService.anim().then(function(result){ .. dosomething});
      */
-    app.service('animateService', ['$timeout', '$q', 'Scopes', 'myservice', function ($timeout, $q, Scopes, myservice) {
-        return {
-            anim: function () {
-                var $scope = Scopes.get('MyCtrl');
-                var o = $q.defer();
-                var result = {};
-                $timeout(function () {
+    // app.service('animateService', ['$timeout', '$q', 'Scopes', 'myservice', function ($timeout, $q, myservice) {
+    //     return {
+    //         anim: function () {
+    //             var $scope = Scopes.get('MyCtrl');
+    //             var o = $q.defer();
+    //             var result = {};
+    //             $timeout(function () {
 
 
-                    result = myservice.deal_card($scope.current_deck);
-                    o.resolve(result);
-                }, 500);
+    //                 result = myservice.deal_card($scope.current_deck);
+    //                 o.resolve(result);
+    //             }, 500);
 
-                return o.promise;
-            }
-        };
+    //             return o.promise;
+    //         }
+    //     };
 
-    }]);
+    // }]);
 
 
     app.service('math', function () {
@@ -708,7 +708,7 @@
 
     });
 
-    app.service('probService', ['$timeout', '$q', 'Scopes', 'myservice', 'transform', function ($timeout, $q, Scopes, myservice, transform) {
+    app.service('probService', ['$timeout', '$q', '$rootScope', 'myservice', 'transform', function ($timeout, $q, $rootScope, myservice, transform) {
         return {
             getData: function () {
                 var data = $q.defer();
