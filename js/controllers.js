@@ -312,14 +312,14 @@
                 $scope.start_switch = false;
             };
 
-            var end_listener = $scope.$watch('start_switch', function () {
-                if ($scope.start_switch === true) {
-                    $scope.first_deal();
-                }
-            });
+            // var end_listener = $scope.$watch('start_switch', function () {
+            //     if ($scope.start_switch === true) {
+            //         $scope.first_deal();
+            //     }
+            // });
 
-            // clear the watch because we are only using it one time
-            end_listener();
+            // // clear the watch because we are only using it one time
+            // end_listener();
 
            
 
