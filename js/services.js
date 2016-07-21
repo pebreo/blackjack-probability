@@ -189,18 +189,19 @@
             // a hand value of 6 or less then we will create combinations
             // where k=1, k=2, k=3, k=4
             if (desired_card_value == 0) {
+                console.log('desired_card_value==0');
                 var card_combos = [];
                 return card_combos;
             }
-            if (desired_card_value >= 15) {
+            if (desired_card_value >= 15) {-
+                console.log('desired_card_value>=15');
                 [1, 2, 3, 4].forEach(function (k) {
                     var c = self.combs_choose(deck, k);
                     card_combos = Array.prototype.concat(card_combos, c);
                 });
             }
             if (desired_card_value < 15) {
-                console.log('<15');
-                console.log('deck length' + deck.length);
+                console.log('desired_card_value<15');
                 [1, 2, 3].forEach(function (k) {
                     var c = self.combs_choose(deck, k);
                     card_combos = Array.prototype.concat(card_combos, c);
