@@ -101,6 +101,18 @@
 
             };
 
+        $scope.stub_player_hands = function(){
+                var s_dealer = stub_data.make_hand([ ['9','hearts'], ['a','spades'] ]);
+                var s_player = stub_data.make_hand([ ['4','clubs'], ['q','spades'] ]);
+                myservice.static_deck = stub_data.static_deck; 
+                myservice.dealer_hand = s_dealer;
+                myservice.player_hand = s_player;
+                $scope.current_deck = stub_data.make_modified_deck(s_player, s_dealer);
+                console.log('stubbing deck');
+                console.log($scope.current_deck);
+
+        };
+
            $scope.first_deal = function () {
                 $scope.current_deck = logic.make_deck();
                 logic.setup_static_deck();
@@ -117,6 +129,9 @@
                 $scope.player_hand_value = logic.calc_hand_value(logic.player_hand);
                 //console.log($scope.player_hand_value);
                 var t0 = performance.now();
+
+                $scope.stub_player_hands();
+
                 probService.getData().then(function(result){
                     $timeout(function(){
                         $scope.desired_cards_prob_html = result;
@@ -139,13 +154,6 @@
 
             $scope.deal_to_player = function () {
                 var obj = logic.deal_card($scope.current_deck);
-                // stub dealer hand
-                var s_dealer = stub_data.make_hand([ ['9','hearts'], ['a','spades'] ]);
-                s_dealer[1].show = false;
-                console.log(s_dealer);
-
-
-                // stub player hand
                 $scope.current_deck = obj.deck;
                 logic.player_hand.push(obj.card);
                 $scope.check_bust(logic.player_hand);

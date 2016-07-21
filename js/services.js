@@ -789,6 +789,14 @@
             });
             return hand;
         };
+
+        this.make_modified_deck = function(player_hand, dealer_hand){
+            var self = this;
+            var to_remove = Array.prototype.concat(player_hand, dealer_hand);
+            return _.remove(self.static_deck, function(card){
+                return !(_.includes(to_remove, card));
+            });
+        };
         
 
     }]);
