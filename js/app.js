@@ -1,7 +1,7 @@
 
 (function () {
     'use strict';
-     angular.module('myApp', ['chart.js']);
+     angular.module('myApp', []);
 })();
 
 

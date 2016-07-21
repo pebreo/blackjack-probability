@@ -175,9 +175,8 @@
                 $scope.stub_player_hands_issue3();
 
                 probService.getData().then(function(result){
-                    $timeout(function(){
-                        $scope.desired_cards_prob_html = result;
-                    },0);
+                    console.log('calculation done');
+                    
                     
                     var t1 = performance.now();
                     console.log('duration ' + (t1-t0));
