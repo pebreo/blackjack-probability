@@ -101,12 +101,36 @@
 
             };
 
-        $scope.stub_player_hands = function(){
+        $scope.stub_player_hands_issue2 = function(){
                 var s_dealer = stub_data.make_hand([ ['9','hearts'], ['a','spades'] ]);
                 var s_player = stub_data.make_hand([ ['4','clubs'], ['q','spades'] ]);
                 myservice.static_deck = stub_data.static_deck; 
+
+                s_dealer[1].show = false;
                 myservice.dealer_hand = s_dealer;
                 myservice.player_hand = s_player;
+
+                $scope.player_hand = s_player;
+                $scope.dealer_hand = s_dealer; 
+
+                $scope.current_deck = stub_data.make_modified_deck(s_player, s_dealer);
+                console.log('stubbing deck');
+                console.log($scope.current_deck);
+
+        };
+
+        $scope.stub_player_hands_issue1 = function(){
+                var s_dealer = stub_data.make_hand([ ['5','clubs'], ['8','hearts'] ]);
+                var s_player = stub_data.make_hand([ ['4','hearts'], ['a','clubs'] ]);
+                myservice.static_deck = stub_data.static_deck; 
+
+                s_dealer[1].show = false;
+                myservice.dealer_hand = s_dealer;
+                myservice.player_hand = s_player;
+
+                $scope.player_hand = s_player;
+                $scope.dealer_hand = s_dealer; 
+
                 $scope.current_deck = stub_data.make_modified_deck(s_player, s_dealer);
                 console.log('stubbing deck');
                 console.log($scope.current_deck);
@@ -130,7 +154,7 @@
                 //console.log($scope.player_hand_value);
                 var t0 = performance.now();
 
-                $scope.stub_player_hands();
+                $scope.stub_player_hands_issue2();
 
                 probService.getData().then(function(result){
                     $timeout(function(){
