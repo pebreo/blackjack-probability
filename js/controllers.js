@@ -189,7 +189,7 @@
 
                 $scope.player_hand_value = logic.calc_hand_value(logic.player_hand);
                 
-                //$scope.stub_player_hands_king_eight();
+                $scope.stub_player_hands_king_eight();
 
                 // var t0 = performance.now();
                 probService.getData().then(function(result){
