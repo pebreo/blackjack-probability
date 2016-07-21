@@ -708,7 +708,23 @@
 
     });
 
+    // Run calculation without hanging UI
     app.service('probService', ['$timeout', '$q', '$rootScope', 'myservice', 'transform', function ($timeout, $q, $rootScope, myservice, transform) {
+        return {
+            getData: function () {
+                return $timeout(function() {
+                   myservice.setup_static_deck();
+                   var desired_cards = myservice.get_needed_ranks(myservice.player_hand, myservice.static_deck);
+                   // This is calculation-intensive
+                   var dh_grouped = transform.make_dh_grouped(desired_cards);
+                   return transform.make_suits_group_string_arr(dh_grouped);
+                }, 1);
+            }
+        };
+    }]);
+
+    // This still hangs UI
+    app.service('probService_old', ['$timeout', '$q', '$rootScope', 'myservice', 'transform', function ($timeout, $q, $rootScope, myservice, transform) {
         return {
             getData: function () {
                 var data = $q.defer();
@@ -721,7 +737,6 @@
                 return data.promise;
             }
         };
-
     }]);
 
     app.service('stub_data', ['$timeout', '$q', '$rootScope', 'myservice', 'transform', function ($timeout, $q, $rootScope, myservice, transform) {

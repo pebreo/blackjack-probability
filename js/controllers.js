@@ -169,19 +169,17 @@
                 //console.log($scope.dealer_hand_value);
 
                 $scope.player_hand_value = logic.calc_hand_value(logic.player_hand);
-                //console.log($scope.player_hand_value);
-                var t0 = performance.now();
-
-                $scope.stub_player_hands_issue3();
-
-                probService.getData().then(function(result){
-                    console.log('calculation done');
-                    
-                    
-                    var t1 = performance.now();
-                    console.log('duration ' + (t1-t0));
-                });
                 
+                //$scope.stub_player_hands_issue3();
+
+                // var t0 = performance.now();
+                probService.getData().then(function(result){
+                    $scope.desired_cards_prob_html = result;
+                    $scope.message = '';
+                    // var t1 = performance.now();
+                    // console.log('duration ' + (t1-t0));
+                });
+                $scope.message = 'Calculating probabilities...'
                 console.log('below promise - this should go first');
 
             };            
