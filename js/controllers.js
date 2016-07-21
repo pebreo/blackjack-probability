@@ -33,7 +33,8 @@
             $scope.message = '';
 
             $scope.desired_cards_prob_html = [];
-
+            $scope.hide_prob_table = true;
+            
             $scope.is_end = function () {
                 return true;
             };
@@ -175,12 +176,12 @@
                 // var t0 = performance.now();
                 probService.getData().then(function(result){
                     $scope.desired_cards_prob_html = result;
-                    $scope.message = '';
+                    $scope.hide_prob_table = false;
                     // var t1 = performance.now();
                     // console.log('duration ' + (t1-t0));
                 });
-                $scope.message = 'Calculating probabilities...'
-                console.log('below promise - this should go first');
+                $scope.hide_prob_table = true;
+                // console.log('below promise - this should go first');
 
             };            
 
