@@ -14,7 +14,8 @@
         'transform',
         'math',
         'probService',
-        function ($rootScope, $scope, $log, $q, $timeout, $interval, myservice, transform, math, probService) {
+        'stub_data',
+        function ($rootScope, $scope, $log, $q, $timeout, $interval, myservice, transform, math, probService, stub_data) {
             // Scopes.store('MyCtrl', $scope); // a service to store $scope that other services can use
             var logic = myservice;
             logic.setup_static_deck();
@@ -71,7 +72,7 @@
             };
 
 
-            $scope.first_deal = function () {
+            $scope.first_deal_hide = function () {
                 $scope.current_deck = logic.make_deck();
                 logic.setup_static_deck();
                 $scope.current_deck = logic.blackjack_deal($scope.current_deck);
@@ -88,17 +89,63 @@
                 //console.log($scope.player_hand_value);
                 var t0 = performance.now();
                 probService.getData().then(function(result){
-                    $scope.desired_cards_prob_html = result;
+                    $timeout(function(){
+                        $scope.desired_cards_prob_html = result;
+                    },0);
+                    
                     var t1 = performance.now();
                     console.log('duration ' + (t1-t0));
                 });
+                
+                console.log('below promise - this should go first');
 
-                console.log('message below promise - this should go first');
+            };
 
+           $scope.first_deal = function () {
+                $scope.current_deck = logic.make_deck();
+                logic.setup_static_deck();
+                $scope.current_deck = logic.blackjack_deal($scope.current_deck);
+                $scope.dealer_hand = [];
+                $scope.dealer_hand = logic.dealer_hand;
+                console.log('dealer hand');
+                //console.log(logic.dealer_hand);
+
+                $scope.dealer_hand_value = logic.calc_hand_value(logic.dealer_hand);
+
+                //console.log($scope.dealer_hand_value);
+
+                $scope.player_hand_value = logic.calc_hand_value(logic.player_hand);
+                //console.log($scope.player_hand_value);
+                var t0 = performance.now();
+                probService.getData().then(function(result){
+                    $timeout(function(){
+                        $scope.desired_cards_prob_html = result;
+                    },0);
+                    
+                    var t1 = performance.now();
+                    console.log('duration ' + (t1-t0));
+                });
+                
+                console.log('below promise - this should go first');
+
+            };            
+
+            $scope.deal_to_player_hide = function () {
+                var obj = logic.deal_card($scope.current_deck);
+                $scope.current_deck = obj.deck;
+                logic.player_hand.push(obj.card);
+                $scope.check_bust(logic.player_hand);
             };
 
             $scope.deal_to_player = function () {
                 var obj = logic.deal_card($scope.current_deck);
+                // stub dealer hand
+                var s_dealer = stub_data.make_hand([ ['9','hearts'], ['a','spades'] ]);
+                s_dealer[1].show = false;
+                console.log(s_dealer);
+
+
+                // stub player hand
                 $scope.current_deck = obj.deck;
                 logic.player_hand.push(obj.card);
                 $scope.check_bust(logic.player_hand);
@@ -208,7 +255,6 @@
 
             $scope.decide_winner = function(){
                 var outcome = logic.decide_winner(logic.player_hand, $scope.dealer_hand);
-                console.log('the message' + outcome);
                 switch(outcome){
                     case "tie":
                         $scope.show_message('You both tie.');
