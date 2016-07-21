@@ -51,14 +51,29 @@ describe("calc_hand_value", function() {
     });
 
 
-    it("make_card_combos - no ace", function() {
+
+    xit("make_card_combos - no ace", function() {
 
         var hand =  stub_data.make_hand([ ['a','clubs'], ['k','hearts'] ]);
         var deck = stub_data.static_deck;
 
         hand_value = myservice.calc_hand_value(hand);
-        var desired_hand_value = 21 - hand_value;
+        var desired_hand_value = 21 - hand_value[0];
+        console.log('desired hand value ' + desired_hand_value);
+        var card_combos = myservice.make_card_combos(deck, desired_hand_value);
 
+        expect(card_combos.length).toEqual(175);
+
+    });
+
+    it("combs_choose - deck.length 52 - desired_hand_value<15", function() {
+
+        var hand =  stub_data.make_hand([ ['k','clubs'], ['7','hearts'] ]);
+        var deck = stub_data.static_deck;
+
+        hand_value = myservice.calc_hand_value(hand);
+        var desired_hand_value = 21 - hand_value[0];
+        console.log('desired hand value ' + desired_hand_value);
         var card_combos = myservice.make_card_combos(deck, desired_hand_value);
 
         expect(card_combos.length).toEqual(175);

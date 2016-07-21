@@ -199,6 +199,8 @@
                 });
             }
             if (desired_card_value < 15) {
+                console.log('<15');
+                console.log('deck length' + deck.length);
                 [1, 2, 3].forEach(function (k) {
                     var c = self.combs_choose(deck, k);
                     card_combos = Array.prototype.concat(card_combos, c);
@@ -696,7 +698,6 @@
                 return self.add_fractions(sum, frac);
             }, [0, 0]);
         };
-
         /*
          X = [
          {text: 1},
@@ -704,8 +705,6 @@
          ]
          a = _.map(X, 'text');
          */
-
-
     });
 
     // Run calculation without hanging UI
