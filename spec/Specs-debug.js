@@ -153,7 +153,7 @@ describe("make_combos_with_hand_values", function() {
     }));
 
   
-    xit("make_combos_with_hand_values", function() {
+    xit("good test - make_combos_with_hand_values", function() {
         /*
             3 - all suits
             2 (all suits) + A (all suits)
@@ -210,7 +210,30 @@ describe("make_combos_with_hand_values", function() {
 
     });
 
-    xit("make_hand_values - ", function() {
+     it("good test myservice.make_hand_values - myservice.make_combos_with_hand_values", function() {
+            /*
+                3 - all suits
+                2 (all suits) + A (all suits)
+                A (clubs,diams,hearts) + A(diams, hearts, spades)
+                A (all suits)
+            */
+            var hand =  stub_data.make_hand([ ['k','diams'], ['8','spades'] ]);
+            var deck = stub_data.static_deck;
+            hand_value = myservice.calc_hand_value(hand);
+            var desired_hand_value = 21 - hand_value[0];
+            console.log('desired hand value ' + desired_hand_value);
+
+
+            var card_combos = myservice.make_card_combos(deck, desired_hand_value);
+            var combo_vals =  myservice.make_combos_with_hand_values(card_combos);
+            desired_values = combo_vals[desired_hand_value];
+            expect(desired_values.length).toEqual(24);
+         
+
+
+        });       
+
+    it("good test - make_hand_values - make_combos_with_hand_values", function() {
         /*
             3 - all suits
             2 (all suits) + A (all suits)
@@ -226,8 +249,8 @@ describe("make_combos_with_hand_values", function() {
 
         var card_combos = serviceDebug.make_card_combos(deck, desired_hand_value);
         var combo_vals =  serviceDebug.make_combos_with_hand_values(card_combos);
-        obj = combo_vals[desired_hand_value];
-        // console.log(obj);
+        desired_values = combo_vals[desired_hand_value];
+        expect(desired_values.length).toEqual(24);
         
         // console.log(serviceDebug.problem_cards);
         /*
@@ -283,6 +306,13 @@ describe("make_combos_with_hand_values", function() {
         hv = serviceDebug.make_hand_values(hand);      
         console.log(JSON.stringify(hv));
 
+         var hand =  stub_data.make_hand([ ['2','clubs'], ['a','diams'] ]);
+        hv = serviceDebug.make_hand_values(hand);      
+        console.log(JSON.stringify(hv));        
+
+         var hand =  stub_data.make_hand([ ['2','clubs'], ['a','diams'] ]);
+        hv = serviceDebug.make_hand_values(hand);      
+        console.log(JSON.stringify(hv));
 
     });     
 
