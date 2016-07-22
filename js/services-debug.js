@@ -4,7 +4,7 @@
     var app = angular.module('myApp');
 
 
-    app.service('serviceDebug', ['$timeout', '$q', '$rootScope', 'myservice', 'transform', function ($timeout, $q, $rootScope, myservice, transform) {
+    app.service('serviceDebug', ['$timeout', '$q', '$rootScope', 'myservice', 'transform', 'stub_data', function ($timeout, $q, $rootScope, myservice, transform, stub_data) {
 
 
         var combinations_choose = function (set, k) {
@@ -65,13 +65,28 @@
             }
             return card_combos;
         };
+        this.problem_cards = (function(){
+            var hands = [
+              stub_data.make_hand([ ['a','diams'], ['a','spades'] ]),
+              stub_data.make_hand([ ['a','clubs'], ['a','hearts'] ]),
+            ];
+            var problem_cards = [];
+            for(i in hands){
+                problem_cards = Array.prototype.concat(problem_cards, hands[i]);
+            }
+            return problem_cards;
+        })();
 
         this.make_hand_values = function (hand) {
+            var self = this;
             var hand_values = [];
             var hand_sum = 0;
             var found_ace = undefined;
-
-
+            for(i in hand) {
+                if(_.includes(self.problem_cards, hand[i])) {
+                    // console.log('found aces');
+                }
+            }
             // count when ace is worth 1
             _.forEach(hand, function (card) {
                 hand_sum += card.rank_integer[0];
@@ -99,22 +114,14 @@
         
         this.make_combos_with_hand_values = function (card_combos) {
             var self = this;
-            var perms_with_values = [];
+            var combos_with_values = [];
+            console.log(JSON.stringify(card_combos[939]));
             _.each(card_combos, function (p) {
-                perms_with_values.push(self.make_hand_values(p));
+                combos_with_values.push(self.make_hand_values(p));
             });
-            console.log(JSON.stringify(perms_with_values[1]));
+            // console.log(JSON.stringify(perms_with_values[1]));
             // localStorage.setItem('myStorage', JSON.stringify(perms_with_values));
-            var p = _.flatten(perms_with_values);
-            console.log('flatten length ' + p.length);
-
-            var p2 = [];
-            _.each(perms_with_values, function(item){
-               _.each(item, function(hand){
-                p2.push(hand);
-               })
-            });
-            console.log('map length ' + p2.length);
+            var p = _.flatten(combos_with_values);
 
             var gb = _.groupBy(p, function (hands) {
                 return hands.hand_value

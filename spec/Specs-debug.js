@@ -210,7 +210,7 @@ describe("make_combos_with_hand_values", function() {
 
     });
 
-    it("make_hand_values - ", function() {
+    xit("make_hand_values - ", function() {
         /*
             3 - all suits
             2 (all suits) + A (all suits)
@@ -227,17 +227,64 @@ describe("make_combos_with_hand_values", function() {
         var card_combos = serviceDebug.make_card_combos(deck, desired_hand_value);
         var combo_vals =  serviceDebug.make_combos_with_hand_values(card_combos);
         obj = combo_vals[desired_hand_value];
-        console.log(obj);
-        // var hand_values = [];
-        // _.each(card_combos, function (combo) {
-        //     hand_values.push(combo);            
-        // });
-        // console.log(hand_values.length);
+        // console.log(obj);
         
-        //# check line 161 - perms_with_values[]
+        // console.log(serviceDebug.problem_cards);
+        /*
+        i get 23478 which is the correct sum
+
+        but i expect to have 28 items for combo_vals['3']
+
+        i know that groupBy() on linke 125 is fine
+        because i manually get the items that have value of 3
+        and it is only 24
+
+        make_hand_value(hand) each hand 
 
 
-    });    
+        card_combo aka hand
+        [
+          {
+            "id": 22,
+            "rank": "9",
+            "rank_integer": [
+              9
+            ],
+            "suit": "diams",
+            "show": true
+          },
+          {
+            "id": 49,
+            "rank": "10",
+            "rank_integer": [
+              10
+            ],
+            "suit": "spades",
+            "show": true
+          }
+        ]
+        */
+
+
+    });   
+
+    it("make_hand_values -2 ", function() {
+        /*
+            3 - all suits
+            2 (all suits) + A (all suits)
+            A (clubs,diams,hearts) + A(diams, hearts, spades)
+            A (all suits)
+        */
+        var hand =  stub_data.make_hand([ ['a','diams'], ['2','clubs'] ]);
+        hv = serviceDebug.make_hand_values(hand);      
+        console.log(JSON.stringify(hv));
+
+         var hand =  stub_data.make_hand([ ['2','clubs'], ['a','diams'] ]);
+        hv = serviceDebug.make_hand_values(hand);      
+        console.log(JSON.stringify(hv));
+
+
+    });     
 
 });
 
