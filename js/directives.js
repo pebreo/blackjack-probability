@@ -17,10 +17,16 @@
             templateUrl: 'player_hand.html'
         };
     });
-    app.directive('probabilityTable', function () {
+    app.directive('desiredCards', function () {
         return {
             restrict: 'E',
             templateUrl: 'prob_items.html'
+        };
+    });
+    app.directive('probabilityTable', function () {
+        return {
+            restrict: 'E',
+            templateUrl: 'prob_table.html'
         };
     });
 
