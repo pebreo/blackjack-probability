@@ -138,7 +138,7 @@ xdescribe("calc_hand_value", function() {
     });
 });
 
-describe("make_combos_with_hand_values", function() {
+xdescribe("make_combos_with_hand_values", function() {
     var myservice, transform, math, stub_data;
     // setup the angular module
     beforeEach(module('myApp'));
@@ -321,3 +321,57 @@ describe("make_combos_with_hand_values", function() {
 
 
 
+describe("make_dh_grouped", function() {
+    var myservice, transform, math, stub_data;
+    // setup the angular module
+    beforeEach(module('myApp'));
+
+    // setup the service
+    beforeEach(inject(function(_myservice_, _transform_, _math_, _stub_data_, _serviceDebug_) {
+        myservice = _myservice_;
+        transform = _transform_;
+        math = _math_;
+        stub_data = _stub_data_;
+        serviceDebug = _serviceDebug_;
+    }));
+
+       
+
+    xit("good test - get_needed_ranks", function() {
+        /*
+            3 - all suits
+            2 (all suits) + A (all suits)
+            A (clubs,diams,hearts) + A(diams, hearts, spades)
+            A (all suits)
+        */
+        var player_hand =  stub_data.make_hand([ ['k','diams'], ['8','spades'] ]);
+        var static_deck = stub_data.static_deck;
+        hand_value = myservice.calc_hand_value(player_hand);
+        var desired_hand_value = 21 - hand_value[0];
+
+        desired_values = myservice.get_needed_ranks(player_hand, static_deck)
+        expect(desired_values.length).toEqual(24);
+        
+
+    });   
+    it("make_dh_grouped", function() {
+        /*
+            3 - all suits
+            2 (all suits) + A (all suits)
+            A (clubs,diams,hearts) + A(diams, hearts, spades)
+            A (all suits)
+        */
+        var player_hand =  stub_data.make_hand([ ['k','diams'], ['8','spades'] ]);
+        var static_deck = stub_data.static_deck;
+        hand_value = myservice.calc_hand_value(player_hand);
+        var desired_hand_value = 21 - hand_value[0];
+
+        desired_values = myservice.get_needed_ranks(player_hand, static_deck)
+        expect(desired_values.length).toEqual(24);
+        
+
+    });      
+
+  
+
+});
