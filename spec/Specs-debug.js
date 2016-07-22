@@ -402,7 +402,8 @@ describe("make_dh_grouped", function() {
         var avail_deck = transform.get_available_cards(static_deck, player_hand, dealer_hand);
          console.log(avail_deck.length);
         var x = myservice.get_prob_stats(player_hand, avail_deck);
-        console.log(x);
+        console.log(x.combos_count);
+         console.log(x.totals_count);
 
     });
   

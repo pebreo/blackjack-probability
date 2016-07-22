@@ -352,7 +352,15 @@
                 combos['desired_cards_count'] = desired_card_count;
                 return combos;
             });
-            return combos_count;
+            total_count = _.reduce(combos_count, function(sum_obj, combo){
+                var desired_cards_count = sum_obj.desired_cards_count + combo.desired_cards_count;
+                var total_combos = sum_obj.total_combos + combo.total_combos;
+
+                return {total_combos: total_combos, desired_cards_count: desired_cards_count};
+
+            },{total_combos:0, desired_cards_count:0});
+
+            return {combos_count: combos_count, totals_count: total_count};
         };
 
         this.calc_hand_value_old = function (hand) {
