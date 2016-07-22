@@ -339,20 +339,27 @@
                     desired_hands = combo_vals[desired_card_value1];
                 }
 
-            }
-            ;
+            };
 
             var dh_by_count = _.groupBy(desired_hands, function (dh) {
                 return dh.hand.length
             });
-
+            console.log(count_card_combos);
             combos_count =_.map(count_card_combos, function(combos){
                 var key = combos.k;
-                var desired_card_count = dh_by_count[key].length;
-                combos['desired_cards_count'] = desired_card_count;
-                combos['fraction'] = math.reduce_fraction.reduce(combos.desired_cards_count, combos.total_combos);
-                return combos;
+                if(_.includes(Object.keys(dh_by_count), key.toString())) {
+                    var desired_card_count = dh_by_count[key.toString()].length;
+                    combos['desired_cards_count'] = desired_card_count;
+                    combos['fraction'] = math.reduce_fraction.reduce(combos.desired_cards_count, combos.total_combos);
+                    return combos;
+                } else {
+                    combos['desired_cards_count'] = 0;
+                    combos['fraction'] =  math.reduce_fraction.reduce(0, combos.total_combos);
+                    return combos;
+                }
             });
+
+            //combos_count = _.filter(combos_count, function(c){return c !== undefined});
             total_count = _.reduce(combos_count, function(sum_obj, combo){
                 var desired_cards_count = sum_obj.desired_cards_count + combo.desired_cards_count;
                 var total_combos = sum_obj.total_combos + combo.total_combos;
@@ -786,6 +793,7 @@
             };
 
             var reduce = function (n, d) {
+                if(n === 0){ return [n, d];}
                 var gcd = getGCD(n, d);
 
                 return [n / gcd, d / gcd];
