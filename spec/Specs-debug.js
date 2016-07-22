@@ -379,13 +379,32 @@ describe("make_dh_grouped", function() {
         // var x = transform.make_suits_group_string_arr(dh_grouped_3);
 
         var dh_grouped =transform.make_dh_grouped(desired_values);
-        console.log(JSON.stringify(Object.keys(dh_grouped)));
+        //console.log(JSON.stringify(Object.keys(dh_grouped)));
 
         // i think i have to rewrite these calculations entirely!
         // var x = transform.make_suits_group_string_arr(dh_grouped);
 
     });      
 
+     it("get_prob_stats", function() {
+        /*
+            3 - all suits
+            2 (all suits) + A (all suits)
+            A (clubs,diams,hearts) + A(diams, hearts, spades)
+            A (all suits)
+        */
+        var player_hand =  stub_data.make_hand([ ['k','diams'], ['8','spades'] ]);
+        var dealer_hand =  stub_data.make_hand([ ['j','diams'], ['9','diams'] ]);
+         dealer_hand[1].show = false;
+         var static_deck = stub_data.static_deck;
+        hand_value = myservice.calc_hand_value(player_hand);
+        var desired_hand_value = 21 - hand_value[0];
+        var avail_deck = transform.get_available_cards(static_deck, player_hand, dealer_hand);
+         console.log(avail_deck.length);
+        var x = myservice.get_prob_stats(player_hand, avail_deck);
+        console.log(x);
+
+    });
   
 
 });
