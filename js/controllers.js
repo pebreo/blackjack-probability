@@ -201,6 +201,10 @@
                 $scope.hide_prob_table = true;
                 // console.log('below promise - this should go first');
 
+
+               probService.getComboData().then(function(result){
+                   console.log(result);
+               });
             };            
 
             $scope.deal_to_player_hide = function () {
