@@ -136,14 +136,6 @@ xdescribe("calc_hand_value", function() {
         expect(card_combos.length).toEqual(23478);
 
     });
-
-
-   
-
-
-
-
-
 });
 
 describe("make_combos_with_hand_values", function() {
@@ -152,15 +144,16 @@ describe("make_combos_with_hand_values", function() {
     beforeEach(module('myApp'));
 
     // setup the service
-    beforeEach(inject(function(_myservice_, _transform_, _math_, _stub_data_) {
+    beforeEach(inject(function(_myservice_, _transform_, _math_, _stub_data_, _serviceDebug_) {
         myservice = _myservice_;
         transform = _transform_;
         math = _math_;
         stub_data = _stub_data_;
+        serviceDebug = _serviceDebug_;
     }));
 
   
-    it("make_combos_with_hand_values", function() {
+    xit("make_combos_with_hand_values", function() {
         /*
             3 - all suits
             2 (all suits) + A (all suits)
@@ -176,18 +169,75 @@ describe("make_combos_with_hand_values", function() {
         var card_combos = myservice.make_card_combos(deck, desired_hand_value);
         var combo_vals =  myservice.make_combos_with_hand_values(card_combos);
         obj = combo_vals[desired_hand_value];
-        console.log(JSON.stringify(obj));
+        // ISSUE: not enough cards when k=2
+        // console.log(JSON.stringify(obj));
         // (52 choose 1) + (52 choose 2) + (52 choose 3) + (52 choose 4)
         expect(card_combos.length).toEqual(23478);
 
     });
+    
+    /*
+        make_combos_with_hand_values => 
+          make_perms_with_hand_values
+
+          -> make_hand_values
+    */
+
+    xit("make_hand_values - ", function() {
+        /*
+            3 - all suits
+            2 (all suits) + A (all suits)
+            A (clubs,diams,hearts) + A(diams, hearts, spades)
+            A (all suits)
+        */
+        var hand =  stub_data.make_hand([ ['k','diams'], ['8','spades'] ]);
+        var deck = stub_data.static_deck;
+        hand_value = myservice.calc_hand_value(hand);
+        var desired_hand_value = 21 - hand_value[0];
+        console.log('desired hand value ' + desired_hand_value);
+        var card_combos = myservice.make_card_combos(deck, desired_hand_value);
+        var combo_vals =  myservice.make_combos_with_hand_values(card_combos);
+        obj = combo_vals[desired_hand_value];
+        console.log(obj);
+        // var hand_values = [];
+        // _.each(card_combos, function (combo) {
+        //     hand_values.push(combo);            
+        // });
+        // console.log(hand_values.length);
+        
+        //# check line 161 - perms_with_values[]
 
 
-   
+    });
+
+    it("make_hand_values - ", function() {
+        /*
+            3 - all suits
+            2 (all suits) + A (all suits)
+            A (clubs,diams,hearts) + A(diams, hearts, spades)
+            A (all suits)
+        */
+        var hand =  stub_data.make_hand([ ['k','diams'], ['8','spades'] ]);
+        var deck = stub_data.static_deck;
+        hand_value = myservice.calc_hand_value(hand);
+        var desired_hand_value = 21 - hand_value[0];
+        console.log('desired hand value ' + desired_hand_value);
 
 
+        var card_combos = serviceDebug.make_card_combos(deck, desired_hand_value);
+        var combo_vals =  serviceDebug.make_combos_with_hand_values(card_combos);
+        obj = combo_vals[desired_hand_value];
+        console.log(obj);
+        // var hand_values = [];
+        // _.each(card_combos, function (combo) {
+        //     hand_values.push(combo);            
+        // });
+        // console.log(hand_values.length);
+        
+        //# check line 161 - perms_with_values[]
 
 
+    });    
 
 });
 
