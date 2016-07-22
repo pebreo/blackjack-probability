@@ -153,7 +153,7 @@
             var p = _.flatten(perms_with_values);
             return _.groupBy(p, function (hands) {
                 return hands.hand_value
-            });            
+            });
         };
 
         this.make_perms_with_hand_values_old = function (card_perms) {
@@ -202,15 +202,16 @@
                 var card_combos = [];
                 return card_combos;
             }
-            if (desired_card_value >= 15) {-
-                console.log('desired_card_value>=15');
+            if (desired_card_value >= 15) {
+                -
+                    console.log('desired_card_value>=15');
                 [1, 2, 3, 4].forEach(function (k) {
                     var c = self.combs_choose(deck, k);
                     card_combos = Array.prototype.concat(card_combos, c);
                 });
             }
             if (desired_card_value < 15) {
-                console.log('desired_card_value<15');
+                //console.log('desired_card_value<15');
                 [1, 2, 3].forEach(function (k) {
                     var c = self.combs_choose(deck, k);
                     card_combos = Array.prototype.concat(card_combos, c);
@@ -261,6 +262,97 @@
 
             }
             return desired_hands;
+        };
+
+
+        this.make_count_card_combos = function (deck, desired_card_value) {
+            var card_combo_count = [];
+            var self = this;
+            card_combo_count = [];
+            //[{k:1, total_combos:34 },{k:2, total_combos: 43}]
+            if (desired_card_value == 0) {
+                //console.log('desired_card_value==0');
+                var card_combo_count = [];
+                return card_combo_count;
+            }
+            if (desired_card_value >= 15) {
+                //console.log('desired_card_value>=15');
+                [1, 2, 3, 4].forEach(function (k) {
+                    var c = self.combs_choose(deck, k);
+                    card_combo_count.push({k: k, total_combos: c.length});
+                });
+            }
+            if (desired_card_value < 15) {
+                //console.log('desired_card_value<15');
+                [1, 2, 3].forEach(function (k) {
+                    var c = self.combs_choose(deck, k);
+                    card_combo_count.push({k: k, total_combos: c.length});
+                });
+            }
+            return card_combo_count;
+        };
+
+
+        this.get_prob_stats = function (hand, deck) {
+            var deck = (deck === undefined) ? this.static_deck : deck;
+            if (this.static_deck === undefined) {
+                throw 'static_deck not defined';
+            }
+            var hand_value = [];
+            var needed_ranks = [];
+            var desired_card_value = 0;
+            var obj;
+
+            hand_value = this.calc_hand_value(hand);
+            if (hand_value.length == 1) {
+                desired_card_value = 21 - hand_value[0];
+                var card_combos = this.make_card_combos(deck, desired_card_value);
+                var count_card_combos = this.make_count_card_combos(deck, desired_card_value);
+                var combo_vals = this.make_combos_with_hand_values(card_combos);
+
+                desired_hands = combo_vals[desired_card_value];
+                // console.log(desired_hands);
+            }
+            if (hand_value.length == 2) {
+                desired_card_value1 = 21 - hand_value[0];
+                desired_card_value2 = 21 - hand_value[1];
+                //var card_combos = this.combs_choose(deck, 3);
+                var count_card_combos = Array.prototype.concat([],
+                    this.make_count_card_combos(deck, desired_card_value1),
+                    this.make_count_card_combos(deck, desired_card_value2)
+                );
+
+                var card_combos = Array.prototype.concat([],
+                    this.make_card_combos(deck, desired_card_value1),
+                    this.make_card_combos(deck, desired_card_value2)
+                );
+                // var card_combos = this.make_card_combos(deck, desired_card_value1);
+                var combo_vals = this.make_combos_with_hand_values(card_combos);
+                console.log(card_combos.length + 'combo vals length');
+
+                if (desired_card_value2 != 0) {
+                    desired_hands = Array.prototype.concat([],
+                        combo_vals[desired_card_value1],
+                        combo_vals[desired_card_value2]
+                    );
+                } else {
+                    desired_hands = combo_vals[desired_card_value1];
+                }
+
+            }
+            ;
+
+            var dh_by_count = _.groupBy(desired_hands, function (dh) {
+                return dh.hand.length
+            });
+
+            combos_count =_.map(count_card_combos, function(combos){
+                var key = combos.k;
+                var desired_card_count = dh_by_count[key].length;
+                combos['desired_cards_count'] = desired_card_count;
+                return combos;
+            });
+            return combos_count;
         };
 
         this.calc_hand_value_old = function (hand) {
@@ -699,7 +791,7 @@
 
         /*
          Usage: add_fractions_arr([ [1,2], [3,4], [4,5] ])
-          result: [41, 20]
+         result: [41, 20]
          */
 
         this.add_fractions_arr = function (fractions_arr) {
@@ -721,12 +813,12 @@
     app.service('probService', ['$timeout', '$q', '$rootScope', 'myservice', 'transform', function ($timeout, $q, $rootScope, myservice, transform) {
         return {
             getData: function () {
-                return $timeout(function() {
-                   myservice.setup_static_deck();
-                   var desired_cards = myservice.get_needed_ranks(myservice.player_hand, myservice.static_deck);
-                   // This is calculation-intensive
-                   var dh_grouped = transform.make_dh_grouped(desired_cards);
-                   return transform.make_suits_group_string_arr(dh_grouped);
+                return $timeout(function () {
+                    myservice.setup_static_deck();
+                    var desired_cards = myservice.get_needed_ranks(myservice.player_hand, myservice.static_deck);
+                    // This is calculation-intensive
+                    var dh_grouped = transform.make_dh_grouped(desired_cards);
+                    return transform.make_suits_group_string_arr(dh_grouped);
                 }, 1);
             }
         };
@@ -749,35 +841,35 @@
     }]);
 
     app.service('stub_data', ['$timeout', '$q', '$rootScope', 'myservice', 'transform', function ($timeout, $q, $rootScope, myservice, transform) {
-        this.static_deck = (function(){ 
+        this.static_deck = (function () {
 
             var str2int = function (value) {
                 if (/^(\-|\+)?([0-9]+|Infinity)$/.test(value))
-                return Number(value);
+                    return Number(value);
                 return NaN;
             };
             var rank2integer = function (rank) {
-            var rank_int = [];
-            switch (rank) {
-                case 'a':
-                    rank_int.push(1);
-                    rank_int.push(11);
-                    break;
-                case 'j':
-                    rank_int.push(10);
-                    break;
-                case 'q':
-                    rank_int.push(10);
-                    break;
-                case 'k':
-                    rank_int.push(10);
-                    break;
-                default:
-                    rank_int.push(str2int(rank));
-            }
-            return rank_int;
+                var rank_int = [];
+                switch (rank) {
+                    case 'a':
+                        rank_int.push(1);
+                        rank_int.push(11);
+                        break;
+                    case 'j':
+                        rank_int.push(10);
+                        break;
+                    case 'q':
+                        rank_int.push(10);
+                        break;
+                    case 'k':
+                        rank_int.push(10);
+                        break;
+                    default:
+                        rank_int.push(str2int(rank));
+                }
+                return rank_int;
 
-        };
+            };
             var static_deck = [];
             var suits = ['clubs', 'diams', 'hearts', 'spades'];
             var ranks = ['a', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'j', 'q', 'k'];
@@ -799,33 +891,31 @@
                     id += 1;
                 }
             }
-         return static_deck;   
+            return static_deck;
         })();
 
         /*
-       e.g. make_hand([['3','spades'], ['a','diams']])
-        */
-        this.make_hand = function(syms){
+         e.g. make_hand([['3','spades'], ['a','diams']])
+         */
+        this.make_hand = function (syms) {
             var self = this;
             var hand = [];
-            _.each(syms, function(item) {
-                hand.push(_.find(self.static_deck, {rank:item[0], suit: item[1]}))
+            _.each(syms, function (item) {
+                hand.push(_.find(self.static_deck, {rank: item[0], suit: item[1]}))
             });
             return hand;
         };
 
-        this.make_modified_deck = function(player_hand, dealer_hand){
+        this.make_modified_deck = function (player_hand, dealer_hand) {
             var self = this;
             var to_remove = Array.prototype.concat(player_hand, dealer_hand);
-            return _.remove(self.static_deck, function(card){
+            return _.remove(self.static_deck, function (card) {
                 return !(_.includes(to_remove, card));
             });
         };
-        
+
 
     }]);
-
-
 
 
 }());
