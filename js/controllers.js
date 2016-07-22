@@ -33,7 +33,8 @@
             $scope.message = '';
 
             $scope.desired_cards_prob_html = [];
-            $scope.hide_prob_table = true;
+            $scope.show_needed_cards_table = false;
+            $scope.show_prob_table = false;
             
             $scope.is_end = function () {
                 return true;
@@ -194,17 +195,22 @@
                 // var t0 = performance.now();
                 probService.getData().then(function(result){
                     $scope.desired_cards_prob_html = result;
-                    $scope.hide_prob_table = false;
+                    $scope.show_needed_cards_table = true;
                     // var t1 = performance.now();
                     // console.log('duration ' + (t1-t0));
                 });
-                $scope.hide_prob_table = true;
+                $scope.show_needed_cards_table = false;
                 // console.log('below promise - this should go first');
 
 
                probService.getComboData().then(function(result){
-                   console.log(result);
+                   $scope.combos_data_totals = result.totals_count;
+                   $scope.combos_data_rows = result.combos_count;
+                   $scope.show_prob_table = true;
                });
+
+               $scope.show_prob_table = false;
+
             };            
 
             $scope.deal_to_player_hide = function () {

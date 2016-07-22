@@ -1,4 +1,4 @@
-<table ng-hide="" class="table table-striped">
+<table ng-show="show_prob_table" class="table table-striped">
   <colgroup>
     <thead>
     <th>Number of cards to hit
@@ -9,76 +9,30 @@
     </thead>
   </colgroup>
   <tbody>
-  <tr ng-repeat="d in foo">
 
-    <td class="col-md-6">&#x2660;</td>
-
-    <td class="col-md-6">eu</td>
-
-    <td class="col-md-6">eu</td>
-
-    <td class="col-md-6">eu</td>
-
-  </tr>
-  <tr>
 
     <td class="col-md-6">-</td>
 
-    <td class="col-md-6">eu</td>
+    <td class="col-md-6">{{combos_data_totals.total_combos}}</td>
 
-    <td class="col-md-6">eu</td>
+    <td class="col-md-6">{{combos_data_totals.desired_cards_count}}</td>
 
-    <td class="col-md-6">eu</td>
+    <td class="col-md-6">{{combos_data_totals.total_prob}}</td>
+
+  </tr><tr ng-repeat="c in combos_data_rows">
+
+    <td class="col-md-6">{{c.k}}</td>
+
+    <td class="col-md-6">{{c.total_combos}}</td>
+
+    <td class="col-md-6">{{c.desired_cards_count}}</td>
+
+    <td class="col-md-6">{{c.fraction}}</td>
 
   </tr>
-
   <tr>
 
-    <td class="col-md-6">&#x1F0CF;</td>
 
-    <td class="col-md-6">eu</td>
-
-    <td class="col-md-6">eu</td>
-
-    <td class="col-md-6">eu</td>
-
-  </tr>
-
-    <tr>
-
-    <td class="col-md-6">&#x1F0CF;&#x1F0CF;</td>
-
-    <td class="col-md-6">eu</td>
-
-    <td class="col-md-6">eu</td>
-
-    <td class="col-md-6">eu</td>
-
-  </tr>
-
-    <tr>
-
-    <td class="col-md-6">&#x1F0CF;&#x1F0CF;&#x1F0CF;</td>
-
-    <td class="col-md-6">eu</td>
-
-    <td class="col-md-6">eu</td>
-
-    <td class="col-md-6">eu</td>
-
-  </tr>
-
-    <tr>
-
-    <td class="col-md-6">&#x1F0CF;&#x1F0CF;&#x1F0CF;&#x1F0CF;</td>
-
-    <td class="col-md-6">eu</td>
-
-    <td class="col-md-6">eu</td>
-
-    <td class="col-md-6">eu</td>
-
-  </tr>
 
   </tbody>
 

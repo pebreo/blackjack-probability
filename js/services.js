@@ -3,7 +3,7 @@
 
     var app = angular.module('myApp');
 
-    app.service('myservice', function () {
+    app.service('myservice', ['math', function (math) {
         this.baz = 'baz value!';
         this.player_hand = [];
         this.dealer_hand = [];
@@ -350,6 +350,7 @@
                 var key = combos.k;
                 var desired_card_count = dh_by_count[key].length;
                 combos['desired_cards_count'] = desired_card_count;
+                combos['fraction'] = math.reduce_fraction.reduce(combos.desired_cards_count, combos.total_combos);
                 return combos;
             });
             total_count = _.reduce(combos_count, function(sum_obj, combo){
@@ -359,6 +360,7 @@
                 return {total_combos: total_combos, desired_cards_count: desired_cards_count};
 
             },{total_combos:0, desired_cards_count:0});
+            total_count['total_prob'] = math.reduce_fraction.reduce(total_count.desired_cards_count,total_count.total_combos);
 
             return {combos_count: combos_count, totals_count: total_count};
         };
@@ -546,7 +548,7 @@
             }
             return "tie";
         };
-    });
+    }]);
     // app.service('Scopes', function () {
     //     var mem = {};
     //     return {
