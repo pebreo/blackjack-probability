@@ -347,8 +347,8 @@
             console.log(count_card_combos);
             combos_count =_.map(count_card_combos, function(combos){
                 var key = combos.k;
-                if(_.includes(Object.keys(dh_by_count), key.toString())) {
-                    var desired_card_count = dh_by_count[key.toString()].length;
+                if(_.includes(Object.keys(dh_by_count), key)) {
+                    var desired_card_count = dh_by_count[key].length;
                     combos['desired_cards_count'] = desired_card_count;
                     combos['fraction'] = math.reduce_fraction.reduce(combos.desired_cards_count, combos.total_combos);
                     return combos;
