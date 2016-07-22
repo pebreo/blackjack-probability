@@ -112,7 +112,7 @@
         this.perms_choose = function (xs, r) {
             return permutations_choose(xs, r);
         };
-        var make_hand_values = function (hand) {
+        this.make_hand_values = function (hand) {
             var hand_values = [];
             var hand_sum = 0;
             var found_ace = undefined;
@@ -144,13 +144,22 @@
         };
 
         this.make_combos_with_hand_values = function (card_combos) {
-            return this.make_perms_with_hand_values(card_combos);
+            var self = this;
+            var perms_with_values = [];
+            _.each(card_combos, function (p) {
+                perms_with_values.push(self.make_hand_values(p));
+            });
+            // console.log(perms_with_values.length);
+            var p = _.flatten(perms_with_values);
+            return _.groupBy(p, function (hands) {
+                return hands.hand_value
+            });            
         };
 
         this.make_perms_with_hand_values_old = function (card_perms) {
             var perms_with_values = [];
             _.each(card_perms, function (p) {
-                perms_with_values.push(make_hand_values(p));
+                perms_with_values.push(self.make_hand_values(p));
             });
             return _.flatten(perms_with_values);
         };
