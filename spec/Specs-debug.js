@@ -367,8 +367,22 @@ describe("make_dh_grouped", function() {
         var desired_hand_value = 21 - hand_value[0];
 
         desired_values = myservice.get_needed_ranks(player_hand, static_deck)
-        expect(desired_values.length).toEqual(24);
-        
+        var three_dv = _.groupBy(desired_values, function(item){
+            return item.hand.length;
+        });      
+        // console.log(JSON.stringify(three_dv[3]));
+
+        // var dh_grouped_3 =transform.make_dh_grouped(three_dv[3]);
+        // console.log(JSON.stringify(dh_grouped));
+
+        // crashes
+        // var x = transform.make_suits_group_string_arr(dh_grouped_3);
+
+        var dh_grouped =transform.make_dh_grouped(desired_values);
+        console.log(JSON.stringify(Object.keys(dh_grouped)));
+
+        // i think i have to rewrite these calculations entirely!
+        // var x = transform.make_suits_group_string_arr(dh_grouped);
 
     });      
 
