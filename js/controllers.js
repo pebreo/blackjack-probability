@@ -244,6 +244,11 @@
                 var obj = logic.deal_card($scope.current_deck);
                 $scope.current_deck = obj.deck;
                 logic.player_hand.push(obj.card);
+
+                $scope.show_info_tables();
+                $scope.show_needed_cards_table = false;
+                $scope.show_prob_table = false;
+
                 $scope.check_bust(logic.player_hand);
             };
 
