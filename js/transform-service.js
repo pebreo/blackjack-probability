@@ -364,9 +364,9 @@
         };
 
 
-        this.group_hand_group_into_slots = function (hand_group) {
-            var slot_obj = {};
-            _.each(g3, function (hand_group) {
+        this.group_hand_group_into_slots = function (hand_group, hand_size) {
+            var slot_obj = {slots:{},hand_size:0};
+            _.each(hand_group, function (hand_group) {
                 var cards = hand_group.hand;
                 cards = _.sortBy(cards, function (card) {
                     return card.rank
@@ -374,31 +374,41 @@
                 for (i in cards) {
                     var n = parseInt(i) + 1;
                     slot_name = "slot" + n.toString();
-                    (slot_obj[slot_name] || (slot_obj[slot_name] = [])).push(cards[i]);
+                    (slot_obj.slots[slot_name] || (slot_obj.slots[slot_name] = [])).push(cards[i]);
 
-                    //slots.push(slot_obj);
                 }
             });
+            slot_obj['hand_size'] = hand_size;
+            console.log(slot_obj);
             return slot_obj;
         };
 
 
-        this.transform_to_add_suits_and_ids = function (slots) {
+        this.transform_to_add_suits_and_ids = function (slot_obj, hand_size) {
 
             var mod_slot_obj = {};
             var suit_list = [];
             var ids_list = {};
+            var slots = slot_obj.slots;
+            var hand_size = slot_obj.hand_size;
             _.each(slots, function (cards, key) {
-                console.log(key);
                 var suit_list = [];
                 var id_list = [];
                 var the_rank = cards[0].rank;
-                _.each(cards, function (card) {
-                    suit_list.push(card.suit);
-                    //id_list.push({slot: key, id: card.id});
-                    id_list.push(card.id);
-                });
-                mod_slot_obj[key] = {rank: the_rank, suits: _.uniq(suit_list), card_ids: _.uniq(id_list)};
+                if(_.includes([3,4,5,6], hand_size)) {
+                    _.each(cards, function (card) {
+                        id_list.push(card.id);
+                    });
+                    suits_list = ['clubs','diams','hearts','spades'];
+                    mod_slot_obj[key] = {rank: the_rank, suits: suits_list, card_ids: _.uniq(id_list)};
+                } else {
+                    _.each(cards, function (card) {
+                        suit_list.push(card.suit);
+                        //id_list.push({slot: key, id: card.id});
+                        id_list.push(card.id);
+                    });
+                    mod_slot_obj[key] = {rank: the_rank, suits: _.uniq(suit_list), card_ids: _.uniq(id_list)};
+                }
             });
             return mod_slot_obj;
         };
