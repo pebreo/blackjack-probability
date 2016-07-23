@@ -609,7 +609,16 @@
             }
 
             return result;
-        }
+        },
+
+        this.fraction2text = function(arr){
+           numer = arr[0].toString();
+           denom = arr[1].toString();
+            
+           var p = (arr[0] / arr[1]).toFixed(3)*100;
+           
+            return p.toString() + " (" + numer + "/" + denom + ")";
+        };
     }]);
     // app.service('Scopes', function () {
     //     var mem = {};

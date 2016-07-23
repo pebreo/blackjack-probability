@@ -11,17 +11,17 @@
   <tbody>
 
 
-    <td class="col-md-6">-</td>
+    <td class="col-md-6">Total</td>
 
-    <td class="col-md-6">{{combos_data_totals.total_combos}}</td>
+    <td class="col-md-6"><b>{{combos_data_totals.total_combos}}</b></td>
 
-    <td class="col-md-6">{{combos_data_totals.desired_cards_count}}</td>
+    <td class="col-md-6"><b>{{combos_data_totals.desired_cards_count}}</b></td>
 
-    <td class="col-md-6">{{combos_data_totals.total_prob}}</td>
+    <td class="col-md-6"><b>{{combos_data_totals.total_prob}}</b></td>
 
   </tr><tr ng-repeat="c in combos_data_rows">
 
-    <td class="col-md-6"><span ng-bind-html="c.k | cardsymbol"></span></td>
+    <td class="col-md-6">{{c.k}} - <span ng-bind-html="c.k | cardsymbol"></span></td>
 
     <td class="col-md-6">{{c.total_combos}}</td>
 
