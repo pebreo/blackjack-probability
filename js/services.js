@@ -339,38 +339,70 @@
                     desired_hands = combo_vals[desired_card_value1];
                 }
 
-            };
+            }
+            ;
 
             var dh_by_count = _.groupBy(desired_hands, function (dh) {
                 return dh.hand.length
             });
             //console.log(dh_by_count);
-            combos_count =_.map(count_card_combos, function(combos){
+            combos_count = _.map(count_card_combos, function (combos) {
                 var key = combos.k;
-                if(_.includes(Object.keys(dh_by_count), key.toString())) {
+                if (_.includes(Object.keys(dh_by_count), key.toString())) {
                     var desired_card_count = dh_by_count[key.toString()].length;
                     combos['desired_cards_count'] = desired_card_count;
                     combos['fraction'] = math.reduce_fraction.reduce(combos.desired_cards_count, combos.total_combos);
                     return combos;
                 } else {
                     combos['desired_cards_count'] = 0;
-                    combos['fraction'] =  math.reduce_fraction.reduce(1, combos.total_combos);
+                    combos['fraction'] = math.reduce_fraction.reduce(1, combos.total_combos);
                     return combos;
                 }
             });
 
             //combos_count = _.filter(combos_count, function(c){return c !== undefined});
-            total_count = _.reduce(combos_count, function(sum_obj, combo){
+            total_count = _.reduce(combos_count, function (sum_obj, combo) {
                 var desired_cards_count = sum_obj.desired_cards_count + combo.desired_cards_count;
                 var total_combos = sum_obj.total_combos + combo.total_combos;
 
                 return {total_combos: total_combos, desired_cards_count: desired_cards_count};
 
-            },{total_combos:0, desired_cards_count:0});
-            total_count['total_prob'] = math.reduce_fraction.reduce(total_count.desired_cards_count,total_count.total_combos);
+            }, {total_combos: 0, desired_cards_count: 0});
+            total_count['total_prob'] = math.reduce_fraction.reduce(total_count.desired_cards_count, total_count.total_combos);
+
+            combos_count = this.simplify_card_combos_counts(combos_count);
 
             return {combos_count: combos_count, totals_count: total_count};
         };
+
+        this.simplify_card_combos_counts = function (combos_count) {
+            cc_grouped = _.groupBy(combos_count, 'k');
+            var simplified_combos_count = _.map(Object.keys(cc_grouped), function (group_key) {
+                var key = cc_grouped[group_key].k;
+                var group = cc_grouped[group_key];
+                var new_group = _.reduce(group, function (sum_obj, obj) {
+                    //var total_combos = sum_obj.total_combos + obj.total_combos;
+                    //var desired_cards_count = sum_obj.desired_cards_count + obj.desired_cards_count;
+                    var desired_cards_count = sum_obj.desired_cards_count + obj.desired_cards_count;
+                    var total_combos = sum_obj.total_combos + obj.total_combos;
+
+                    var frac1 = sum_obj.fraction;
+                    var frac2 = obj.fraction;
+                    var fraction = math.add_fractions(frac1, frac2);
+
+                    return {
+                        k: group_key,
+                        total_combos: total_combos,
+                        desired_cards_count: desired_cards_count,
+                        fraction: fraction
+                    }
+
+                }, {k: group_key, total_combos: 0, desired_cards_count: 0, fraction: [0, 0]});
+                return new_group;
+            });
+            return simplified_combos_count;
+        };
+
 
         this.calc_hand_value_old = function (hand) {
             var hand_value;
@@ -555,6 +587,29 @@
             }
             return "tie";
         };
+
+        this.fixedHex = function(number, length) {
+            var str = number.toString(16).toUpperCase();
+            while(str.length < length)
+                str = "0" + str;
+            return str;
+        };
+
+        /* Creates a unicode literal based on the string */    
+        this.unicodeLiteral = function(str){
+            var self = this;
+            var i;
+            var result = "";
+            for( i = 0; i < str.length; ++i){
+                /* You should probably replace this by an isASCII test */
+                if(str.charCodeAt(i) > 126 || str.charCodeAt(i) < 32)
+                    result += "\\u" + self.fixedHex(str.charCodeAt(i),4);
+                else
+                    result += str[i];
+            }
+
+            return result;
+        }
     }]);
     // app.service('Scopes', function () {
     //     var mem = {};
@@ -793,7 +848,9 @@
             };
 
             var reduce = function (n, d) {
-                if(n === 0){ return [n, d];}
+                if (n === 0) {
+                    return [n, d];
+                }
                 var gcd = getGCD(n, d);
 
                 return [n / gcd, d / gcd];
