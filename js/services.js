@@ -294,6 +294,7 @@
 
 
         this.get_prob_stats = function (hand, deck) {
+            var self = this;
             var deck = (deck === undefined) ? this.static_deck : deck;
             if (this.static_deck === undefined) {
                 throw 'static_deck not defined';
@@ -302,7 +303,7 @@
             var needed_ranks = [];
             var desired_card_value = 0;
             var obj;
-
+            // make a function
             hand_value = this.calc_hand_value(hand);
             if (hand_value.length == 1) {
                 desired_card_value = 21 - hand_value[0];
@@ -345,7 +346,7 @@
             var dh_by_count = _.groupBy(desired_hands, function (dh) {
                 return dh.hand.length
             });
-            //console.log(dh_by_count);
+            // make a function
             combos_count = _.map(count_card_combos, function (combos) {
                 var key = combos.k;
                 if (_.includes(Object.keys(dh_by_count), key.toString())) {
@@ -360,6 +361,7 @@
                 }
             });
 
+            // make a function
             //combos_count = _.filter(combos_count, function(c){return c !== undefined});
             total_count = _.reduce(combos_count, function (sum_obj, combo) {
                 var desired_cards_count = sum_obj.desired_cards_count + combo.desired_cards_count;
@@ -369,10 +371,16 @@
 
             }, {total_combos: 0, desired_cards_count: 0});
             total_count['total_prob'] = math.reduce_fraction.reduce(total_count.desired_cards_count, total_count.total_combos);
-            total_count['total_prob'] = this.fraction2text(total_count['total_prob']);
+            total_count['total_prob'] = self.fraction2text(total_count['total_prob']);
             combos_count = this.simplify_card_combos_counts(combos_count);
 
-            return {combos_count: combos_count, totals_count: total_count};
+            // make a function
+            combos_count_fraction_text = _.map(combos_count, function (combos) {
+                combos['fraction'] = self.fraction2text(combos['fraction']);
+                return combos;
+            });
+
+            return {combos_count: combos_count_fraction_text, totals_count: total_count};
         };
 
         this.simplify_card_combos_counts = function (combos_count) {
@@ -588,22 +596,22 @@
             return "tie";
         };
 
-        this.fixedHex = function(number, length) {
+        this.fixedHex = function (number, length) {
             var str = number.toString(16).toUpperCase();
-            while(str.length < length)
+            while (str.length < length)
                 str = "0" + str;
             return str;
         };
 
-        /* Creates a unicode literal based on the string */    
-        this.unicodeLiteral = function(str){
+        /* Creates a unicode literal based on the string */
+        this.unicodeLiteral = function (str) {
             var self = this;
             var i;
             var result = "";
-            for( i = 0; i < str.length; ++i){
+            for (i = 0; i < str.length; ++i) {
                 /* You should probably replace this by an isASCII test */
-                if(str.charCodeAt(i) > 126 || str.charCodeAt(i) < 32)
-                    result += "\\u" + self.fixedHex(str.charCodeAt(i),4);
+                if (str.charCodeAt(i) > 126 || str.charCodeAt(i) < 32)
+                    result += "\\u" + self.fixedHex(str.charCodeAt(i), 4);
                 else
                     result += str[i];
             }
@@ -611,14 +619,15 @@
             return result;
         },
 
-        this.fraction2text = function(arr){
-           numer = arr[0].toString();
-           denom = arr[1].toString();
-            
-           var p = (arr[0] / arr[1]).toFixed(3)*100;
-           //var p = Math.round((arr[0] / arr[1]);
-            return p.toString() + "%" + " (" + numer + "/" + denom + ")";
-        };
+            this.fraction2text = function (arr) {
+                numer = arr[0].toString();
+                denom = arr[1].toString();
+
+                var p = (arr[0] / arr[1]).toFixed(3) * 100;
+                p = math.round.round10(p, -3);
+                //var p = Math.round((arr[0] / arr[1]);
+                return p.toString() + "%" + " (" + numer + "/" + denom + ")";
+            };
     }]);
     // app.service('Scopes', function () {
     //     var mem = {};
@@ -884,6 +893,72 @@
                 return self.add_fractions(sum, frac);
             }, [0, 0]);
         };
+
+
+        /*
+        Usage:
+            round.round10(55.55, -1);   // 55.6
+            round.round10(55.549, -1);  // 55.5
+            round.round10(55, 1);       // 60
+            round.round10(54.9, 1);     // 50
+            round.round10(-55.55, -1);  // -55.5
+            round.round10(-55.551, -1); // -55.6
+            round.round10(-55, 1);      // -50
+            round.round10(-55.1, 1);    // -60
+            round.round10(1.005, -2);   // 1.01 -- compare this with Math.round(1.005*100)/100 above
+            // Floor
+            round.floor10(55.59, -1);   // 55.5
+            round.floor10(59, 1);       // 50
+            round.floor10(-55.51, -1);  // -55.6
+            round.floor10(-51, 1);      // -60
+            // Ceil
+            round.ceil10(55.51, -1);    // 55.6
+            round.ceil10(51, 1);        // 60
+            round.ceil10(-55.59, -1);   // -55.5
+            round.ceil10(-59, 1);       // -50
+
+         */
+        this.round = (function () {
+
+            function decimalAdjust(type, value, exp) {
+                // If the exp is undefined or zero...
+                if (typeof exp === 'undefined' || +exp === 0) {
+                    return Math[type](value);
+                }
+                value = +value;
+                exp = +exp;
+                // If the value is not a number or the exp is not an integer...
+                if (isNaN(value) || !(typeof exp === 'number' && exp % 1 === 0)) {
+                    return NaN;
+                }
+                // Shift
+                value = value.toString().split('e');
+                value = Math[type](+(value[0] + 'e' + (value[1] ? (+value[1] - exp) : -exp)));
+                // Shift back
+                value = value.toString().split('e');
+                return +(value[0] + 'e' + (value[1] ? (+value[1] + exp) : exp));
+            }
+
+
+            var round10 = function (value, exp) {
+                return decimalAdjust('round', value, exp);
+            }
+            var floor10 = function (value, exp) {
+                return decimalAdjust('floor', value, exp);
+            };
+
+
+            var ceil10 = function (value, exp) {
+                return decimalAdjust('ceil', value, exp);
+
+            };
+            return {
+                round10: round10,
+                floor10: floor10,
+                ceil10: ceil10
+            };
+
+        })();
         /*
          X = [
          {text: 1},
