@@ -34,5 +34,19 @@
         }
     });
 
+    app.filter('cardsymbol', ['$sce',function($sce){
+        return function(input){
+            var rank = '';
+            var count = parseInt(input);
+            s_list = [];
+            for(var i=0;i<count;i++){
+                s_list.push("&#x1F0CF;");
+            }
+            var s = Array.prototype.join(' ', s_list).trustAsHtml;
+            return 'foo';
+            return $sce.trustAsHtml(s);
+        }
+    }]);    
+
 
 }());

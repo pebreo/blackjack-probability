@@ -1,4 +1,4 @@
-<table ng-show="show_prob_table" class="table table-striped">
+<table ng-show="show_prob_table" class="table">
   <colgroup>
     <thead>
     <th>Number of cards to hit
@@ -21,7 +21,7 @@
 
   </tr><tr ng-repeat="c in combos_data_rows">
 
-    <td class="col-md-6">{{c.k}}</td>
+    <td class="col-md-6"><span ng-bind-html="c.k | cardsymbol"></span></td>
 
     <td class="col-md-6">{{c.total_combos}}</td>
 
