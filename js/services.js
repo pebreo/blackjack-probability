@@ -355,7 +355,7 @@
                     return combos;
                 } else {
                     combos['desired_cards_count'] = 0;
-                    combos['fraction'] = math.reduce_fraction.reduce(1, combos.total_combos);
+                    combos['fraction'] = math.reduce_fraction.reduce(0, combos.total_combos);
                     return combos;
                 }
             });
@@ -369,7 +369,7 @@
 
             }, {total_combos: 0, desired_cards_count: 0});
             total_count['total_prob'] = math.reduce_fraction.reduce(total_count.desired_cards_count, total_count.total_combos);
-
+            total_count['total_prob'] = this.fraction2text(total_count['total_prob']);
             combos_count = this.simplify_card_combos_counts(combos_count);
 
             return {combos_count: combos_count, totals_count: total_count};
@@ -616,8 +616,8 @@
            denom = arr[1].toString();
             
            var p = (arr[0] / arr[1]).toFixed(3)*100;
-           
-            return p.toString() + " (" + numer + "/" + denom + ")";
+           //var p = Math.round((arr[0] / arr[1]);
+            return p.toString() + "%" + " (" + numer + "/" + denom + ")";
         };
     }]);
     // app.service('Scopes', function () {
