@@ -469,7 +469,7 @@ describe("make_dh_grouped", function() {
 
 
 
-    it(" group_hand_group_into_slots", function() {
+    xit("good program execution - group_hand_group_into_slots", function() {
         /*
             3 - all suits
             2 (all suits) + A (all suits)
@@ -486,10 +486,34 @@ describe("make_dh_grouped", function() {
         desired_hands = myservice.get_needed_ranks(player_hand, static_deck);
 
         var x = transform.group_needed_ranks_into_hand_length(desired_hands);
+        //hand_size = Object.keys(x)[0] - the hand size is the hand length, which is the same as the key
         var slot_obj = transform.group_hand_group_into_slots(x[3], 3);
-        var z = transform.transform_to_add_suits_and_ids(slot_obj, 3);
+        var z = transform.transform_to_add_suits_and_ids(slot_obj);
 
     });
 
+
+    it("good program execution - group_hand_group_into_slots", function() {
+        /*
+            3 - all suits
+            2 (all suits) + A (all suits)
+            A (clubs,diams,hearts) + A(diams, hearts, spades)
+            A (all suits)
+        */
+        myservice.setup_static_deck();
+        var player_hand =  stub_data.make_hand([ ['k','diams'], ['8','spades'] ]);
+        //var player_hand =  stub_data.make_hand([ ['k','diams'], ['a','spades'] ]);
+        var static_deck = stub_data.static_deck;
+        hand_value = myservice.calc_hand_value(player_hand);
+        var desired_hand_value = 21 - hand_value[0];
+
+        desired_hands = myservice.get_needed_ranks(player_hand, static_deck);
+
+        var x = transform.group_needed_ranks_into_hand_length(desired_hands);
+        //hand_size = Object.keys(x)[0] - the hand size is the hand length, which is the same as the key
+        var slot_obj = transform.group_hand_group_into_slots(x[3], 3);
+        var given_hand_length_slots = transform.transform_to_add_suits_and_ids(slot_obj);
+
+    });
 
 });

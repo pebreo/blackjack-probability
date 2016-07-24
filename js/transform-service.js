@@ -372,7 +372,8 @@
                 return card.id;
             });
         };
-       this.filter_available_card_ids_of_rank = function(deck, rank, player_hand, dealer_hand){
+
+        this.filter_available_card_ids_of_rank = function(deck, rank, player_hand, dealer_hand){
             var self = this;
             player_hand = player_hand !== undefined ? player_hand : myservice.player_hand;
             dealer_hand = dealer_hand !== undefined ? dealer_hand : myservice.dealer_hand;
@@ -384,7 +385,9 @@
                 return card.id;
             });
         };
+
         this.group_hand_group_into_slots = function (hand_group, hand_size) {
+            //console.log(JSON.stringify(hand_group));
             var slot_obj = {slots:{},hand_size:0, rank: undefined};
             _.each(hand_group, function (hand_group) {
                 var cards = hand_group.hand;
@@ -431,8 +434,8 @@
                 }
             });
             console.log(JSON.stringify(mod_slot_obj));
-
-            return mod_slot_obj;
+            var given_hand_length_slots = mod_slot_obj;
+            return given_hand_length_slots;
         };
 
 
