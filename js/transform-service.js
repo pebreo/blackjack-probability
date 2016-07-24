@@ -456,7 +456,7 @@
                 factors.push(math.fraction2text( prob_slot[key].prob_fraction ) );
             });
             var total_text = math.fraction2text(total_prob_fraction);
-            var total_prob_fraction = Array.prototype.join(' * ', factors) + " = " + total_text;
+            var total_prob_fraction = factors.join(' * ', factors) + " = " + total_text;
             return total_prob_fraction;
         };
 
