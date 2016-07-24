@@ -132,6 +132,7 @@
             return available_cards;
 
         };
+
         this.transform_step1 = function (rank_str_set, key) {
             // for each hand_set
             var self = this;
@@ -441,15 +442,39 @@
                     mod_slot_obj[key] = {rank: the_rank, suits: _.uniq(suit_list), card_ids: _.uniq(id_list)};
                 }
             });
-            console.log(JSON.stringify(mod_slot_obj));
+            //console.log(JSON.stringify(mod_slot_obj));
             var given_hand_length_slots = mod_slot_obj;
             return given_hand_length_slots;
         };
 
-        this.transform_to_add_probability = function(given_hand_length_slots) {
+        this.transform_to_add_probability = function(given_hand_length_slots, static_deck) {
+            var self = this;
+            static_deck = static_deck !== undefined ? static_deck : myservice.static_deck;
             var keys = Object.keys(given_hand_length_slots);
             key_length = keys.length;
-            // card_ids.length
+            var probability_string = '';
+            var running_denom = self.get_available_cards(static_deck, myservice.player_hand, myservice.dealer_hand).length;
+
+            var prob_slot = {};
+
+            // each slot
+            _.each(keys, function(key){
+                slot = given_hand_length_slots[key];
+                var fraction = [];
+                numer = slot.card_ids.length;
+                denom = running_denom;
+                fraction = [numer, denom];
+                running_denom = running_denom -1;
+                prob_slot[key] = {prob_fraction: fraction};
+            });
+            var total_prob_fraction = [0,0];
+            _.each(keys, function(key){
+                total_prob_fraction = math.add_fractions(prob_slot[key].prob_fraction, total_prob_fraction);
+            });
+
+            prob_slot['prob_text'] = total_prob_fraction;
+            console.log(prob_slot);
+            return probability_string;
         };
 
 

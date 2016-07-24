@@ -522,7 +522,7 @@ describe("make_dh_grouped", function() {
 
     });
 
-    it("good program execution -  transform_to_add_suits_and_ids", function() {
+    it(" transform_to_add_probability", function() {
         /*
             3 - all suits
             2 (all suits) + A (all suits)
@@ -531,8 +531,14 @@ describe("make_dh_grouped", function() {
         */
         myservice.setup_static_deck();
         var player_hand =  stub_data.make_hand([ ['k','diams'], ['8','spades'] ]);
+        var dealer_hand =  stub_data.make_hand([ ['q','diams'], ['3','hearts'] ]);
+
+        myservice.player_hand = player_hand;
+        myservice.dealer_hand = dealer_hand;
+
         //var player_hand =  stub_data.make_hand([ ['k','diams'], ['a','spades'] ]);
         var static_deck = stub_data.static_deck;
+        myservice.current_deck = transform.get_available_cards(static_deck);
         hand_value = myservice.calc_hand_value(player_hand);
         var desired_hand_value = 21 - hand_value[0];
 
@@ -544,7 +550,7 @@ describe("make_dh_grouped", function() {
 
         var slot_obj = transform.group_hand_group_into_slots(x[2], 3);
         var given_hand_length_slots3 = transform.transform_to_add_suits_and_ids(slot_obj);
-
+        transform.transform_to_add_probability(given_hand_length_slots3)
     });
 
 });
