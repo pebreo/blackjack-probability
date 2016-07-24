@@ -452,8 +452,10 @@
             var total_prob_fraction = [1,1];
             var factors = [];
             _.each(keys, function(key){
-                total_prob_fraction = math.multiply_fractions(prob_slot[key].prob_fraction, total_prob_fraction);
-                factors.push(math.fraction2text( prob_slot[key].prob_fraction ) );
+                if(prob_slot[key].prob_fraction !== undefined) {
+                    total_prob_fraction = math.multiply_fractions(prob_slot[key].prob_fraction, total_prob_fraction);
+                    factors.push(math.fraction2text(prob_slot[key].prob_fraction));
+                }
             });
             var total_text = math.fraction2text(total_prob_fraction);
             var total_prob_fraction = factors.join(' * ', factors) + " = " + total_text;
@@ -482,12 +484,15 @@
             });
             var total_prob_fraction = [1,1];
             _.each(keys, function(key){
-                total_prob_fraction = math.multiply_fractions(prob_slot[key].prob_fraction, total_prob_fraction);
+                total_pf = math.multiply_fractions(prob_slot[key].prob_fraction, total_prob_fraction);
             });
-
+            console.log(total_pf);
             prob_slot['prob_text'] = self.make_probability_text_from_slots(prob_slot);
-            console.log(prob_slot);
-            return probability_string;
+
+            var hand_obj = {};
+            hand_obj['hand_size'] = keys.length;
+            hand_obj['hand_probability'] = prob_slot;
+            return hand_obj;
         };
 
 
