@@ -363,9 +363,15 @@
             });
         };
 
-
+        this.filter_card_ids_of_rank = function(deck, rank){
+            deck = _.filter(deck, function(card){ return rank == card.rank});
+            console.log(deck.length);
+            return _.map(deck, function(card) {
+                return card.id;
+            });
+        };
         this.group_hand_group_into_slots = function (hand_group, hand_size) {
-            var slot_obj = {slots:{},hand_size:0};
+            var slot_obj = {slots:{},hand_size:0, rank: undefined};
             _.each(hand_group, function (hand_group) {
                 var cards = hand_group.hand;
                 cards = _.sortBy(cards, function (card) {
@@ -375,17 +381,18 @@
                     var n = parseInt(i) + 1;
                     slot_name = "slot" + n.toString();
                     (slot_obj.slots[slot_name] || (slot_obj.slots[slot_name] = [])).push(cards[i]);
-
                 }
+
             });
             slot_obj['hand_size'] = hand_size;
-            console.log(slot_obj);
             return slot_obj;
         };
 
 
-        this.transform_to_add_suits_and_ids = function (slot_obj, hand_size) {
-
+        this.transform_to_add_suits_and_ids = function (slot_obj, hand_size, allowable_hand_size) {
+            //console.log(JSON.stringify(slot_obj));
+            var self = this;
+            var allowable_hand_size =  (allowable_hand_size !== undefined) ? allowable_hand_size : [3,4,5,6];
             var mod_slot_obj = {};
             var suit_list = [];
             var ids_list = {};
@@ -395,12 +402,11 @@
                 var suit_list = [];
                 var id_list = [];
                 var the_rank = cards[0].rank;
-                if(_.includes([3,4,5,6], hand_size)) {
-                    _.each(cards, function (card) {
-                        id_list.push(card.id);
-                    });
+                // when there are 3, 4, 5, 6 cards in the hand
+                if(_.includes(allowable_hand_size, hand_size)) {
+                    id_list = self.filter_card_ids_of_rank(myservice.static_deck, the_rank);
                     suits_list = ['clubs','diams','hearts','spades'];
-                    mod_slot_obj[key] = {rank: the_rank, suits: suits_list, card_ids: _.uniq(id_list)};
+                    mod_slot_obj[key] = {rank: the_rank, suits: suits_list, card_ids: id_list};
                 } else {
                     _.each(cards, function (card) {
                         suit_list.push(card.suit);
@@ -410,6 +416,8 @@
                     mod_slot_obj[key] = {rank: the_rank, suits: _.uniq(suit_list), card_ids: _.uniq(id_list)};
                 }
             });
+            console.log(JSON.stringify(mod_slot_obj));
+
             return mod_slot_obj;
         };
 
