@@ -386,6 +386,13 @@
             });
         };
 
+        this.get_suits_of_card_ids = function(card_ids, deck){
+            deck = deck !== undefined ? deck : myservice.static_deck;
+            d1  = _.filter(deck,function(card){return _.includes(card_ids, card.id)});
+            suits = _.map(d1, 'suit');
+            return _.uniq(suits);
+        };
+
         this.group_hand_group_into_slots = function (hand_group, hand_size) {
             //console.log(JSON.stringify(hand_group));
             var slot_obj = {slots:{},hand_size:0, rank: undefined};
@@ -422,7 +429,8 @@
                 // when there are 3, 4, 5, 6 cards in the hand
                 if(_.includes(allowable_hand_size, hand_size)) {
                     id_list = self.filter_available_card_ids_of_rank(myservice.static_deck, the_rank);
-                    suits_list = ['clubs','diams','hearts','spades'];
+                    //suits_list = ['clubs','diams','hearts','spades'];
+                    suits_list = self.get_suits_of_card_ids(id_list);
                     mod_slot_obj[key] = {rank: the_rank, suits: suits_list, card_ids: id_list};
                 } else {
                     _.each(cards, function (card) {
@@ -436,6 +444,12 @@
             console.log(JSON.stringify(mod_slot_obj));
             var given_hand_length_slots = mod_slot_obj;
             return given_hand_length_slots;
+        };
+
+        this.transform_to_add_probability = function(given_hand_length_slots) {
+            var keys = Object.keys(given_hand_length_slots);
+            key_length = keys.length;
+            // card_ids.length
         };
 
 
