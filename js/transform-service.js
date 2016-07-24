@@ -363,10 +363,24 @@
             });
         };
 
-        this.filter_card_ids_of_rank = function(deck, rank){
+        this.filter_card_ids_of_rank = function(deck, rank, player_hand, dealer_hand){
+            player_hand = player_hand !== undefined ? player_hand : myservice.player_hand;
+            dealer_hand = dealer_hand !== undefined ? dealer_hand : myservice.dealer_hand;
             deck = _.filter(deck, function(card){ return rank == card.rank});
             console.log(deck.length);
             return _.map(deck, function(card) {
+                return card.id;
+            });
+        };
+       this.filter_available_card_ids_of_rank = function(deck, rank, player_hand, dealer_hand){
+            var self = this;
+            player_hand = player_hand !== undefined ? player_hand : myservice.player_hand;
+            dealer_hand = dealer_hand !== undefined ? dealer_hand : myservice.dealer_hand;
+
+
+            available_cards = self.get_available_cards(deck, player_hand, dealer_hand);
+            ranks_needed_of_available_cards = _.filter(available_cards, function(card){ return rank == card.rank});
+            return _.map(ranks_needed_of_available_cards, function(card) {
                 return card.id;
             });
         };
@@ -404,7 +418,7 @@
                 var the_rank = cards[0].rank;
                 // when there are 3, 4, 5, 6 cards in the hand
                 if(_.includes(allowable_hand_size, hand_size)) {
-                    id_list = self.filter_card_ids_of_rank(myservice.static_deck, the_rank);
+                    id_list = self.filter_available_card_ids_of_rank(myservice.static_deck, the_rank);
                     suits_list = ['clubs','diams','hearts','spades'];
                     mod_slot_obj[key] = {rank: the_rank, suits: suits_list, card_ids: id_list};
                 } else {

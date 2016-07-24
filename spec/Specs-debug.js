@@ -321,7 +321,7 @@ xdescribe("make_combos_with_hand_values", function() {
 
 
 
-describe("make_dh_grouped", function() {
+xdescribe("make_dh_grouped", function() {
     var myservice, transform, math, stub_data;
     // setup the angular module
     beforeEach(module('myApp'));
@@ -354,7 +354,7 @@ describe("make_dh_grouped", function() {
         
 
     });   
-    it("make_dh_grouped", function() {
+    xit("make_dh_grouped", function() {
         /*
             3 - all suits
             2 (all suits) + A (all suits)
@@ -386,7 +386,7 @@ describe("make_dh_grouped", function() {
 
     });      
 
-     it("get_prob_stats", function() {
+     xit("good stub - get_prob_stats", function() {
         /*
             3 - all suits
             2 (all suits) + A (all suits)
@@ -406,6 +406,90 @@ describe("make_dh_grouped", function() {
          console.log(x.totals_count);
 
     });
-  
+
+
+
+     xit("good test - get_prob_stats", function() {
+        /*
+            3 - all suits
+            2 (all suits) + A (all suits)
+            A (clubs,diams,hearts) + A(diams, hearts, spades)
+            A (all suits)
+        */
+        var player_hand =  stub_data.make_hand([ ['j','spades'], ['10','hearts'] ]);
+        var dealer_hand =  stub_data.make_hand([ ['3','hearts'], ['9','spades'] ]);
+         dealer_hand[1].show = false;
+         var static_deck = stub_data.static_deck;
+        hand_value = myservice.calc_hand_value(player_hand);
+        var desired_hand_value = 21 - hand_value[0];
+        var avail_deck = transform.get_available_cards(static_deck, player_hand, dealer_hand);
+         console.log(avail_deck.length);
+        var x = myservice.get_prob_stats(player_hand, avail_deck);
+        expect(x.combos_count.length).toEqual(3);
+
+    });
+
+    it("get_prob_stats", function() {
+        /*
+            3 - all suits
+            2 (all suits) + A (all suits)
+            A (clubs,diams,hearts) + A(diams, hearts, spades)
+            A (all suits)
+        */
+        var player_hand =  stub_data.make_hand([ ['a','spades'], ['7','spades'] ]);
+        var dealer_hand =  stub_data.make_hand([ ['8','hearts'], ['3','hearts'] ]);
+        dealer_hand[1].show = false;
+         var static_deck = stub_data.static_deck;
+        hand_value = myservice.calc_hand_value(player_hand);
+        var desired_hand_value = 21 - hand_value[0];
+        var avail_deck = transform.get_available_cards(static_deck, player_hand, dealer_hand);
+         console.log(avail_deck.length);
+        var x = myservice.get_prob_stats(player_hand, avail_deck);
+        expect(x.combos_count.length).toEqual(3);
+
+    });
+
+});
+
+
+
+describe("make_dh_grouped", function() {
+    var myservice, transform, math, stub_data;
+    // setup the angular module
+    beforeEach(module('myApp'));
+
+    // setup the service
+    beforeEach(inject(function(_myservice_, _transform_, _math_, _stub_data_, _serviceDebug_) {
+        myservice = _myservice_;
+        transform = _transform_;
+        math = _math_;
+        stub_data = _stub_data_;
+        serviceDebug = _serviceDebug_;
+    }));
+
+
+
+    it(" group_hand_group_into_slots", function() {
+        /*
+            3 - all suits
+            2 (all suits) + A (all suits)
+            A (clubs,diams,hearts) + A(diams, hearts, spades)
+            A (all suits)
+        */
+        myservice.setup_static_deck();
+        var player_hand =  stub_data.make_hand([ ['k','diams'], ['8','spades'] ]);
+        //var player_hand =  stub_data.make_hand([ ['k','diams'], ['a','spades'] ]);
+        var static_deck = stub_data.static_deck;
+        hand_value = myservice.calc_hand_value(player_hand);
+        var desired_hand_value = 21 - hand_value[0];
+
+        desired_hands = myservice.get_needed_ranks(player_hand, static_deck);
+
+        var x = transform.group_needed_ranks_into_hand_length(desired_hands);
+        var slot_obj = transform.group_hand_group_into_slots(x[3], 3);
+        var z = transform.transform_to_add_suits_and_ids(slot_obj, 3);
+
+    });
+
 
 });
