@@ -447,6 +447,19 @@
             return given_hand_length_slots;
         };
 
+        this.make_probability_text_from_slots = function(prob_slot){
+            keys = Object.keys(prob_slot);
+            var total_prob_fraction = [1,1];
+            var factors = [];
+            _.each(keys, function(key){
+                total_prob_fraction = math.multiply_fractions(prob_slot[key].prob_fraction, total_prob_fraction);
+                factors.push(math.fraction2text( prob_slot[key].prob_fraction ) );
+            });
+            var total_text = math.fraction2text(total_prob_fraction);
+            var total_prob_fraction = Array.prototype.join(' * ', factors) + " = " + total_text;
+            return total_prob_fraction;
+        };
+
         this.transform_to_add_probability = function(given_hand_length_slots, static_deck) {
             var self = this;
             static_deck = static_deck !== undefined ? static_deck : myservice.static_deck;
@@ -467,12 +480,12 @@
                 running_denom = running_denom -1;
                 prob_slot[key] = {prob_fraction: fraction};
             });
-            var total_prob_fraction = [0,0];
+            var total_prob_fraction = [1,1];
             _.each(keys, function(key){
-                total_prob_fraction = math.add_fractions(prob_slot[key].prob_fraction, total_prob_fraction);
+                total_prob_fraction = math.multiply_fractions(prob_slot[key].prob_fraction, total_prob_fraction);
             });
 
-            prob_slot['prob_text'] = total_prob_fraction;
+            prob_slot['prob_text'] = self.make_probability_text_from_slots(prob_slot);
             console.log(prob_slot);
             return probability_string;
         };
