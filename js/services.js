@@ -839,6 +839,47 @@
             return [new_num, lcm];
         };
 
+        this.multiply_fractions = function (frac1, frac2) {
+            var self = this;
+            // get the denominator
+            denom1 = frac1[1];
+            denom2 = frac2[1];
+            num1 = frac1[0];
+            num2 = frac2[0];
+
+            if (num1 === 0 && denom1 === 0) {
+                return [0, 0];
+            }
+            ;
+            if (num2 === 0 && denom2 === 0) {
+                return [0, 0];
+            }
+            ;
+
+            if (num1 === 0 && denom1 === 0) {
+                if (num1 === 0 && denom1 === 0) {
+                    return [0, 0];
+                }
+                ;
+            }
+            ;
+
+            if ((num1 !== 0) && (denom1 === 0)) {
+                return [0, 0];
+            }
+            ;
+            if ((num2 !== 0) && (denom2 === 0)) {
+                return [0, 0];
+            }
+
+
+            return [num1*num2, denom1*denom2];
+        };
+
+        this.fraction2text = function(fraction){
+          return fraction[0].toString() + "/" + fraction[1].toString();
+        };
+
         /*
          Usage: reduce_fraction.reduce(9,12)
          result: [3,4]
