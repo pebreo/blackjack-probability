@@ -447,7 +447,7 @@
             return given_hand_length_slots;
         };
 
-        this.make_probability_text_from_slots = function(prob_slot){
+        this.make_probability_text_from_slots_old = function(prob_slot){
             keys = Object.keys(prob_slot);
             var total_prob_fraction = [1,1];
             var factors = [];
@@ -460,6 +460,21 @@
             var total_text = math.fraction2text(total_prob_fraction);
             var total_prob_fraction = factors.join(' * ', factors) + " = " + total_text;
             return total_prob_fraction;
+        };
+
+        this.make_probability_text_from_slots = function(prob_slot){
+            keys = Object.keys(prob_slot);
+            var total_prob_fraction = [1,1];
+            var factors = [];
+            _.each(keys, function(key){
+                if(prob_slot[key].prob_fraction !== undefined) {
+                    total_prob_fraction = math.multiply_fractions(prob_slot[key].prob_fraction, total_prob_fraction);
+                    factors.push(math.fraction2text(prob_slot[key].prob_fraction));
+                }
+            });
+            var total_text = math.fraction2text(total_prob_fraction);
+            var total_prob_fraction_text = factors.join(' * ', factors) + " = " + total_text;
+            return {fraction: total_prob_fraction, text: total_prob_fraction_text};
         };
 
         this.transform_to_add_probability = function(given_hand_length_slots, static_deck) {
@@ -487,11 +502,13 @@
                 total_pf = math.multiply_fractions(prob_slot[key].prob_fraction, total_prob_fraction);
             });
             console.log(total_pf);
-            prob_slot['prob_text'] = self.make_probability_text_from_slots(prob_slot);
+            var total_prob = self.make_probability_text_from_slots(prob_slot);
 
             var hand_obj = {};
             hand_obj['hand_size'] = keys.length;
-            hand_obj['hand_probability'] = prob_slot;
+            hand_obj['slots'] = prob_slot;
+            hand_obj['prob_text'] = total_prob.text;
+            hand_obj['total_prob_fraction'] = total_prob.fraction;
             return hand_obj;
         };
 
