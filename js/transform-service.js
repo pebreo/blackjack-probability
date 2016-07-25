@@ -363,39 +363,45 @@
             });
         };
 
-        this.filter_card_ids_of_rank = function(deck, rank, player_hand, dealer_hand){
+        this.filter_card_ids_of_rank = function (deck, rank, player_hand, dealer_hand) {
             player_hand = player_hand !== undefined ? player_hand : myservice.player_hand;
             dealer_hand = dealer_hand !== undefined ? dealer_hand : myservice.dealer_hand;
-            deck = _.filter(deck, function(card){ return rank == card.rank});
+            deck = _.filter(deck, function (card) {
+                return rank == card.rank
+            });
             console.log(deck.length);
-            return _.map(deck, function(card) {
+            return _.map(deck, function (card) {
                 return card.id;
             });
         };
 
-        this.filter_available_card_ids_of_rank = function(deck, rank, player_hand, dealer_hand){
+        this.filter_available_card_ids_of_rank = function (deck, rank, player_hand, dealer_hand) {
             var self = this;
             player_hand = player_hand !== undefined ? player_hand : myservice.player_hand;
             dealer_hand = dealer_hand !== undefined ? dealer_hand : myservice.dealer_hand;
 
 
             available_cards = self.get_available_cards(deck, player_hand, dealer_hand);
-            ranks_needed_of_available_cards = _.filter(available_cards, function(card){ return rank == card.rank});
-            return _.map(ranks_needed_of_available_cards, function(card) {
+            ranks_needed_of_available_cards = _.filter(available_cards, function (card) {
+                return rank == card.rank
+            });
+            return _.map(ranks_needed_of_available_cards, function (card) {
                 return card.id;
             });
         };
 
-        this.get_suits_of_card_ids = function(card_ids, deck){
+        this.get_suits_of_card_ids = function (card_ids, deck) {
             deck = deck !== undefined ? deck : myservice.static_deck;
-            d1  = _.filter(deck,function(card){return _.includes(card_ids, card.id)});
+            d1 = _.filter(deck, function (card) {
+                return _.includes(card_ids, card.id)
+            });
             suits = _.map(d1, 'suit');
             return _.uniq(suits);
         };
 
         this.group_hand_group_into_slots = function (hand_group, hand_size) {
             //console.log(JSON.stringify(hand_group));
-            var slot_obj = {slots:{},hand_size:0, rank: undefined};
+            var slot_obj = {slots: {}, hand_size: 0, rank: undefined};
             _.each(hand_group, function (hand_group) {
                 var cards = hand_group.hand;
                 cards = _.sortBy(cards, function (card) {
@@ -416,7 +422,7 @@
         this.transform_to_add_suits_and_ids = function (slot_obj, hand_size, allowable_hand_size) {
             //console.log(JSON.stringify(slot_obj));
             var self = this;
-            var allowable_hand_size =  (allowable_hand_size !== undefined) ? allowable_hand_size : [3,4,5,6];
+            var allowable_hand_size = (allowable_hand_size !== undefined) ? allowable_hand_size : [3, 4, 5, 6];
             var mod_slot_obj = {};
             var suit_list = [];
             var ids_list = {};
@@ -427,7 +433,7 @@
                 var id_list = [];
                 var the_rank = cards[0].rank;
                 // when there are 3, 4, 5, 6 cards in the hand
-                if(_.includes(allowable_hand_size, hand_size)) {
+                if (_.includes(allowable_hand_size, hand_size)) {
                     id_list = self.filter_available_card_ids_of_rank(myservice.static_deck, the_rank);
                     //suits_list = ['clubs','diams','hearts','spades'];
                     suits_list = self.get_suits_of_card_ids(id_list);
@@ -446,12 +452,12 @@
             return given_hand_length_slots;
         };
 
-        this.make_probability_text_from_slots_old = function(prob_slot){
+        this.make_probability_text_from_slots_old = function (prob_slot) {
             keys = Object.keys(prob_slot);
-            var total_prob_fraction = [1,1];
+            var total_prob_fraction = [1, 1];
             var factors = [];
-            _.each(keys, function(key){
-                if(prob_slot[key].prob_fraction !== undefined) {
+            _.each(keys, function (key) {
+                if (prob_slot[key].prob_fraction !== undefined) {
                     total_prob_fraction = math.multiply_fractions(prob_slot[key].prob_fraction, total_prob_fraction);
                     factors.push(math.fraction2text(prob_slot[key].prob_fraction));
                 }
@@ -461,12 +467,12 @@
             return total_prob_fraction;
         };
 
-        this.make_probability_text_from_slots = function(prob_slot){
+        this.make_probability_text_from_slots = function (prob_slot) {
             keys = Object.keys(prob_slot);
-            var total_prob_fraction = [1,1];
+            var total_prob_fraction = [1, 1];
             var factors = [];
-            _.each(keys, function(key){
-                if(prob_slot[key].prob_fraction !== undefined) {
+            _.each(keys, function (key) {
+                if (prob_slot[key].prob_fraction !== undefined) {
                     total_prob_fraction = math.multiply_fractions(prob_slot[key].prob_fraction, total_prob_fraction);
                     factors.push(math.fraction2text(prob_slot[key].prob_fraction));
                 }
@@ -476,7 +482,7 @@
             return {fraction: total_prob_fraction, text: total_prob_fraction_text};
         };
 
-        this.transform_to_add_probability_old = function(given_hand_length_slots, static_deck) {
+        this.transform_to_add_probability_old = function (given_hand_length_slots, static_deck) {
             var self = this;
             static_deck = static_deck !== undefined ? static_deck : myservice.static_deck;
             var keys = Object.keys(given_hand_length_slots);
@@ -487,17 +493,17 @@
             var prob_slot = {};
 
             // each slot
-            _.each(keys, function(key){
+            _.each(keys, function (key) {
                 slot = given_hand_length_slots[key];
                 var fraction = [];
                 numer = slot.card_ids.length;
                 denom = running_denom;
                 fraction = [numer, denom];
-                running_denom = running_denom -1;
+                running_denom = running_denom - 1;
                 prob_slot[key] = {prob_fraction: fraction};
             });
-            var total_prob_fraction = [1,1];
-            _.each(keys, function(key){
+            var total_prob_fraction = [1, 1];
+            _.each(keys, function (key) {
                 total_pf = math.multiply_fractions(prob_slot[key].prob_fraction, total_prob_fraction);
             });
             var total_prob = self.make_probability_text_from_slots(prob_slot);
@@ -511,46 +517,66 @@
         };
 
 
-        this.make_prob_fraction_for_slot = function(slot, running_denom) {
-             var fraction = [];
-                numer = slot.card_ids.length;
-                denom = running_denom;
-                var fraction = [numer, denom];
-                running_denom = running_denom -1;
-                return fraction;
+        this.make_prob_fraction_for_slot = function (slot, running_denom) {
+            var fraction = [];
+            numer = slot.card_ids.length;
+            denom = running_denom;
+            var fraction = [numer, denom];
+            running_denom = running_denom - 1;
+            return {fraction: fraction, running_denom: running_denom};
         };
-        this.transform_to_add_probability = function(given_hand_length_slots, static_deck) {
+        this.make_rank_suit_string_for_slot = function (slot) {
+            var rank_str = slot.rank + " of ";
+            var temp = [];
+            temp.push('(');
+            for (var i = 0; i < slot.suits.length; i++) {
+                temp.push('&');
+                temp.push(slot.suits[i]);
+                if (i == slot.suits.length - 1) {
+                    temp.push(',');
+                } else if (slot.suits.length == 1) {
+                    temp.push(';');
+                } else {
+                    temp.push(';, ');
+                }
+            }
+            temp.push(')');
+            suit_str = temp.join('');
+            return '[' + rank_str + suit_str + ']';
+        };
+        this.transform_to_add_probability = function (given_hand_length_slots, static_deck) {
             var self = this;
             static_deck = static_deck !== undefined ? static_deck : myservice.static_deck;
             var keys = Object.keys(given_hand_length_slots);
             key_length = keys.length;
             var probability_string = '';
             var running_denom = self.get_available_cards(static_deck, myservice.player_hand, myservice.dealer_hand).length;
-
+            var rank_suit_str_arr = [];
             var prob_slot = {};
-            console.log(given_hand_length_slots);
-            _.each(keys, function(key){
-                // make a separeta fxn
+            _.each(keys, function (key) {
                 slot = given_hand_length_slots[key];
-                var fraction = self.make_prob_fraction_for_slot(slot, running_denom);
-                prob_slot[key] = {prob_fraction: fraction};
+                var fraction_obj = self.make_prob_fraction_for_slot(slot, running_denom);
+                running_denom = fraction_obj.running_denom;
+                prob_slot[key] = {prob_fraction: fraction_obj.fraction};
+
+                var rank_suit_str = self.make_rank_suit_string_for_slot(slot);
+                rank_suit_str_arr.push(rank_suit_str);
+
             });
-            var total_prob_fraction = [1,1];
-            _.each(keys, function(key){
+            var total_prob_fraction = [1, 1];
+            _.each(keys, function (key) {
                 total_pf = math.multiply_fractions(prob_slot[key].prob_fraction, total_prob_fraction);
             });
             var total_prob = self.make_probability_text_from_slots(prob_slot);
 
             var hand_obj = {};
             hand_obj['hand_size'] = keys.length;
-            hand_obj['slots'] = prob_slot;
+            //hand_obj['slots'] = prob_slot;
             hand_obj['prob_text'] = total_prob.text;
             hand_obj['total_prob_fraction'] = total_prob.fraction;
+            hand_obj['rank_suit_str'] = rank_suit_str_arr.join(' + ');
             return hand_obj;
         };
-
-
-
 
 
     }]);
