@@ -205,6 +205,7 @@
 
 
                 probService.getComboData().then(function (result) {
+                    console.log('hello');
                     $scope.combos_data_totals = result.totals_count;
                     $scope.combos_data_rows = result.combos_count;
                     $scope.show_prob_table = true;

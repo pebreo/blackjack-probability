@@ -1026,6 +1026,7 @@
                     myservice.setup_static_deck();
                     hand_value = myservice.calc_hand_value(myservice.player_hand);
                     var desired_hand_value = 21 - hand_value[0];
+                    desired_hands = myservice.get_needed_ranks(myservice.player_hand, myservice.static_deck);
                     var avail_deck = transform.get_available_cards(myservice.static_deck, myservice.player_hand, myservice.dealer_hand);
                     return myservice.get_prob_stats(myservice.player_hand, avail_deck);
                 }, 1);
