@@ -10,28 +10,33 @@
   </colgroup>
   <tbody>
 
+  <td class="col-md-6">Total</td>
 
-    <td class="col-md-6">Total</td>
+  <td class="col-md-6"><b>{{combos_data_totals.total_combos}}</b></td>
 
-    <td class="col-md-6"><b>{{combos_data_totals.total_combos}}</b></td>
+  <td class="col-md-6"><b>{{combos_data_totals.desired_cards_count}}</b></td>
 
-    <td class="col-md-6"><b>{{combos_data_totals.desired_cards_count}}</b></td>
+  <td class="col-md-6"><b>{{combos_data_totals.total_prob}}</b></td>
 
-    <td class="col-md-6"><b>{{combos_data_totals.total_prob}}</b></td>
-
-  </tr><tr ng-repeat="c in combos_data_rows">
+  </tr>
+  <tr ng-repeat-start="c in combos_data_rows">
 
     <td class="col-md-6">{{c.k}} - <span ng-bind-html="c.k | cardsymbol"></span></td>
 
     <td class="col-md-6">{{c.total_combos}}</td>
 
-    <td class="col-md-6">{{c.desired_cards_count}}</td>
+    <td class="col-md-6">{{c.desired_cards_count}}
+      <button ng-if="c.expanded" ng-click="c.expanded = false">-</button>
+      {{expanded}}
+      <button ng-if="!c.expanded" ng-click="c.expanded = true">+</button>
+    </td>
 
     <td class="col-md-6">{{c.fraction}}</td>
-
+  </tr>
+  <tr ng-if="c.expanded" ng-repeat-end="">
+    <td colspan="4">baz</td>
   </tr>
   <tr>
-
 
 
   </tbody>
