@@ -578,7 +578,39 @@
             return hand_obj;
         };
 
+        this.make_rank_suit_strings_and_prob_fractions = function(dh_by_hand_size) {
+            var self = this;
+            var rsspb = [];
+            _.each(dh_by_hand_size, function(value, key){
+                console.log(key);
+                var slot_obj = self.group_hand_group_into_slots(dh_by_hand_size[key], key);
+
+                var given_hand_length_slot = self.transform_to_add_suits_and_ids(slot_obj);
+                var hand_data_obj = self.transform_to_add_probability(given_hand_length_slot);
+                rsspb.push(hand_data_obj);
+            });
+            console.log(JSON.stringify(rsspb));
+        };
+
 
     }]);
 
 }());
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
