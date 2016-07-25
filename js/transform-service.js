@@ -428,12 +428,14 @@
             var ids_list = {};
             var slots = slot_obj.slots;
             var hand_size = slot_obj.hand_size;
+            console.log(allowable_hand_size);
+            console.log(hand_size);
             _.each(slots, function (cards, key) {
                 var suit_list = [];
                 var id_list = [];
                 var the_rank = cards[0].rank;
                 // when there are 3, 4, 5, 6 cards in the hand
-                if (_.includes(allowable_hand_size, hand_size)) {
+                if (_.includes(allowable_hand_size, parseInt(hand_size))) {
                     id_list = self.filter_available_card_ids_of_rank(myservice.static_deck, the_rank);
                     //suits_list = ['clubs','diams','hearts','spades'];
                     suits_list = self.get_suits_of_card_ids(id_list);
@@ -582,14 +584,13 @@
             var self = this;
             var rsspb = [];
             _.each(dh_by_hand_size, function(value, key){
-                console.log(key);
                 var slot_obj = self.group_hand_group_into_slots(dh_by_hand_size[key], key);
-
+                //console.log(slot_obj);
                 var given_hand_length_slot = self.transform_to_add_suits_and_ids(slot_obj);
                 var hand_data_obj = self.transform_to_add_probability(given_hand_length_slot);
                 rsspb.push(hand_data_obj);
             });
-            console.log(JSON.stringify(rsspb));
+           return rsspb;
         };
 
 
