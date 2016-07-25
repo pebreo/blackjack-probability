@@ -33,6 +33,7 @@
             $scope.message = '';
 
             $scope.desired_cards_prob_html = [];
+            $scope.desired_possible_hands = [];
             $scope.show_needed_cards_table = false;
             $scope.show_prob_table = false;
 
@@ -196,8 +197,9 @@
 
             $scope.show_info_tables = function () {
                 // t0 = performance.now();
-                probService.getData().then(function (result) {
-                    $scope.desired_cards_prob_html = result;
+                probService.getPossibleHandsData().then(function (result) {
+                    console.log(result);
+                    $scope.desired_possible_hands = result;
                     $scope.show_needed_cards_table = true;
                     // var t1 = performance.now();
                     // console.log('duration ' + (t1-t0));
@@ -222,7 +224,6 @@
                 //console.log(logic.dealer_hand);
 
                 $scope.dealer_hand_value = logic.calc_hand_value(logic.dealer_hand);
-
 
                 $scope.player_hand_value = logic.calc_hand_value(logic.player_hand);
 

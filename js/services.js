@@ -873,11 +873,11 @@
             }
 
 
-            return [num1*num2, denom1*denom2];
+            return [num1 * num2, denom1 * denom2];
         };
 
-        this.fraction2text = function(fraction){
-          return fraction[0].toString() + "/" + fraction[1].toString();
+        this.fraction2text = function (fraction) {
+            return fraction[0].toString() + "/" + fraction[1].toString();
         };
 
         /*
@@ -937,26 +937,26 @@
 
 
         /*
-        Usage:
-            round.round10(55.55, -1);   // 55.6
-            round.round10(55.549, -1);  // 55.5
-            round.round10(55, 1);       // 60
-            round.round10(54.9, 1);     // 50
-            round.round10(-55.55, -1);  // -55.5
-            round.round10(-55.551, -1); // -55.6
-            round.round10(-55, 1);      // -50
-            round.round10(-55.1, 1);    // -60
-            round.round10(1.005, -2);   // 1.01 -- compare this with Math.round(1.005*100)/100 above
-            // Floor
-            round.floor10(55.59, -1);   // 55.5
-            round.floor10(59, 1);       // 50
-            round.floor10(-55.51, -1);  // -55.6
-            round.floor10(-51, 1);      // -60
-            // Ceil
-            round.ceil10(55.51, -1);    // 55.6
-            round.ceil10(51, 1);        // 60
-            round.ceil10(-55.59, -1);   // -55.5
-            round.ceil10(-59, 1);       // -50
+         Usage:
+         round.round10(55.55, -1);   // 55.6
+         round.round10(55.549, -1);  // 55.5
+         round.round10(55, 1);       // 60
+         round.round10(54.9, 1);     // 50
+         round.round10(-55.55, -1);  // -55.5
+         round.round10(-55.551, -1); // -55.6
+         round.round10(-55, 1);      // -50
+         round.round10(-55.1, 1);    // -60
+         round.round10(1.005, -2);   // 1.01 -- compare this with Math.round(1.005*100)/100 above
+         // Floor
+         round.floor10(55.59, -1);   // 55.5
+         round.floor10(59, 1);       // 50
+         round.floor10(-55.51, -1);  // -55.6
+         round.floor10(-51, 1);      // -60
+         // Ceil
+         round.ceil10(55.51, -1);    // 55.6
+         round.ceil10(51, 1);        // 60
+         round.ceil10(-55.59, -1);   // -55.5
+         round.ceil10(-59, 1);       // -50
 
          */
         this.round = (function () {
@@ -1012,15 +1012,7 @@
     // Run calculation without hanging UI
     app.service('probService', ['$timeout', '$q', '$rootScope', 'myservice', 'transform', function ($timeout, $q, $rootScope, myservice, transform) {
         return {
-            getData: function () {
-                return $timeout(function () {
-                    myservice.setup_static_deck();
-                    var desired_cards = myservice.get_needed_ranks(myservice.player_hand, myservice.static_deck);
-                    // This is calculation-intensive
-                    var dh_grouped = transform.make_dh_grouped(desired_cards);
-                    return transform.make_suits_group_string_arr(dh_grouped);
-                }, 1);
-            },
+
             getComboData: function () {
                 return $timeout(function () {
                     myservice.setup_static_deck();
@@ -1030,7 +1022,18 @@
                     var avail_deck = transform.get_available_cards(myservice.static_deck, myservice.player_hand, myservice.dealer_hand);
                     return myservice.get_prob_stats(myservice.player_hand, avail_deck);
                 }, 1);
-            }
+            },
+            getPossibleHandsData: function () {
+                return $timeout(function () {
+                    myservice.setup_static_deck();
+                    //myservice.current_deck = transform.get_available_cards(static_deck);
+                    hand_value = myservice.calc_hand_value(myservice.player_hand);
+                    var desired_hand_value = 21 - hand_value[0];
+                    desired_hands = myservice.get_needed_ranks(myservice.player_hand, myservice.static_deck);
+                    var dh_by_hand_size = transform.group_needed_ranks_into_hand_length(desired_hands);
+                    return transform.make_rank_suit_strings_and_prob_fractions(dh_by_hand_size);
+                }, 1);
+            },
 
         };
 

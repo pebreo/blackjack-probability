@@ -9,9 +9,9 @@
             </thead>
           </colgroup>
           <tbody>
-          <tr ng-repeat="d in desired_cards_prob_html">
+          <tr ng-repeat="d in desired_possible_hands">
 
-              <td class="col-md-6"><span ng-bind-html="d.rank_str_html | unsafe2"></span></td>
+              <td class="col-md-6"><span ng-bind-html="d.rank_suit_str | unsafe2"></span></td>
               <td class="col-md-6">{{d.prob_text}}</td>
 
           </tr>
