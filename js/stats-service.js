@@ -383,6 +383,25 @@
             return {combos_count: combos_count_fraction_text, totals_count: total_count};
         };
 
+        this.make_and_reduce_combos_count = function(count_card_combos, dh_by_count){
+           // make a function
+           var  combos_count = _.map(count_card_combos, function (combos) {
+                var key = combos.k;
+                if (_.includes(Object.keys(dh_by_count), key.toString())) {
+                    var desired_card_count = dh_by_count[key.toString()].length;
+                    combos['desired_cards_count'] = desired_card_count;
+                    combos['fraction'] = math.reduce_fraction.reduce(combos.desired_cards_count, combos.total_combos);
+                    return combos;
+                } else {
+                    combos['desired_cards_count'] = 0;
+                    combos['fraction'] = math.reduce_fraction.reduce(0, combos.total_combos);
+                    return combos;
+                }
+            });
+            return combos_count;
+
+        };
+
         this.get_prob_stats = function (hand, deck) {
             var self = this;
             var deck = (deck === undefined) ? this.static_deck : deck;
@@ -430,27 +449,13 @@
                     desired_hands = combo_vals[desired_card_value1];
                 }
 
-            }
-            ;
+            };
 
             var dh_by_count = _.groupBy(desired_hands, function (dh) {
                 return dh.hand.length
             });
-            // make a function
-            combos_count = _.map(count_card_combos, function (combos) {
-                var key = combos.k;
-                if (_.includes(Object.keys(dh_by_count), key.toString())) {
-                    var desired_card_count = dh_by_count[key.toString()].length;
-                    combos['desired_cards_count'] = desired_card_count;
-                    combos['fraction'] = math.reduce_fraction.reduce(combos.desired_cards_count, combos.total_combos);
-                    return combos;
-                } else {
-                    combos['desired_cards_count'] = 0;
-                    combos['fraction'] = math.reduce_fraction.reduce(0, combos.total_combos);
-                    return combos;
-                }
-            });
 
+            var combos_count = self.make_and_reduce_combos_count(count_card_combos, dh_by_count);
             // make a function
             //combos_count = _.filter(combos_count, function(c){return c !== undefined});
             total_count = _.reduce(combos_count, function (sum_obj, combo) {
