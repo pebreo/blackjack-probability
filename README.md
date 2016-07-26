@@ -70,11 +70,11 @@ Combinations data methods
 -------------------------
 
 * `$scope.show_info_tables()` calls:
-   - probService.getComboData()
+    - probService.getComboData()
        - returns result
        - set: $scope.combos_data_rows = result.combos_count
        - use loop to decide weather to hit or stand (should probably put in a service)
-   - $scope.decide_winner()
+    - $scope.decide_winner()
 
 * `probService.getComboData()` calls:
      - myservice.setup_static_deck()
@@ -82,6 +82,18 @@ Combinations data methods
      - desired_hand_value = 21 - hand_value[0]
      - avail_deck = transform.get_available_cards(myservice.static_deck, myservice.player_hand, myservice.dealer_hand)
      - return myservice.get_prob_stats(myservice.player_hand, avail_deck)
+
+* render in `prob_table.html` template using the following variables:
+    - $scope.combos_data_totals = result
+    - combos_data_totals.total_combos
+    - combos_data_totals.desired_cards_count
+    - combos_data_totals.total_prob
+
+    - row data: $scope.combos_data_rows
+        - c.k  - key
+        - c.total_combos
+        - c.desired_cards_count
+        - c.fraction
 
 
 Black Jack Rules
