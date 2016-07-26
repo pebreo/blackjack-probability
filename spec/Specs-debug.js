@@ -453,7 +453,7 @@ xdescribe("make_dh_grouped", function() {
 
 
 
-describe("make_dh_grouped", function() {
+xdescribe("make_dh_grouped", function() {
     var myservice, transform, math, stub_data;
     // setup the angular module
     beforeEach(module('myApp'));
@@ -581,20 +581,24 @@ describe("make_dh_grouped", function() {
         //hand_size = Object.keys(x)[0] - the hand size is the hand length, which is the same as the key
 
 
+        var slot_obj = transform.group_hand_group_into_slots(dh_by_hand_size[1], 1);
+        var given_hand_length_slots3 = transform.transform_to_add_suits_and_ids(slot_obj);
+        var hand_obj3 = transform.transform_to_add_probability(given_hand_length_slots3);
+
         var slot_obj = transform.group_hand_group_into_slots(dh_by_hand_size[2], 2);
         var given_hand_length_slots3 = transform.transform_to_add_suits_and_ids(slot_obj);
         var hand_obj3 = transform.transform_to_add_probability(given_hand_length_slots3);
-        console.log(hand_obj3);
 
-        //var slot_obj = transform.group_hand_group_into_slots(desired_hands[2], 2);
-        //var given_hand_length_slots3 = transform.transform_to_add_suits_and_ids(slot_obj);
-        //var hand_obj2 = transform.transform_to_add_probability(given_hand_length_slots3);
+        var slot_obj = transform.group_hand_group_into_slots(dh_by_hand_size[3], 3);
+
+        var given_hand_length_slots3 = transform.transform_to_add_suits_and_ids(slot_obj);
+        var hand_obj3 = transform.transform_to_add_probability(given_hand_length_slots3);
 
         //transform.calculate_total
 
     });
 
-    it("good program execution - calculate total probability", function() {
+    xit("good result -  calculate total probability", function() {
         /*
             3 - all suits
             2 (all suits) + A (all suits)
@@ -619,8 +623,8 @@ describe("make_dh_grouped", function() {
         var dh_by_hand_size = transform.group_needed_ranks_into_hand_length(desired_hands);
         //hand_size = Object.keys(x)[0] - the hand size is the hand length, which is the same as the key
 
-        transform.make_rank_suit_strings_and_prob_fractions(dh_by_hand_size);
-
+        var result = transform.make_rank_suit_strings_and_prob_fractions(dh_by_hand_size);
+        console.log(result);
         //var slot_obj = transform.group_hand_group_into_slots(desired_hands[2], 2);
         //var given_hand_length_slots3 = transform.transform_to_add_suits_and_ids(slot_obj);
         //var hand_obj2 = transform.transform_to_add_probability(given_hand_length_slots3);
