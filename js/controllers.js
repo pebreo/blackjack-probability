@@ -20,7 +20,6 @@
             var logic = myservice;
             logic.setup_static_deck();
             $scope.start_switch = false;
-            $scope.samples = [];
             $scope.current_deck = [];
 
             $scope.dealer_hand = [];
@@ -29,7 +28,6 @@
             $scope.dealer_hand_value = [];
             $scope.player_hand_value = [];
 
-            $scope.action_marker = true;
             $scope.message = '';
 
             $scope.desired_cards_prob_html = [];
@@ -40,7 +38,6 @@
             $scope.is_end = function () {
                 return true;
             };
-            $scope.x = 0;
 
             $scope.start_game = function () {
                 $scope.reset_game();
