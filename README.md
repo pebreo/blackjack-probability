@@ -34,6 +34,56 @@ gulp # this will run flask and open a browser
 ```
 
 
+How does the program work?
+---------------------------
+
+* Initialize the data in MyCtrl
+* When user clicks 'Deal' button call `first_deal()`
+
+* `first_deal()` calls:
+   - myservice.make_deck()
+   - myservice.setup_static_deck()
+   - myservice.blackjack_deal($scope.current_deck)
+   - $scope.show_info_tables()
+   - returns nothing
+
+* When user clicks 'Hit' button call `deal_to_player()`
+
+* `deal_to_player()` calls:
+   - obj = myservice.deal_card($scope.current_deck)
+   - myservice.player_hand(obj.card)
+   - $scope.show_info_tables()
+   - $scope.check_bust(myservice.player_hand)
+
+* When user clicks `Stand` button call `player_stand()`
+
+* `player_stand()` calls `$scope.dealer_move()` which calls:
+   - myservice.dealer_hand[1].show = true
+   -
+
+* `decide_winner()` calls:
+    - myservice.decide_winne(player_hand, dealer_hand)
+    - use switch statement to display the appropriate message
+
+
+Combinations data methods
+-------------------------
+
+* `$scope.show_info_tables()` calls:
+   - probService.getComboData()
+       - returns result
+       - set: $scope.combos_data_rows = result.combos_count
+       - use loop to decide weather to hit or stand (should probably put in a service)
+   - $scope.decide_winner()
+
+* `probService.getComboData()` calls:
+     - myservice.setup_static_deck()
+     - hand_value = myservice.calc_hand_value(myservice.player_hand)
+     - desired_hand_value = 21 - hand_value[0]
+     - avail_deck = transform.get_available_cards(myservice.static_deck, myservice.player_hand, myservice.dealer_hand)
+     - return myservice.get_prob_stats(myservice.player_hand, avail_deck)
+
+
 Black Jack Rules
 ---------------
 ```
