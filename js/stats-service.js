@@ -294,31 +294,32 @@
 
 
         this.simplify_card_combos_counts = function (combos_count) {
-            cc_grouped = _.groupBy(combos_count, 'k');
-            var simplified_combos_count = _.map(Object.keys(cc_grouped), function (group_key) {
-                var key = cc_grouped[group_key].k;
-                var group = cc_grouped[group_key];
-                var new_group = _.reduce(group, function (sum_obj, obj) {
-                    //var total_combos = sum_obj.total_combos + obj.total_combos;
-                    //var desired_cards_count = sum_obj.desired_cards_count + obj.desired_cards_count;
-                    var desired_cards_count = sum_obj.desired_cards_count + obj.desired_cards_count;
-                    var total_combos = sum_obj.total_combos + obj.total_combos;
-
-                    var frac1 = sum_obj.fraction;
-                    var frac2 = obj.fraction;
-                    var fraction = math.add_fractions(frac1, frac2);
-
-                    return {
-                        k: group_key,
-                        total_combos: total_combos,
-                        desired_cards_count: desired_cards_count,
-                        fraction: fraction
-                    }
-
-                }, {k: group_key, total_combos: 0, desired_cards_count: 0, fraction: [0, 0]});
-                return new_group;
-            });
-            return simplified_combos_count;
+            return _.uniqBy(combos_count, 'k');
+            //cc_grouped = _.groupBy(combos_count, 'k');
+            //var simplified_combos_count = _.map(Object.keys(cc_grouped), function (group_key) {
+            //    var key = cc_grouped[group_key].k;
+            //    var group = cc_grouped[group_key];
+            //    var new_group = _.reduce(group, function (sum_obj, obj) {
+            //        //var total_combos = sum_obj.total_combos + obj.total_combos;
+            //        //var desired_cards_count = sum_obj.desired_cards_count + obj.desired_cards_count;
+            //        var desired_cards_count = sum_obj.desired_cards_count + obj.desired_cards_count;
+            //        var total_combos = sum_obj.total_combos + obj.total_combos;
+            //
+            //        var frac1 = sum_obj.fraction;
+            //        var frac2 = obj.fraction;
+            //        var fraction = math.add_fractions(frac1, frac2);
+            //
+            //        return {
+            //            k: group_key,
+            //            total_combos: total_combos,
+            //            desired_cards_count: desired_cards_count,
+            //            fraction: fraction
+            //        }
+            //
+            //    }, {k: group_key, total_combos: 0, desired_cards_count: 0, fraction: [0, 0]});
+            //    return new_group;
+            //});
+            //return simplified_combos_count;
         };
 
 
@@ -541,6 +542,7 @@
             };
 
         this.make_total_count_obj = function(combos_count){
+            var combos_count = _.uniqBy(combos_count);
             var self = this;
             var total_count;
             total_count = _.reduce(combos_count, function (sum_obj, combo) {
@@ -629,9 +631,11 @@
 
             var combos_count = self.make_and_reduce_combos_count(count_card_combos, dh_by_count);
             //console.log(JSON.stringify(combos_count));
+            console.log(combos_count);
             // make a function
             //combos_count = _.filter(combos_count, function(c){return c !== undefined});
             var total_count = self.make_total_count_obj(combos_count);
+            console.log(total_count);
             combos_count = this.simplify_card_combos_counts(combos_count);
 
             // make a function
