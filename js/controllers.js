@@ -174,6 +174,25 @@
 
             };
 
+
+            $scope.stub_player_hand = function (player_hand) {
+                var s_dealer = stub_data.make_hand([['7', 'clubs'], ['8', 'hearts']]);
+                var s_player = stub_data.make_hand(player_hand);
+                myservice.static_deck = stub_data.static_deck;
+
+                s_dealer[1].show = false;
+                myservice.dealer_hand = s_dealer;
+                myservice.player_hand = s_player;
+
+                $scope.player_hand = s_player;
+                $scope.dealer_hand = s_dealer;
+
+                $scope.current_deck = stub_data.make_modified_deck(s_player, s_dealer);
+                console.log('stubbing deck');
+                console.log($scope.current_deck);
+
+            };
+
             $scope.stub_player_hands_issue5 = function () {
                 var s_dealer =  stub_data.make_hand([ ['8','hearts'], ['3','hearts'] ]);
                 var s_player =  stub_data.make_hand([ ['a','spades'], ['7','spades'] ]);
@@ -226,6 +245,7 @@
                 $scope.player_hand_value = logic.calc_hand_value(logic.player_hand);
 
                 //$scope.stub_player_hands_issue5();
+                $scope.stub_player_hand([['a', 'diams'], ['a', 'spades']]);
 
                 $scope.show_info_tables();
                 $scope.show_needed_cards_table = false;
