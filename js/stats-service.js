@@ -576,19 +576,8 @@
 
         };
 
-        this.get_prob_stats = function (hand, deck) {
-            var self = this;
-            var deck = (deck === undefined) ? this.static_deck : deck;
-            if (this.static_deck === undefined) {
-                throw 'static_deck not defined';
-            }
-            var hand_value = [];
-            var needed_ranks = [];
-            var desired_card_value = 0;
-            var obj;
-            // make a function
-            hand_value = this.calc_hand_value(hand);
-            if (hand_value.length == 1) {
+        this.make_dh_by_count_and_count_card_combos = function(hand_value, deck) {
+               if (hand_value.length == 1) {
                 desired_card_value = 21 - hand_value[0];
                 var card_combos = this.make_card_combos(deck, desired_card_value);
                 var count_card_combos = this.make_count_card_combos(deck, desired_card_value);
@@ -623,11 +612,34 @@
                     desired_hands = combo_vals[desired_card_value1];
                 }
 
-            };
+            }
 
             var dh_by_count = _.groupBy(desired_hands, function (dh) {
                 return dh.hand.length
             });
+            var obj = {
+                dh_by_count: dh_by_count,
+                count_card_combos: count_card_combos
+            };
+            return obj;
+        };
+
+        this.get_prob_stats = function (hand, deck) {
+            var self = this;
+            var deck = (deck === undefined) ? this.static_deck : deck;
+            if (this.static_deck === undefined) {
+                throw 'static_deck not defined';
+            }
+            var hand_value = [];
+            var needed_ranks = [];
+            var desired_card_value = 0;
+            var obj;
+            // make a function
+            hand_value = this.calc_hand_value(hand);
+
+            var temp = self.make_dh_by_count_and_count_card_combos(hand_value, deck);
+            var count_card_combos = temp.count_card_combos;
+            var dh_by_count = temp.dh_by_count;
 
             var combos_count = self.make_and_reduce_combos_count(count_card_combos, dh_by_count);
             //console.log(JSON.stringify(combos_count));
