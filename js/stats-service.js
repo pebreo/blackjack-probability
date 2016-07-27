@@ -203,8 +203,8 @@
                 return card_combos;
             }
             if (desired_card_value >= 15) {
-                -
-                    console.log('desired_card_value>=15');
+
+                //console.log('desired_card_value>=15');
                 [1, 2, 3, 4].forEach(function (k) {
                     var c = self.combs_choose(deck, k);
                     card_combos = Array.prototype.concat(card_combos, c);
@@ -398,6 +398,7 @@
                     return combos;
                 }
             });
+            //console.log('combos count ' + combos_count.length);
             return combos_count;
 
         };
@@ -438,7 +439,7 @@
                 );
                 // var card_combos = this.make_card_combos(deck, desired_card_value1);
                 var combo_vals = this.make_combos_with_hand_values(card_combos);
-                console.log(card_combos.length + 'combo vals length');
+                //console.log(card_combos.length + 'combo vals length');
 
                 if (desired_card_value2 != 0) {
                     desired_hands = Array.prototype.concat([],
@@ -456,6 +457,7 @@
             });
 
             var combos_count = self.make_and_reduce_combos_count(count_card_combos, dh_by_count);
+            //console.log(JSON.stringify(combos_count));
             // make a function
             //combos_count = _.filter(combos_count, function(c){return c !== undefined});
             total_count = _.reduce(combos_count, function (sum_obj, combo) {
