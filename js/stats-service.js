@@ -292,7 +292,21 @@
             return card_combo_count;
         };
 
-        
+        this.make_total_count_obj = function(combos_count){
+            var self = this;
+            var total_count;
+            total_count = _.reduce(combos_count, function (sum_obj, combo) {
+                var desired_cards_count = sum_obj.desired_cards_count + combo.desired_cards_count;
+                var total_combos = sum_obj.total_combos + combo.total_combos;
+
+                return {total_combos: total_combos, desired_cards_count: desired_cards_count};
+
+            }, {total_combos: 0, desired_cards_count: 0});
+            total_count['total_prob'] = math.reduce_fraction.reduce(total_count.desired_cards_count, total_count.total_combos);
+            total_count['total_prob'] = self.fraction2text(total_count['total_prob']);
+            return total_count;
+        };
+
         this.make_and_reduce_combos_count = function(count_card_combos, dh_by_count){
            // make a function
            var  combos_count = _.map(count_card_combos, function (combos) {
@@ -308,7 +322,6 @@
                     return combos;
                 }
             });
-            //console.log('combos count ' + combos_count.length);
             return combos_count;
 
         };
@@ -370,15 +383,7 @@
             //console.log(JSON.stringify(combos_count));
             // make a function
             //combos_count = _.filter(combos_count, function(c){return c !== undefined});
-            total_count = _.reduce(combos_count, function (sum_obj, combo) {
-                var desired_cards_count = sum_obj.desired_cards_count + combo.desired_cards_count;
-                var total_combos = sum_obj.total_combos + combo.total_combos;
-
-                return {total_combos: total_combos, desired_cards_count: desired_cards_count};
-
-            }, {total_combos: 0, desired_cards_count: 0});
-            total_count['total_prob'] = math.reduce_fraction.reduce(total_count.desired_cards_count, total_count.total_combos);
-            total_count['total_prob'] = self.fraction2text(total_count['total_prob']);
+            var total_count = self.make_total_count_obj(combos_count);
             combos_count = this.simplify_card_combos_counts(combos_count);
 
             // make a function
