@@ -1,5 +1,7 @@
 
-describe("make_total_count_obj", function() {
+
+
+describe("make_and_reduce_combos_count", function() {
     var myservice, transform, math, stub_data, stats;
     // setup the angular module
     beforeEach(module('myApp'));
@@ -15,7 +17,111 @@ describe("make_total_count_obj", function() {
     }));
 
 
-    it("when ace + 9, should make unique combos count", function() {
+    it("exp: when ace + 9, should make unique combos count", function() {
+        var hand = stub_data.make_hand([ ['a','diams'], ['9','hearts'] ]);
+        var hand_value = stats.calc_hand_value(hand);
+        var deck = stub_data.static_deck;
+
+        var temp = stats.make_dh_by_count_and_count_card_combos(hand_value, deck);
+        var count_card_combos = temp.count_card_combos;
+        var dh_by_count = temp.dh_by_count;
+
+        var combos_count = stats.make_and_reduce_combos_count(count_card_combos, dh_by_count);
+
+        var total_count = stats.make_total_count_obj(combos_count);
+    });
+
+
+});
+
+xdescribe("make_total_count_obj", function() {
+    var myservice, transform, math, stub_data, stats;
+    // setup the angular module
+    beforeEach(module('myApp'));
+
+    // setup the service
+    beforeEach(inject(function(_myservice_, _transform_, _math_, _stub_data_, _serviceDebug_, _stats_) {
+        myservice = _myservice_;
+        transform = _transform_;
+        math = _math_;
+        stub_data = _stub_data_;
+        serviceDebug = _serviceDebug_;
+        stats = _stats_;
+    }));
+
+
+    it("exp: when ace + 9, should make unique combos count", function() {
+        var hand = stub_data.make_hand([ ['a','diams'], ['9','hearts'] ]);
+        var hand_value = stats.calc_hand_value(hand);
+        var deck = stub_data.static_deck;
+
+        var temp = stats.make_dh_by_count_and_count_card_combos(hand_value, deck);
+        var count_card_combos = temp.count_card_combos;
+        var dh_by_count = temp.dh_by_count;
+
+        var combos_count = stats.make_and_reduce_combos_count(count_card_combos, dh_by_count);
+
+        var total_count = stats.make_total_count_obj(combos_count);
+    });
+
+
+});
+
+xdescribe("make_dh_by_count_and_count_card_combos", function() {
+    var myservice, transform, math, stub_data, stats;
+    // setup the angular module
+    beforeEach(module('myApp'));
+
+    // setup the service
+    beforeEach(inject(function(_myservice_, _transform_, _math_, _stub_data_, _serviceDebug_, _stats_) {
+        myservice = _myservice_;
+        transform = _transform_;
+        math = _math_;
+        stub_data = _stub_data_;
+        serviceDebug = _serviceDebug_;
+        stats = _stats_;
+    }));
+
+
+    it("tentative: when ace + 9, should make unique combos count", function() {
+        var hand = stub_data.make_hand([ ['a','diams'], ['9','hearts'] ]);
+        var hand_value = stats.calc_hand_value(hand);
+        var deck = stub_data.static_deck;
+        var result = stats.make_dh_by_count_and_count_card_combos(hand_value, deck);
+        var dh_by_count = result.dh_by_count;
+        console.log(JSON.stringify(dh_by_count["1"]));
+        var dh_hand_size_1 = Object.keys(dh_by_count["1"]).length;
+        expect(dh_hand_size_1).toEqual(16);
+    });
+
+
+});
+
+xdescribe("make_total_count_obj", function() {
+    var myservice, transform, math, stub_data, stats;
+    // setup the angular module
+    beforeEach(module('myApp'));
+
+    // setup the service
+    beforeEach(inject(function(_myservice_, _transform_, _math_, _stub_data_, _serviceDebug_, _stats_) {
+        myservice = _myservice_;
+        transform = _transform_;
+        math = _math_;
+        stub_data = _stub_data_;
+        serviceDebug = _serviceDebug_;
+        stats = _stats_;
+    }));
+
+
+    xit("when ace + 9, should make unique combos count", function() {
+        test_combos_count = [{"k":1,"total_combos":49,"desired_cards_count":12,"fraction":[12,49]},{"k":2,"total_combos":1176,"desired_cards_count":208,"fraction":[26,147]},{"k":3,"total_combos":18424,"desired_cards_count":718,"fraction":[359,9212]},{"k":1,"total_combos":49,"desired_cards_count":12,"fraction":[12,49]},{"k":2,"total_combos":1176,"desired_cards_count":208,"fraction":[26,147]},{"k":3,"total_combos":18424,"desired_cards_count":718,"fraction":[359,9212]}];
+        var total_count = stats.make_total_count_obj(test_combos_count);
+        expect(total_count.desired_cards_count).toEqual(1876);
+        expect(total_count.total_combos).toEqual(39298);
+        expect(total_count.total_prob).toEqual('4.8% (134/2807)');
+
+    });
+    xit("exp", function() {
         test_combos_count = [{"k":1,"total_combos":49,"desired_cards_count":12,"fraction":[12,49]},{"k":2,"total_combos":1176,"desired_cards_count":208,"fraction":[26,147]},{"k":3,"total_combos":18424,"desired_cards_count":718,"fraction":[359,9212]},{"k":1,"total_combos":49,"desired_cards_count":12,"fraction":[12,49]},{"k":2,"total_combos":1176,"desired_cards_count":208,"fraction":[26,147]},{"k":3,"total_combos":18424,"desired_cards_count":718,"fraction":[359,9212]}];
         var total_count = stats.make_total_count_obj(test_combos_count);
         expect(total_count.desired_cards_count).toEqual(1876);
@@ -88,7 +194,7 @@ xdescribe("get_prob_stats", function() {
             A (clubs,diams,hearts) + A(diams, hearts, spades)
             A (all suits)
         */
-        var player_hand =  stub_data.make_hand([ ['a','diams'], ['q','spades'] ]);
+        var player_hand =  stub_data.make_hand([ ['a','diams'], ['9','spades'] ]);
         var dealer_hand =  stub_data.make_hand([ ['i','hearts'], ['3','hearts'] ]);
         dealer_hand[1].show = false;
          var static_deck = stub_data.static_deck;

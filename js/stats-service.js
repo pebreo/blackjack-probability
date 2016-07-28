@@ -642,8 +642,7 @@
             var dh_by_count = temp.dh_by_count;
 
             var combos_count = self.make_and_reduce_combos_count(count_card_combos, dh_by_count);
-            //console.log(JSON.stringify(combos_count));
-            console.log(combos_count);
+
             // make a function
             //combos_count = _.filter(combos_count, function(c){return c !== undefined});
             var total_count = self.make_total_count_obj(combos_count);
