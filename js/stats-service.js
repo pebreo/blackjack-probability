@@ -3,7 +3,7 @@
 
     var app = angular.module('myApp');
 
-    app.service('stats', ['math', function (math) {
+    app.service('stats', ['math', 'myservice', function (math, myservice) {
         this.baz = 'baz value!';
         this.player_hand = [];
         this.dealer_hand = [];
@@ -707,6 +707,35 @@
             });
             return combos_count_fraction_text;
         };
+
+        this.get_available_cards = function (deck, player_hand, dealer_hand) {
+            player_hand = player_hand !== undefined ? player_hand : myservice.player_hand;
+            dealer_hand = dealer_hand !== undefined ? dealer_hand : myservice.dealer_hand;
+            // console.log(deck.length);
+            var player_dealer_cards = Array.prototype.concat([], player_hand, dealer_hand);
+            var shown_cards = _.filter(player_dealer_cards, 'show');
+            var sc_ids = _.map(shown_cards, function (card) {
+                return card.id
+            });
+            var available_cards = _.filter(deck, function (card) {
+                return !(_.includes(sc_ids, card.id));
+            });
+            return available_cards;
+
+        };
+
+        this.make_k_1_desired_card_string = function(dh_by_count){
+            var self = this;
+            // get desired hands
+            var desired_hands = dh_by_count["1"];
+
+            // filter out the cards that are not in player hands
+            avail_cards = self.get_available_cards(myservice.static_deck, myservice.player_hand, myservice.dealer_hand);
+            console.log(avail_cards);
+            // get available cards
+            return null;
+        };
+
         this.get_prob_stats = function (hand, deck) {
             var self = this;
             var deck = (deck === undefined) ? this.static_deck : deck;
@@ -732,6 +761,7 @@
             //console.log(total_count);
             combos_count = this.simplify_card_combos_counts(combos_count);
 
+            var first_k_info = self.make_k_1_desired_card_string(dh_by_count);
             // make a function
             var combos_count_fraction_text = self.make_combos_count_fraction_text(combos_count);
 

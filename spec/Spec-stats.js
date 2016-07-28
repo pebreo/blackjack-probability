@@ -6,7 +6,7 @@ i have to clean dh_by_count, line 691
 
 
 
-describe("make_dh_by_count_and_count_card_combos", function() {
+xdescribe("make_dh_by_count_and_count_card_combos", function() {
     var myservice, transform, math, stub_data, stats;
     // setup the angular module
     beforeEach(module('myApp'));
@@ -34,7 +34,7 @@ describe("make_dh_by_count_and_count_card_combos", function() {
 
 });
 
-describe("clean_dh_by_count_with_uniq_objects", function() {
+xdescribe("clean_dh_by_count_with_uniq_objects", function() {
     var myservice, transform, math, stub_data, stats;
     // setup the angular module
     beforeEach(module('myApp'));
@@ -321,5 +321,43 @@ xdescribe("get_prob_stats", function() {
     });
 
 });
+
+describe("make_k_1_desired_card_string", function() {
+    var myservice, transform, math, stub_data, stats;
+    // setup the angular module
+    beforeEach(module('myApp'));
+
+    // setup the service
+    beforeEach(inject(function(_myservice_, _transform_, _math_, _stub_data_, _serviceDebug_, _stats_) {
+        myservice = _myservice_;
+        transform = _transform_;
+        math = _math_;
+        stub_data = _stub_data_;
+        serviceDebug = _serviceDebug_;
+        stats = _stats_;
+    }));
+
+
+    it("exp: when ace + 9, should make unique combos count", function() {
+        myservice.setup_static_deck();
+        var dealer_hand =  stub_data.make_hand([ ['8','hearts'], ['3','hearts'] ]);
+        var player_hand = stub_data.make_hand([ ['a','diams'], ['9','hearts'] ]);
+        myservice.player_hand = player_hand;
+        myservice.dealer_hand = dealer_hand;
+
+        var hand_value = stats.calc_hand_value(player_hand);
+        var deck = stub_data.static_deck;
+
+        var temp = stats.make_dh_by_count_and_count_card_combos(hand_value, deck);
+        var count_card_combos = temp.count_card_combos;
+        var dh_by_count = temp.dh_by_count;
+
+        stats.make_k_1_desired_card_string(dh_by_count);
+
+    });
+
+
+});
+
 
 
