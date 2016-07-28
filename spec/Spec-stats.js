@@ -1,7 +1,79 @@
+/*
+
+i have to clean dh_by_count, line 691
+
+ */
+describe("make_dh_by_count_and_count_card_combos", function() {
+    var myservice, transform, math, stub_data, stats;
+    // setup the angular module
+    beforeEach(module('myApp'));
+
+    // setup the service
+    beforeEach(inject(function(_myservice_, _transform_, _math_, _stub_data_, _serviceDebug_, _stats_) {
+        myservice = _myservice_;
+        transform = _transform_;
+        math = _math_;
+        stub_data = _stub_data_;
+        serviceDebug = _serviceDebug_;
+        stats = _stats_;
+    }));
+
+
+    xit("tentative: when ace + 9, should make unique combos count", function() {
+        var hand = stub_data.make_hand([ ['a','diams'], ['9','hearts'] ]);
+        var hand_value = stats.calc_hand_value(hand);
+        var deck = stub_data.static_deck;
+        var result = stats.make_dh_by_count_and_count_card_combos(hand_value, deck);
+        var dh_by_count = result.dh_by_count;
+        console.log(JSON.stringify(dh_by_count["1"]));
+        var dh_hand_size_1 = Object.keys(dh_by_count["1"]).length;
+        expect(dh_hand_size_1).toEqual(16);
+    });
+
+    it("exp: - clean_dh_by_count_with_uniq_objects- when ace + 9, should make unique combos count", function() {
+        var hand = stub_data.make_hand([ ['a','diams'], ['9','hearts'] ]);
+        var hand_value = stats.calc_hand_value(hand);
+        var deck = stub_data.static_deck;
+        var temp = stats.make_dh_by_count_and_count_card_combos(hand_value, deck);
+        var dh_by_count = temp.dh_by_count;
+        var new_dh_by_count = stats.clean_dh_by_count_with_uniq_objects(dh_by_count);
+        expect(new_dh_by_count["1"].length).toEqual(8);
+
+    });
+
+
+});
+
+xdescribe("clean_dh_by_count_with_uniq_objects", function() {
+    var myservice, transform, math, stub_data, stats;
+    // setup the angular module
+    beforeEach(module('myApp'));
+
+    // setup the service
+    beforeEach(inject(function(_myservice_, _transform_, _math_, _stub_data_, _serviceDebug_, _stats_) {
+        myservice = _myservice_;
+        transform = _transform_;
+        math = _math_;
+        stub_data = _stub_data_;
+        serviceDebug = _serviceDebug_;
+        stats = _stats_;
+    }));
+
+
+    it("exp: when ace + 9", function() {
+        var old_dh_by_count = [{"hand_value":11,"hand":[{"id":1,"rank":"a","rank_integer":[1,11],"suit":"clubs","show":true}]},{"hand_value":11,"hand":[{"id":14,"rank":"a","rank_integer":[1,11],"suit":"diams","show":true}]},{"hand_value":11,"hand":[{"id":27,"rank":"a","rank_integer":[1,11],"suit":"hearts","show":true}]},{"hand_value":11,"hand":[{"id":40,"rank":"a","rank_integer":[1,11],"suit":"spades","show":true}]},{"hand_value":11,"hand":[{"id":1,"rank":"a","rank_integer":[1,11],"suit":"clubs","show":true}]},{"hand_value":11,"hand":[{"id":14,"rank":"a","rank_integer":[1,11],"suit":"diams","show":true}]},{"hand_value":11,"hand":[{"id":27,"rank":"a","rank_integer":[1,11],"suit":"hearts","show":true}]},{"hand_value":11,"hand":[{"id":40,"rank":"a","rank_integer":[1,11],"suit":"spades","show":true}]},{"hand_value":1,"hand":[{"id":1,"rank":"a","rank_integer":[1,11],"suit":"clubs","show":true}]},{"hand_value":1,"hand":[{"id":14,"rank":"a","rank_integer":[1,11],"suit":"diams","show":true}]},{"hand_value":1,"hand":[{"id":27,"rank":"a","rank_integer":[1,11],"suit":"hearts","show":true}]},{"hand_value":1,"hand":[{"id":40,"rank":"a","rank_integer":[1,11],"suit":"spades","show":true}]},{"hand_value":1,"hand":[{"id":1,"rank":"a","rank_integer":[1,11],"suit":"clubs","show":true}]},{"hand_value":1,"hand":[{"id":14,"rank":"a","rank_integer":[1,11],"suit":"diams","show":true}]},{"hand_value":1,"hand":[{"id":27,"rank":"a","rank_integer":[1,11],"suit":"hearts","show":true}]},{"hand_value":1,"hand":[{"id":40,"rank":"a","rank_integer":[1,11],"suit":"spades","show":true}]}];
+        var new_dh_by_count = stats.clean_dh_group_by_count_with_uniq_objects(old_dh_by_count);
+        console.log(new_dh_by_count);
+    });
 
 
 
-describe("make_and_reduce_combos_count", function() {
+});
+
+
+
+
+xdescribe("make_and_reduce_combos_count", function() {
     var myservice, transform, math, stub_data, stats;
     // setup the angular module
     beforeEach(module('myApp'));
@@ -27,8 +99,8 @@ describe("make_and_reduce_combos_count", function() {
         var dh_by_count = temp.dh_by_count;
 
         var combos_count = stats.make_and_reduce_combos_count(count_card_combos, dh_by_count);
+        console.log(combos_count);
 
-        var total_count = stats.make_total_count_obj(combos_count);
     });
 
 
@@ -67,35 +139,6 @@ xdescribe("make_total_count_obj", function() {
 
 });
 
-xdescribe("make_dh_by_count_and_count_card_combos", function() {
-    var myservice, transform, math, stub_data, stats;
-    // setup the angular module
-    beforeEach(module('myApp'));
-
-    // setup the service
-    beforeEach(inject(function(_myservice_, _transform_, _math_, _stub_data_, _serviceDebug_, _stats_) {
-        myservice = _myservice_;
-        transform = _transform_;
-        math = _math_;
-        stub_data = _stub_data_;
-        serviceDebug = _serviceDebug_;
-        stats = _stats_;
-    }));
-
-
-    it("tentative: when ace + 9, should make unique combos count", function() {
-        var hand = stub_data.make_hand([ ['a','diams'], ['9','hearts'] ]);
-        var hand_value = stats.calc_hand_value(hand);
-        var deck = stub_data.static_deck;
-        var result = stats.make_dh_by_count_and_count_card_combos(hand_value, deck);
-        var dh_by_count = result.dh_by_count;
-        console.log(JSON.stringify(dh_by_count["1"]));
-        var dh_hand_size_1 = Object.keys(dh_by_count["1"]).length;
-        expect(dh_hand_size_1).toEqual(16);
-    });
-
-
-});
 
 xdescribe("make_total_count_obj", function() {
     var myservice, transform, math, stub_data, stats;
@@ -132,7 +175,7 @@ xdescribe("make_total_count_obj", function() {
 
 });
 
-xdescribe("get_prob_stats", function() {
+describe("get_prob_stats", function() {
     var myservice, transform, math, stub_data, stats;
     // setup the angular module
     beforeEach(module('myApp'));
@@ -147,7 +190,7 @@ xdescribe("get_prob_stats", function() {
         stats = _stats_;
     }));
 
-    xit("should run King + 8", function() {
+    it("should run King + 8", function() {
         /*
             3 - all suits
             2 (all suits) + A (all suits)

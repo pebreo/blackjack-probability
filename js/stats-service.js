@@ -576,14 +576,7 @@
 
         };
 
-        this.clean_dh_by_count_with_uniq_objects = function(dh_by_count){
-            var new_dh_by_count = {};
-            _.each(dh_by_count, function(value, key){
-                var dh_group = _.uniqWith(value, _.isEqual);
-               new_dh_by_count[key] = dh_group;
-            });
-            return new_dh_by_count;
-        };
+
 
         //this.make_count_card_combos = function(hand_value, deck){
         //    if (hand_value.length == 1) {
@@ -674,6 +667,15 @@
             return obj;
         };
 
+        this.clean_dh_by_count_with_uniq_objects = function(dh_by_count){
+            var new_dh_by_count = {};
+            _.each(dh_by_count, function(value, key){
+                var dh_group = _.uniqWith(value, _.isEqual);
+               new_dh_by_count[key] = dh_group;
+            });
+            return new_dh_by_count;
+        };
+
         this.make_dh_by_count_and_count_card_combos = function(hand_value, deck) {
             var self = this;
 
@@ -688,8 +690,8 @@
                 return dh.hand.length
             });
 
-            console.log(dh_by_count);
-
+            //console.log(dh_by_count);
+            var dh_by_count = self.clean_dh_by_count_with_uniq_objects(dh_by_count);
             var obj = {
                 dh_by_count: dh_by_count,
                 count_card_combos: count_card_combos
@@ -727,7 +729,7 @@
             // make a function
             //combos_count = _.filter(combos_count, function(c){return c !== undefined});
             var total_count = self.make_total_count_obj(combos_count);
-            console.log(total_count);
+            //console.log(total_count);
             combos_count = this.simplify_card_combos_counts(combos_count);
 
             // make a function
