@@ -697,6 +697,14 @@
             return obj;
         };
 
+        this.make_combos_count_fraction_text = function(combos_count){
+            var self = this;
+            var combos_count_fraction_text = _.map(combos_count, function (combos) {
+                combos['fraction'] = self.fraction2text(combos['fraction']);
+                return combos;
+            });
+            return combos_count_fraction_text;
+        };
         this.get_prob_stats = function (hand, deck) {
             var self = this;
             var deck = (deck === undefined) ? this.static_deck : deck;
@@ -723,10 +731,7 @@
             combos_count = this.simplify_card_combos_counts(combos_count);
 
             // make a function
-            combos_count_fraction_text = _.map(combos_count, function (combos) {
-                combos['fraction'] = self.fraction2text(combos['fraction']);
-                return combos;
-            });
+            var combos_count_fraction_text = self.make_combos_count_fraction_text(combos_count);
 
             return {combos_count: combos_count_fraction_text, totals_count: total_count};
         };
