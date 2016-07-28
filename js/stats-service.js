@@ -576,14 +576,67 @@
 
         };
 
-        this.make_dh_by_count_and_count_card_combos = function(hand_value, deck) {
-               if (hand_value.length == 1) {
+        this.clean_dh_by_count_with_uniq_objects = function(dh_by_count){
+            var new_dh_by_count = {};
+            _.each(dh_by_count, function(value, key){
+                var dh_group = _.uniqWith(value, _.isEqual);
+               new_dh_by_count[key] = dh_group;
+            });
+            return new_dh_by_count;
+        };
+
+        //this.make_count_card_combos = function(hand_value, deck){
+        //    if (hand_value.length == 1) {
+        //        desired_card_value = 21 - hand_value[0];
+        //        var card_combos = this.make_card_combos(deck, desired_card_value);
+        //        var count_card_combos = this.make_count_card_combos(deck, desired_card_value);
+        //        var combo_vals = this.make_combos_with_hand_values(card_combos);
+        //
+        //        desired_hands = combo_vals[desired_card_value];
+        //           // clean here? meaning: remove cards not available in the deck, remove dups
+        //        // console.log(desired_hands);
+        //    }
+        //    if (hand_value.length == 2) {
+        //        desired_card_value1 = 21 - hand_value[0];
+        //        desired_card_value2 = 21 - hand_value[1];
+        //        //var card_combos = this.combs_choose(deck, 3);
+        //        var count_card_combos = Array.prototype.concat([],
+        //            this.make_count_card_combos(deck, desired_card_value1),
+        //            this.make_count_card_combos(deck, desired_card_value2)
+        //        );
+        //
+        //        var card_combos = Array.prototype.concat([],
+        //            this.make_card_combos(deck, desired_card_value1),
+        //            this.make_card_combos(deck, desired_card_value2)
+        //        );
+        //        // var card_combos = this.make_card_combos(deck, desired_card_value1);
+        //        var combo_vals = this.make_combos_with_hand_values(card_combos);
+        //        //console.log(card_combos.length + 'combo vals length');
+        //
+        //        if (desired_card_value2 != 0) {
+        //            desired_hands = Array.prototype.concat([],
+        //                combo_vals[desired_card_value1],
+        //                combo_vals[desired_card_value2]
+        //            );
+        //        } else {
+        //            desired_hands = combo_vals[desired_card_value1];
+        //        }
+        //
+        //    }
+        //    var obj = {};
+        //
+        //    return count_card_combos;
+        //};
+
+        this.make_desired_hands_and_count_card_combos = function(hand_value, deck){
+            if (hand_value.length == 1) {
                 desired_card_value = 21 - hand_value[0];
                 var card_combos = this.make_card_combos(deck, desired_card_value);
                 var count_card_combos = this.make_count_card_combos(deck, desired_card_value);
                 var combo_vals = this.make_combos_with_hand_values(card_combos);
 
                 desired_hands = combo_vals[desired_card_value];
+                   // clean here? meaning: remove cards not available in the deck, remove dups
                 // console.log(desired_hands);
             }
             if (hand_value.length == 2) {
@@ -613,10 +666,30 @@
                 }
 
             }
+            var obj = {};
+            obj = {
+                desired_hands: desired_hands,
+                count_card_combos: count_card_combos
+            };
+            return obj;
+        };
 
+        this.make_dh_by_count_and_count_card_combos = function(hand_value, deck) {
+            var self = this;
+
+            var temp = self.make_desired_hands_and_count_card_combos(hand_value, deck);
+            var desired_hands = temp.desired_hands;
+            var count_card_combos = temp.count_card_combos;
+
+            //var foo = make_count_card_combos(hand_value, deck);
+            //console.log(foo);
+            // or clean here
             var dh_by_count = _.groupBy(desired_hands, function (dh) {
                 return dh.hand.length
             });
+
+            console.log(dh_by_count);
+
             var obj = {
                 dh_by_count: dh_by_count,
                 count_card_combos: count_card_combos
