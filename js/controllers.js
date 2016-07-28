@@ -176,7 +176,7 @@
 
 
             $scope.stub_player_hand = function (player_hand) {
-                var s_dealer = stub_data.make_hand([['7', 'clubs'], ['8', 'hearts']]);
+                var s_dealer = stub_data.make_hand([['4', 'clubs'], ['2', 'hearts']]);
                 var s_player = stub_data.make_hand(player_hand);
                 myservice.static_deck = stub_data.static_deck;
 
@@ -189,7 +189,7 @@
 
                 $scope.current_deck = stub_data.make_modified_deck(s_player, s_dealer);
                 console.log('stubbing deck');
-                console.log($scope.current_deck);
+                //console.log($scope.current_deck);
 
             };
 
@@ -224,7 +224,6 @@
 
 
                 probService.getComboData().then(function (result) {
-                    console.log('hello');
                     $scope.combos_data_totals = result.totals_count;
                     $scope.combos_data_rows = result.combos_count;
                     $scope.show_prob_table = true;
@@ -244,8 +243,7 @@
 
                 $scope.player_hand_value = logic.calc_hand_value(logic.player_hand);
 
-                //$scope.stub_player_hands_issue5();
-                $scope.stub_player_hand([['a', 'diams'], ['a', 'spades']]);
+                $scope.stub_player_hand([['k', 'diams'], ['9', 'spades']]);
 
                 $scope.show_info_tables();
                 $scope.show_needed_cards_table = false;
