@@ -3,6 +3,9 @@
 i have to clean dh_by_count, line 691
 
  */
+
+
+
 describe("make_dh_by_count_and_count_card_combos", function() {
     var myservice, transform, math, stub_data, stats;
     // setup the angular module
@@ -18,33 +21,20 @@ describe("make_dh_by_count_and_count_card_combos", function() {
         stats = _stats_;
     }));
 
-
-    xit("tentative: when ace + 9, should make unique combos count", function() {
-        var hand = stub_data.make_hand([ ['a','diams'], ['9','hearts'] ]);
-        var hand_value = stats.calc_hand_value(hand);
-        var deck = stub_data.static_deck;
-        var result = stats.make_dh_by_count_and_count_card_combos(hand_value, deck);
-        var dh_by_count = result.dh_by_count;
-        console.log(JSON.stringify(dh_by_count["1"]));
-        var dh_hand_size_1 = Object.keys(dh_by_count["1"]).length;
-        expect(dh_hand_size_1).toEqual(16);
-    });
-
-    it("exp: - clean_dh_by_count_with_uniq_objects- when ace + 9, should make unique combos count", function() {
+    it("when ace + 9, should make unique combos count", function() {
         var hand = stub_data.make_hand([ ['a','diams'], ['9','hearts'] ]);
         var hand_value = stats.calc_hand_value(hand);
         var deck = stub_data.static_deck;
         var temp = stats.make_dh_by_count_and_count_card_combos(hand_value, deck);
         var dh_by_count = temp.dh_by_count;
-        var new_dh_by_count = stats.clean_dh_by_count_with_uniq_objects(dh_by_count);
-        expect(new_dh_by_count["1"].length).toEqual(8);
+        expect(dh_by_count["1"].length).toEqual(8);
 
     });
 
 
 });
 
-xdescribe("clean_dh_by_count_with_uniq_objects", function() {
+describe("clean_dh_by_count_with_uniq_objects", function() {
     var myservice, transform, math, stub_data, stats;
     // setup the angular module
     beforeEach(module('myApp'));
@@ -60,17 +50,19 @@ xdescribe("clean_dh_by_count_with_uniq_objects", function() {
     }));
 
 
-    it("exp: when ace + 9", function() {
-        var old_dh_by_count = [{"hand_value":11,"hand":[{"id":1,"rank":"a","rank_integer":[1,11],"suit":"clubs","show":true}]},{"hand_value":11,"hand":[{"id":14,"rank":"a","rank_integer":[1,11],"suit":"diams","show":true}]},{"hand_value":11,"hand":[{"id":27,"rank":"a","rank_integer":[1,11],"suit":"hearts","show":true}]},{"hand_value":11,"hand":[{"id":40,"rank":"a","rank_integer":[1,11],"suit":"spades","show":true}]},{"hand_value":11,"hand":[{"id":1,"rank":"a","rank_integer":[1,11],"suit":"clubs","show":true}]},{"hand_value":11,"hand":[{"id":14,"rank":"a","rank_integer":[1,11],"suit":"diams","show":true}]},{"hand_value":11,"hand":[{"id":27,"rank":"a","rank_integer":[1,11],"suit":"hearts","show":true}]},{"hand_value":11,"hand":[{"id":40,"rank":"a","rank_integer":[1,11],"suit":"spades","show":true}]},{"hand_value":1,"hand":[{"id":1,"rank":"a","rank_integer":[1,11],"suit":"clubs","show":true}]},{"hand_value":1,"hand":[{"id":14,"rank":"a","rank_integer":[1,11],"suit":"diams","show":true}]},{"hand_value":1,"hand":[{"id":27,"rank":"a","rank_integer":[1,11],"suit":"hearts","show":true}]},{"hand_value":1,"hand":[{"id":40,"rank":"a","rank_integer":[1,11],"suit":"spades","show":true}]},{"hand_value":1,"hand":[{"id":1,"rank":"a","rank_integer":[1,11],"suit":"clubs","show":true}]},{"hand_value":1,"hand":[{"id":14,"rank":"a","rank_integer":[1,11],"suit":"diams","show":true}]},{"hand_value":1,"hand":[{"id":27,"rank":"a","rank_integer":[1,11],"suit":"hearts","show":true}]},{"hand_value":1,"hand":[{"id":40,"rank":"a","rank_integer":[1,11],"suit":"spades","show":true}]}];
-        var new_dh_by_count = stats.clean_dh_group_by_count_with_uniq_objects(old_dh_by_count);
-        console.log(new_dh_by_count);
+    it("when ace + 9, should make unique combos count", function() {
+        var hand = stub_data.make_hand([ ['a','diams'], ['9','hearts'] ]);
+        var hand_value = stats.calc_hand_value(hand);
+        var deck = stub_data.static_deck;
+        var temp = stats.make_dh_by_count_and_count_card_combos(hand_value, deck);
+        var dh_by_count = temp.dh_by_count;
+        var new_dh_by_count = stats.clean_dh_by_count_with_uniq_objects(dh_by_count);
+        expect(new_dh_by_count["1"].length).toEqual(8);
+
     });
 
 
-
 });
-
-
 
 
 xdescribe("make_and_reduce_combos_count", function() {
@@ -175,7 +167,7 @@ xdescribe("make_total_count_obj", function() {
 
 });
 
-describe("get_prob_stats", function() {
+xdescribe("get_prob_stats", function() {
     var myservice, transform, math, stub_data, stats;
     // setup the angular module
     beforeEach(module('myApp'));
