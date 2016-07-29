@@ -724,16 +724,70 @@
 
         };
 
+        this.get_player_dealer_hand_shown = function(player_hand, dealer_hand) {
+            player_hand = player_hand !== undefined ? player_hand : myservice.player_hand;
+            dealer_hand = dealer_hand !== undefined ? dealer_hand : myservice.dealer_hand;
+            var player_dealer_cards = Array.prototype.concat([], player_hand, dealer_hand);
+            return _.filter(player_dealer_cards, function(c){return c.show});
+        };
+
+        this.make_k_1_desired_card_string_old = function(dh_by_count){
+            var self = this;
+            // get desired hands
+            var desired_hands = dh_by_count["1"];
+
+            // filter out the cards that are not in player hands
+            var avail_cards = self.get_available_cards(myservice.static_deck, myservice.player_hand, myservice.dealer_hand);
+            var player_dealer_hands = self.get_player_dealer_hand_shown(myservice.player_hand, myservice.dealer_hand);
+            var x = _.filter(desired_hands, function(hand){
+               return !(_.includes(player_dealer_hands, hand));
+            });
+            var player_dealer_hand_ids = _.map(player_dealer_hands, 'id');
+            console.log(avail_cards);
+            // get available cards
+            return null;
+        };
+
+        this.get_suit_string = function(suit){
+            var suit_string = {
+                'clubs':'&clubs;',
+                'diams': '&diams;',
+                'spades':'&spades;',
+                'hearts': '&hearts;'
+            };
+            return suit_string[suit];
+        };
+
+        this.make_string_of_cards_by_suit = function(cards_by_suit){
+            var temp = [];
+            var suit_string = {
+                'clubs':'&clubs;',
+                'diams': '&diams;',
+                'spades':'&spades;',
+                'hearts': '&hearts;'
+            };
+            _.each(cards_by_suit, function(cards, suit){
+                var ranks = _.map(cards, 'rank');
+                var rank_str = ranks.join(',');
+                temp.push(suit_string[suit] + ":" + rank_str);
+            });
+            temp_str = temp.join("<br>");
+            return temp_str;
+        };
+
         this.make_k_1_desired_card_string = function(dh_by_count){
             var self = this;
             // get desired hands
             var desired_hands = dh_by_count["1"];
 
             // filter out the cards that are not in player hands
-            avail_cards = self.get_available_cards(myservice.static_deck, myservice.player_hand, myservice.dealer_hand);
-            console.log(avail_cards);
-            // get available cards
-            return null;
+            var avail_cards = self.get_available_cards(myservice.static_deck, myservice.player_hand, myservice.dealer_hand);
+            cards_by_suit = _.groupBy(avail_cards, 'suit');
+            var cbs_string = self.make_string_of_cards_by_suit(cards_by_suit);
+            console.log(cbs_string);
+
+            dh_hands_by_suit = _.groupBy(desired_hands, 'suit');
+
         };
 
         this.get_prob_stats = function (hand, deck) {
