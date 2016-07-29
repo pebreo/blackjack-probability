@@ -769,25 +769,43 @@
             _.each(cards_by_suit, function(cards, suit){
                 var ranks = _.map(cards, 'rank');
                 var rank_str = ranks.join(',');
-                temp.push(suit_string[suit] + ":" + rank_str);
+                temp.push(suit_string[suit] + ":" + rank_str.toUpperCase());
             });
             temp_str = temp.join("<br>");
             return temp_str;
         };
 
+        this.make_string_of_card_value = function(cards){
+            var temp = [];
+            var suit_string = {
+                'clubs':'&clubs;',
+                'diams': '&diams;',
+                'spades':'&spades;',
+                'hearts': '&hearts;'
+            };
+            uniq_cards = _.uniqWith(cards, _.isEqual);
+            _.each(uniq_cards, function(card){
+                value_str = card.rank_integer.toString()
+               temp.push(card.rank.toUpperCase() + " o f" + suit_string[card.suit] + " - value(s): " + value_str);
+            });
+            temp_str = temp.join("<br>");
+            return temp_str;
+
+        };
+
         this.make_k_1_desired_card_string = function(dh_by_count){
             var self = this;
             // get desired hands
-            var desired_hands = dh_by_count["1"];
-
+            var desired_cards = dh_by_count["1"];
+            desired_cards = _.map(desired_cards, function(hand){return hand.hand[0]});;
             // filter out the cards that are not in player hands
             var avail_cards = self.get_available_cards(myservice.static_deck, myservice.player_hand, myservice.dealer_hand);
             cards_by_suit = _.groupBy(avail_cards, 'suit');
             var cbs_string = self.make_string_of_cards_by_suit(cards_by_suit);
-            console.log(cbs_string);
 
-            dh_hands_by_suit = _.groupBy(desired_hands, 'suit');
-
+            var dhbs_str = self.make_string_of_card_value(desired_cards);
+            console.log(dhbs_str);
+        //
         };
 
         this.get_prob_stats = function (hand, deck) {
