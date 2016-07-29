@@ -759,6 +759,7 @@
         };
 
         this.make_string_of_cards_by_suit = function(cards_by_suit){
+
             var temp = [];
             var suit_string = {
                 'clubs':'&clubs;',
