@@ -787,7 +787,7 @@
             uniq_cards = _.uniqWith(cards, _.isEqual);
             _.each(uniq_cards, function(card){
                 value_str = card.rank_integer.toString()
-               temp.push(card.rank.toUpperCase() + " o f" + suit_string[card.suit] + " - value(s): " + value_str);
+               temp.push(card.rank.toUpperCase() + " of " + suit_string[card.suit] + " - value(s): " + value_str);
             });
             temp_str = temp.join("<br>");
             return temp_str;
@@ -806,8 +806,8 @@
 
             var dhbs_string = self.make_string_of_card_value(desired_cards);
             var obj = {
-                desired_cards_str: dhbs_string,
-                card_combos_str: cbs_string
+                desired_cards_str: cbs_string,
+                card_combos_str: dhbs_string
             };
             return obj;
         //

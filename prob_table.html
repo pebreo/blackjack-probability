@@ -34,8 +34,9 @@
     <td class="col-md-6">{{c.fraction}}</td>
   </tr>
   <tr ng-if="c.expanded" ng-repeat-end="">
-    <td colspan="2">{{desired_cards_str_obj.desired_cards_str}}</td>
-    <td colspan="2">{{desired_cards_str_obj.card_combos_str}}</td>
+    <td collspan="1"></td>
+    <td colspan="1"><span ng-bind-html="desired_cards_str_obj.desired_cards_str|unsafe2"></span></td>
+    <td colspan="1"><span ng-bind-html="desired_cards_str_obj.card_combos_str|unsafe2"></span></td>
   </tr>
   <tr>
 
