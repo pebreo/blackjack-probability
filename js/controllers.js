@@ -33,6 +33,7 @@
 
             $scope.desired_cards_prob_html = [];
             $scope.desired_possible_hands = [];
+            $scope.desired_cards_str_obj = {};
             $scope.show_needed_cards_table = false;
             $scope.show_prob_table = false;
 
@@ -226,6 +227,7 @@
                 probService.getComboData().then(function (result) {
                     $scope.combos_data_totals = result.totals_count;
                     $scope.combos_data_rows = result.combos_count;
+                    $scope.desired_cards_str_obj = result.desired_cards_str_obj;
                     $scope.show_prob_table = true;
                 });
             };
@@ -243,7 +245,7 @@
 
                 $scope.player_hand_value = logic.calc_hand_value(logic.player_hand);
 
-                $scope.stub_player_hand([['k', 'diams'], ['9', 'spades']]);
+                $scope.stub_player_hand([['a', 'diams'], ['9', 'spades']]);
 
                 $scope.show_info_tables();
                 $scope.show_needed_cards_table = false;
