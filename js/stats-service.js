@@ -804,8 +804,12 @@
             cards_by_suit = _.groupBy(avail_cards, 'suit');
             var cbs_string = self.make_string_of_cards_by_suit(cards_by_suit);
 
-            var dhbs_str = self.make_string_of_card_value(desired_cards);
-            console.log(dhbs_str);
+            var dhbs_string = self.make_string_of_card_value(desired_cards);
+            var obj = {
+                desired_cards_str: dhbs_string,
+                card_combos_str: cbs_string
+            };
+            return obj;
         //
         };
 
@@ -834,11 +838,15 @@
             //console.log(total_count);
             combos_count = this.simplify_card_combos_counts(combos_count);
 
-            var first_k_info = self.make_k_1_desired_card_string(dh_by_count);
+            var desired_cards_str_obj = self.make_k_1_desired_card_string(dh_by_count);
             // make a function
             var combos_count_fraction_text = self.make_combos_count_fraction_text(combos_count);
-
-            return {combos_count: combos_count_fraction_text, totals_count: total_count};
+            obj = {
+                combos_count: combos_count_fraction_text,
+                totals_count: total_count,
+                desired_cards_str_obj: desired_cards_str_obj
+            };
+            return obj;
         };
 
     }]);
