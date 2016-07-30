@@ -36,7 +36,10 @@
             $scope.desired_cards_str_obj = {};
             $scope.show_needed_cards_table = false;
             $scope.show_prob_table = false;
+            $scope.example_hands = {
+              'ace_king': {name:"Ace of Spades + King of Hearts", player_hand:[['a', 'spades'], ['k', 'hearts']], dealer_hand:[['2', 'hearts'], ['2', 'spades']] },
 
+            };
             $scope.is_end = function () {
                 return true;
             };
@@ -103,6 +106,28 @@
 
             };
 
+            $scope.set_example_hand = function(example_hand) {
+                console.log(example_hand);
+                var stub_player_hand = example_hand.player_hand;
+                var stub_dealer_hand = example_hand.dealer_hand;
+                $scope.current_deck = logic.make_deck();
+                logic.setup_static_deck();
+                $scope.current_deck = logic.blackjack_deal($scope.current_deck);
+                $scope.dealer_hand = [];
+                $scope.dealer_hand = logic.dealer_hand;
+
+                //console.log(logic.dealer_hand);
+
+                //$scope.dealer_hand_value = logic.calc_hand_value(logic.dealer_hand);
+
+                //$scope.player_hand_value = logic.calc_hand_value(logic.player_hand);
+
+                $scope.stub_player_hand(stub_player_hand);
+
+                $scope.show_info_tables();
+                $scope.show_needed_cards_table = false;
+                $scope.show_prob_table = false;
+            };
             $scope.stub_player_hands_issue2 = function () {
                 var s_dealer = stub_data.make_hand([['9', 'hearts'], ['a', 'spades']]);
                 var s_player = stub_data.make_hand([['4', 'clubs'], ['q', 'spades']]);
@@ -245,7 +270,7 @@
 
                 $scope.player_hand_value = logic.calc_hand_value(logic.player_hand);
 
-                $scope.stub_player_hand([['a', 'diams'], ['9', 'spades']]);
+                //$scope.stub_player_hand([['9', 'diams'], ['9', 'spades']]);
 
                 $scope.show_info_tables();
                 $scope.show_needed_cards_table = false;

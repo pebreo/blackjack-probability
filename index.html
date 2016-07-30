@@ -151,6 +151,19 @@
               <div class="form-group">
                 <button ng-click="start_game()" ng-class="{disabled: start_switch}" type="submit" class="btn btn-primary">Deal</button>
                 <button ng-click="reset_game()" ng-class="{disabled: start_switch}" type="submit" class="btn btn-primary">Clear Table</button>
+                <div class="dropdown" style="display:inline-block;">
+
+                 <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                  Example Hands
+                  <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
+                  <li ng-repeat="hand in example_hands" ng-click="set_example_hand(hand)">
+                    <a href="">{{hand.name}}</a></li>
+                </ul>
+                </div>
+
+            </div>
               </div>
 
             </form>
