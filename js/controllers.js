@@ -38,6 +38,7 @@
             $scope.show_prob_table = false;
             $scope.example_hands = {
               'ace_king': {name:"Ace of Spades + King of Hearts", player_hand:[['a', 'spades'], ['k', 'hearts']], dealer_hand:[['2', 'hearts'], ['2', 'spades']] },
+              'ace_ace': {name:"Ace of Spades + Ace of Diamonds", player_hand:[['a', 'hearts'], ['a', 'diams']], dealer_hand:[['2', 'hearts'], ['2', 'spades']] },
 
             };
             $scope.is_end = function () {
@@ -107,6 +108,7 @@
             };
 
             $scope.set_example_hand = function(example_hand) {
+                $scope.reset_game();
                 console.log(example_hand);
                 var stub_player_hand = example_hand.player_hand;
                 var stub_dealer_hand = example_hand.dealer_hand;
