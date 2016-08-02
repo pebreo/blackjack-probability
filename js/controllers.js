@@ -37,8 +37,9 @@
             $scope.show_needed_cards_table = false;
             $scope.show_prob_table = false;
             $scope.example_hands = {
-              'ace_king': {name:"Ace of Spades + King of Hearts", player_hand:[['a', 'spades'], ['k', 'hearts']], dealer_hand:[['2', 'hearts'], ['2', 'spades']] },
-              'ace_ace': {name:"Ace of Spades + Ace of Diamonds", player_hand:[['a', 'hearts'], ['a', 'diams']], dealer_hand:[['2', 'hearts'], ['2', 'spades']] },
+              'ace_king': {name:"Queen of Harts + 9 of Diamonds", player_hand:[['q', 'hearts'], ['9', 'diams']], dealer_hand:[['2', 'hearts'], ['2', 'spades']] },
+              'ace_queen': {name:"Ace of Spades + Queen of Diamonds", player_hand:[['a', 'spades'], ['q', 'diams']], dealer_hand:[['2', 'hearts'], ['2', 'spades']] },
+              'jack_ten': {name:"Jack of Spades + 10 of Clubs", player_hand:[['j', 'spades'], ['10', 'clubs']], dealer_hand:[['2', 'hearts'], ['2', 'spades']] },
 
             };
             $scope.is_end = function () {
@@ -272,7 +273,7 @@
 
                 $scope.player_hand_value = logic.calc_hand_value(logic.player_hand);
 
-                //$scope.stub_player_hand([['9', 'diams'], ['9', 'spades']]);
+                //$scope.stub_player_hand([['a', 'diams'], ['a', 'spades']]);
 
                 $scope.show_info_tables();
                 $scope.show_needed_cards_table = false;
