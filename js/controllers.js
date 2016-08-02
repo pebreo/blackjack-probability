@@ -242,13 +242,13 @@
 
             $scope.show_info_tables = function () {
                 // t0 = performance.now();
-                probService.getPossibleHandsData().then(function (result) {
-                    console.log(result);
-                    $scope.desired_possible_hands = result;
-                    $scope.show_needed_cards_table = true;
-                    // var t1 = performance.now();
-                    // console.log('duration ' + (t1-t0));
-                });
+                //probService.getPossibleHandsData().then(function (result) {
+                //    console.log(result);
+                //    $scope.desired_possible_hands = result;
+                //    $scope.show_needed_cards_table = true;
+                //    // var t1 = performance.now();
+                //    // console.log('duration ' + (t1-t0));
+                //});
 
 
                 probService.getComboData().then(function (result) {
