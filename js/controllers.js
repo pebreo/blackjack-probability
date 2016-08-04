@@ -3,7 +3,7 @@
 
     var app = angular.module('myApp');
 
-    app.controller('MyCtrl', [
+        app.controller('MyCtrl', [
         '$rootScope',
         '$scope',
         '$log',
@@ -19,7 +19,33 @@
         'stats',
         function ($rootScope, $scope, $log, $q, $timeout, $interval, GameManager, myservice, transform, math, probService, stub_data, stats) {
             // Scopes.store('MyCtrl', $scope); // a service to store $scope that other services can use
-            var logic = myservice;
+            //var logic = myservice;
+            this.game = GameManager;
+
+
+
+        }
+    ])
+    ;
+
+    app.controller('MyCtrlOld', [
+        '$rootScope',
+        '$scope',
+        '$log',
+        '$q',
+        '$timeout',
+        '$interval',
+        'GameManager',
+        'myservice',
+        'transform',
+        'math',
+        'probService',
+        'stub_data',
+        'stats',
+        function ($rootScope, $scope, $log, $q, $timeout, $interval, GameManager, myservice, transform, math, probService, stub_data, stats) {
+            // Scopes.store('MyCtrl', $scope); // a service to store $scope that other services can use
+            //var logic = myservice;
+            var logic = GameManager;
             logic.setup_static_deck();
             $scope.start_switch = false;
             $scope.current_deck = [];
