@@ -3,7 +3,7 @@
 
     angular.module('Board',['Math'])
     .service('BoardService', ['math', function (math) {
-        this.baz = 'yahoo!!';
+        this.baz = '';
         this.player_hand = [];
         this.dealer_hand = [];
         this.current_deck = [];
