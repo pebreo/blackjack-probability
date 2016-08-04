@@ -10,13 +10,14 @@
         '$q',
         '$timeout',
         '$interval',
+        'Game',
         'myservice',
         'transform',
         'math',
         'probService',
         'stub_data',
         'stats',
-        function ($rootScope, $scope, $log, $q, $timeout, $interval, myservice, transform, math, probService, stub_data, stats) {
+        function ($rootScope, $scope, $log, $q, $timeout, $interval, Game, myservice, transform, math, probService, stub_data, stats) {
             // Scopes.store('MyCtrl', $scope); // a service to store $scope that other services can use
             var logic = myservice;
             logic.setup_static_deck();
@@ -60,6 +61,7 @@
                 $scope.deck = [];
                 $scope.desired_cards_prob_html = [];
                 logic.logic_reset();
+                $scope.current_deck = [];
 
             };
 
@@ -108,7 +110,7 @@
 
             };
 
-            $scope.set_example_hand = function(example_hand) {
+            $scope.set_example_hand_old = function(example_hand) {
                 $scope.reset_game();
                 console.log(example_hand);
                 var stub_player_hand = example_hand.player_hand;
@@ -131,6 +133,9 @@
                 $scope.show_needed_cards_table = false;
                 $scope.show_prob_table = false;
             };
+
+
+
             $scope.stub_player_hands_issue2 = function () {
                 var s_dealer = stub_data.make_hand([['9', 'hearts'], ['a', 'spades']]);
                 var s_player = stub_data.make_hand([['4', 'clubs'], ['q', 'spades']]);
@@ -280,6 +285,37 @@
                 $scope.show_prob_table = false;
 
             };
+
+            $scope.set_example_hand = function(example_hand) {
+
+                 $scope.reset_game();
+                var stub_player_hand = example_hand.player_hand;
+                var stub_dealer_hand = example_hand.dealer_hand;
+                console.log(stub_dealer_hand);
+                stub_dealer_hand[0].show = true;
+                stub_dealer_hand[1].show = false;
+                $scope.current_deck = logic.make_deck();
+                logic.setup_static_deck();
+                $scope.current_deck = logic.blackjack_deal($scope.current_deck);
+                $scope.dealer_hand = [];
+                $scope.dealer_hand =  stub_dealer_hand;
+                //console.log(logic.dealer_hand);
+
+                $scope.dealer_hand_value = logic.calc_hand_value(stub_dealer_hand);
+
+                $scope.player_hand_value = logic.calc_hand_value(stub_player_hand);
+
+                $scope.stub_player_hand(stub_player_hand);
+
+                $scope.show_info_tables();
+                $scope.show_needed_cards_table = false;
+                $scope.show_prob_table = false;
+
+                $scope.start_switch = true;
+
+
+            };
+
 
             $scope.deal_to_player_hide = function () {
                 var obj = logic.deal_card($scope.current_deck);
