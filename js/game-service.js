@@ -1,9 +1,9 @@
 (function () {
     //'use strict';
 
-     angular.module('Game', ['Math'])
-    .service('GameManager', ['math', function (math) {
-        this.baz = 'baz value!';
+     angular.module('Game', ['Math','Board'])
+    .service('GameManager', ['math', 'BoardService', function (math, BoardService) {
+        this.baz = BoardService.baz;
         this.player_hand = [];
         this.dealer_hand = [];
         this.current_deck = [];
