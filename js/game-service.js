@@ -3,7 +3,7 @@
 
     var app = angular.module('myApp');
 
-    app.service('GameManager', ['math', function (math) {
+    app.service('GameManager', ['math', 'BoardService', function (math, BoardService) {
         this.baz = 'baz value!';
         this.player_hand = [];
         this.dealer_hand = [];
