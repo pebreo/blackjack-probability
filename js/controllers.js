@@ -10,14 +10,14 @@
         '$q',
         '$timeout',
         '$interval',
-        'Game',
+        'GameManager',
         'myservice',
         'transform',
         'math',
         'probService',
         'stub_data',
         'stats',
-        function ($rootScope, $scope, $log, $q, $timeout, $interval, Game, myservice, transform, math, probService, stub_data, stats) {
+        function ($rootScope, $scope, $log, $q, $timeout, $interval, GameManager, myservice, transform, math, probService, stub_data, stats) {
             // Scopes.store('MyCtrl', $scope); // a service to store $scope that other services can use
             var logic = myservice;
             logic.setup_static_deck();

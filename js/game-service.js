@@ -3,7 +3,7 @@
 
     var app = angular.module('myApp');
 
-    app.service('Game', ['math', function (math) {
+    app.service('GameManager', ['math', function (math) {
         this.baz = 'baz value!';
         this.player_hand = [];
         this.dealer_hand = [];
@@ -617,9 +617,9 @@
             }
 
             return result;
-        },
+        };
 
-            this.fraction2text = function (arr) {
+        this.fraction2text = function (arr) {
                 numer = arr[0].toString();
                 denom = arr[1].toString();
 
@@ -628,6 +628,8 @@
                 //var p = Math.round((arr[0] / arr[1]);
                 return p.toString() + "%" + " (" + numer + "/" + denom + ")";
             };
+
+
     }]);
 
 
