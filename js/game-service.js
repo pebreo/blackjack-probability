@@ -629,6 +629,13 @@
                 return p.toString() + "%" + " (" + numer + "/" + denom + ")";
             };
 
+        this.newGame = function() {};
+
+        this.move = function() {};
+
+        this.updateScore = function(newScore) {};
+
+        this.movesAvailable = function() {};
 
     }]);
 
