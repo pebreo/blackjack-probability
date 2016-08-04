@@ -22,6 +22,10 @@
     board.directive('dealerHand', function () {
         return {
             restrict: 'E',
+            require: 'ngModel',
+            scope: {
+              ngModel: '='
+            },
             templateUrl: 'dealer_hand.html'
         };
     });
@@ -29,6 +33,10 @@
     board.directive('playerHand', function () {
         return {
             restrict: 'E',
+            require: 'ngModel',
+            scope: {
+              ngModel: '='
+            },
             templateUrl: 'player_hand.html'
         };
     });
