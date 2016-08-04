@@ -129,9 +129,9 @@
   </div>
 
 
-  <div ng-controller="MyCtrl" class="row">
+  <div ng-controller="MyCtrl as ctrl" class="row">
 
-    <div board></div>
+    <div ng-model="ctrl.game" board></div>
 
 
   </div>
