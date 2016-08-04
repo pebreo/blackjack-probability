@@ -3,6 +3,7 @@
     'use strict';
 
     var app = angular.module('myApp');
+    var board = angular.module('Board');
 
 
     app.directive('desiredCards', function () {
