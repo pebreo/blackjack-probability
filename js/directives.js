@@ -4,19 +4,7 @@
 
     var app = angular.module('myApp');
 
-    app.directive('dealerHand', function () {
-        return {
-            restrict: 'E',
-            templateUrl: 'dealer_hand.html'
-        };
-    });
 
-    app.directive('playerHand', function () {
-        return {
-            restrict: 'E',
-            templateUrl: 'player_hand.html'
-        };
-    });
     app.directive('desiredCards', function () {
         return {
             restrict: 'E',
@@ -27,6 +15,27 @@
         return {
             restrict: 'E',
             templateUrl: 'prob_table.html'
+        };
+    });
+
+    board.directive('dealerHand', function () {
+        return {
+            restrict: 'E',
+            templateUrl: 'dealer_hand.html'
+        };
+    });
+
+    board.directive('playerHand', function () {
+        return {
+            restrict: 'E',
+            templateUrl: 'player_hand.html'
+        };
+    });
+
+    board.directive('board', function () {
+        return {
+            restrict: 'A',
+            templateUrl: 'board.html'
         };
     });
 
