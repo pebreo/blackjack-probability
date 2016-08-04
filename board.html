@@ -1,26 +1,33 @@
-   <div class="col-md-12">
+<div ng-controller="MyCtrl as ctrl" class="row">
 
-      <div class="panel panel-default">
-        <!--<div class="panel-heading"><h4>Step 1. Choose the type of population data (normal, uniform, skewed) </h4></div>-->
 
-        <ul class="list-group">
-          <li class="list-group-item">
-            <div class="row">
-              <div class="col-md-6"><p><h4>Dealer {{ngModel.baz}}</h4></p></div>
+  <div class="col-md-12">
+
+    <div class="panel panel-default">
+      <!--<div class="panel-heading"><h4>Step 1. Choose the type of population data (normal, uniform, skewed) </h4></div>-->
+
+      <ul class="list-group">
+        <li class="list-group-item">
+          <div class="row">
+            <div class="col-md-6"><p><h4>Dealer {{ctrl.baz}}</h4></p></div>
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-body">
+              <dealer-hand ng-model="ctrl.game"></dealer-hand>
             </div>
-            <div class="panel panel-default">
-              <div class="panel-body">
-                <dealer-hand></dealer-hand>
-              </div>
-            </div>
-            <form role="form">
+          </div>
+          <form role="form">
 
-              <div class="form-group">
-                <button ng-click="start_game()" ng-class="{disabled: start_switch}" type="submit" class="btn btn-primary">Deal</button>
-                <button ng-click="reset_game()" ng-class="{disabled: start_switch}" type="submit" class="btn btn-primary">Clear Table</button>
-                <div class="dropdown" style="display:inline-block;">
+            <div class="form-group">
+              <button ng-click="ctrl.start_game()" ng-class="{disabled: ctrl.game.start_switch}" type="submit" class="btn btn-primary">
+                Deal
+              </button>
+              <button ng-click="ctrl.reset_game()" ng-class="{disabled: start_switch}" type="submit" class="btn btn-primary">
+                Clear Table
+              </button>
+              <div class="dropdown" style="display:inline-block;">
 
-                 <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                   Example Hands
                   <span class="caret"></span>
                 </button>
@@ -28,40 +35,49 @@
                   <li ng-repeat="hand in example_hands" ng-click="set_example_hand(hand)">
                     <a href="">{{hand.name}}</a></li>
                 </ul>
-                </div>
-
-            </div>
               </div>
 
-            </form>
-          </li>
-          <li class="list-group-item">
-            <div class="row">
-              <div class="col-md-4"><p><h4>Player (You)</h4></p></div>
-              <div class="col-md-8 themessage"><p><h2>{{message}}</h2></p></div>
             </div>
-            <div class="panel panel-default">
-              <div class="panel-body">
-                <player-hand></player-hand>
-              </div>
-            </div>
-            <form role="form">
-
-              <div class="form-group">
-                <button  ng-class="{disabled: !start_switch}" ng-click="deal_to_player()" type="submit" class="btn btn-primary disabled">Hit</button>
-                <button  ng-class="{disabled: !start_switch}" ng-click="player_stand()" type="submit" class="btn btn-primary disabled">Stand</button>
-              </div>
-
-            </form>
-            <ul class="list-group">
-               <li class="list-group-item">
-              <probability-table/>
-              </li>
-              <li class="list-group-item">
-              <desired-cards/>
-              </li>
-            </ul>
-          </li>
-        </ul>
-      </div>
     </div>
+
+    </form>
+    </li>
+    <li class="list-group-item">
+      <div class="row">
+        <div class="col-md-4"><p><h4>Player (You)</h4></p></div>
+        <div class="col-md-8 themessage"><p>
+
+          <h2>{{message}}</h2></p></div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <player-hand ng-model="ctrl.game"></player-hand>
+        </div>
+      </div>
+      <form role="form">
+
+        <div class="form-group">
+          <button ng-class="{disabled: !start_switch}" ng-click="deal_to_player()" type="submit" class="btn btn-primary disabled">
+            Hit
+          </button>
+          <button ng-class="{disabled: !start_switch}" ng-click="player_stand()" type="submit" class="btn btn-primary disabled">
+            Stand
+          </button>
+        </div>
+
+      </form>
+      <ul class="list-group">
+        <li class="list-group-item">
+          <probability-table/>
+        </li>
+        <li class="list-group-item">
+          <desired-cards/>
+        </li>
+      </ul>
+    </li>
+    </ul>
+  </div>
+</div>
+
+</div>
+

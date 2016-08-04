@@ -41,15 +41,6 @@
         };
     });
 
-    board.directive('board', function () {
-        return {
-            restrict: 'A',
-            require: 'ngModel',
-            scope: {
-              ngModel: '='
-            },
-            templateUrl: 'board.html'
-        };
-    });
+
 
 }());
