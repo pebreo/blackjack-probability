@@ -27,6 +27,19 @@
             };
 
 
+              this.newGame = function() {
+                this.game.newGame();
+                //this.startGame();
+              };
+
+              this.startGame = function() {
+                var self = this;
+                KeyboardService.on(function(key) {
+                  self.game.move(key);
+                });
+              };
+
+              this.newGame();              
 
 
         }

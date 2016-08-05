@@ -7,6 +7,24 @@
         this.player_hand = [];
         this.dealer_hand = [];
         this.current_deck = [];
+
+
+
+        this.reinit = function() {
+            this.gameOver = false;
+            this.win = false;
+            //this.currentScore = 0;
+            //this.highScore = this.getHighScore();
+        };
+        this.reinit();
+        
+        this.newGame = function() {
+            BoardService.buildEmptyGameBoard();
+            //BoardService.buildStartingPosition();
+            //this.reinit();
+        };
+
+
         this.str2int = function (value) {
             if (/^(\-|\+)?([0-9]+|Infinity)$/.test(value))
                 return Number(value);
