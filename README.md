@@ -148,3 +148,65 @@ is finished then it will draw it when the calculation is done.
 
 
 ```
+
+
+Angular/Implementation Notes
+--------------------------
+```javascript
+
+// I. Namespacing Modules
+
+From Angular 2048, I learned how to better namespace my modules.
+I separated my modules into 2 different namespaces: Game module with GameManager Service
+Board with BoardService and Math -> math
+
+the files are:
+
+app.js
+controllers.js // I could have put all the controller stuff into app but whatever
+board-service.js
+game-service.js
+math-service.js
+
+the templates are:
+index.html
+board.html
+player_hand.html
+dealer_hand.html
+
+
+// II. Using Services Effectively
+
+It's good to organize your project so that all the logic and presentation parts
+of your code are "loosley coupled". That means you should be able to easily
+replace and upgrade the logic without painfully changing a lot of code in presentation
+and vice-versa. They way I did that for this project was taking inspiration from 
+the Angular 2048 project.
+
+
+// III. Using Scopes in Directives
+
+'MyCtrl', ['MyService', function(MyService) {
+  this.myservice = MyService;
+}];
+
+
+// <div ng-model="ctrl.myservice" mydirective></div>
+template: {{ngModel.myservice.foo}} -> ctrl.myservice -> myservice: this.foo
+// Notice that instead of using $scope.foo you do this.foo
+
+angular.module('Grid')
+.directive('grid', function() {
+  return {
+    restrict: 'A', // declare like <div ng-model="mymodule.myservice" grid></div>
+    require: 'ngModel',
+    scope: {
+      ngModel: '='  // in your service or ctrl you must use this.foo (not $scope.foo) if you want to use {{ngModel.foo}}
+    },
+    templateUrl: 'scripts/grid/grid.html' // use {{ngModel.foo}}
+  };
+});
+
+
+
+```
