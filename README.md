@@ -210,3 +210,40 @@ angular.module('Grid')
 
 
 ```
+
+Notes on Separating Modules, Controllers, Services in Different Files
+---------------------------------------------------------------------
+```javascript
+
+/// app.js
+angular.module('MyApp',['MyMod']);
+
+controllers.js
+var app = angular.module('MyApp');
+app.controller(blah blah);
+
+// foo-service.js
+angular.module('MyMod', [])
+.service(blah blah)
+
+//or foo in foo-service.js
+
+angular.module('MyMod,'[]);
+var mymod = angular.module('MyMod');
+
+mymode.service(blah blah);
+
+
+//directives.js
+
+var myapp = angular.module('MyApp');
+var mymod = angular.module('MyMod');
+
+mymod.service(blah blah);
+
+
+index.html
+app.js
+controllers.js
+foo-service.js
+```
