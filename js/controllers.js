@@ -3,7 +3,7 @@
 
     var app = angular.module('myApp');
 
-        app.controller('MyCtrl', [
+    app.controller('MyCtrl', [
         '$rootScope',
         '$scope',
         '$log',
@@ -11,36 +11,45 @@
         '$timeout',
         '$interval',
         'GameManager',
+        'ButtonService',
         'myservice',
         'transform',
         'math',
         'probService',
         'stub_data',
         'stats',
-        function ($rootScope, $scope, $log, $q, $timeout, $interval, GameManager, myservice, transform, math, probService, stub_data, stats) {
+        function ($rootScope, $scope, $log, $q, $timeout, $interval, GameManager, ButtonService, myservice, transform, math, probService, stub_data, stats) {
 
             this.baz = '';
             this.game = GameManager;
+            this.buttons = ButtonService.buttons;
+            this.ButtonService = ButtonService;
 
-            this.start_game = function(){
+            this.start_game = function () {
                 console.log('starting game!');
             };
 
 
-              this.newGame = function() {
+            this.newGame = function () {
                 this.game.newGame();
+                console.log(this.buttons);
                 //this.startGame();
-              };
+            };
 
-              this.startGame = function() {
+            this.startGame = function () {
                 var self = this;
-                KeyboardService.on(function(key) {
-                  self.game.move(key);
+                KeyboardService.on(function (key) {
+                    self.game.move(key);
                 });
-              };
+            };
 
-              this.newGame();              
 
+            this.newGame();
+
+            this.buttonPress = function (who, index) {
+              console.log(who);
+                console.log(index);
+            };
 
         }
     ])
@@ -82,9 +91,21 @@
             $scope.show_needed_cards_table = false;
             $scope.show_prob_table = false;
             $scope.example_hands = {
-              'ace_king': {name:"Queen of Harts + 9 of Diamonds", player_hand:[['q', 'hearts'], ['9', 'diams']], dealer_hand:[['2', 'hearts'], ['2', 'spades']] },
-              'ace_queen': {name:"Ace of Spades + Queen of Diamonds", player_hand:[['a', 'spades'], ['q', 'diams']], dealer_hand:[['2', 'hearts'], ['2', 'spades']] },
-              'jack_ten': {name:"Jack of Spades + 10 of Clubs", player_hand:[['j', 'spades'], ['10', 'clubs']], dealer_hand:[['2', 'hearts'], ['2', 'spades']] },
+                'ace_king': {
+                    name: "Queen of Harts + 9 of Diamonds",
+                    player_hand: [['q', 'hearts'], ['9', 'diams']],
+                    dealer_hand: [['2', 'hearts'], ['2', 'spades']]
+                },
+                'ace_queen': {
+                    name: "Ace of Spades + Queen of Diamonds",
+                    player_hand: [['a', 'spades'], ['q', 'diams']],
+                    dealer_hand: [['2', 'hearts'], ['2', 'spades']]
+                },
+                'jack_ten': {
+                    name: "Jack of Spades + 10 of Clubs",
+                    player_hand: [['j', 'spades'], ['10', 'clubs']],
+                    dealer_hand: [['2', 'hearts'], ['2', 'spades']]
+                },
 
             };
             $scope.is_end = function () {
@@ -154,7 +175,7 @@
 
             };
 
-            $scope.set_example_hand_old = function(example_hand) {
+            $scope.set_example_hand_old = function (example_hand) {
                 $scope.reset_game();
                 console.log(example_hand);
                 var stub_player_hand = example_hand.player_hand;
@@ -177,7 +198,6 @@
                 $scope.show_needed_cards_table = false;
                 $scope.show_prob_table = false;
             };
-
 
 
             $scope.stub_player_hands_issue2 = function () {
@@ -272,8 +292,8 @@
             };
 
             $scope.stub_player_hands_issue5 = function () {
-                var s_dealer =  stub_data.make_hand([ ['8','hearts'], ['3','hearts'] ]);
-                var s_player =  stub_data.make_hand([ ['a','spades'], ['7','spades'] ]);
+                var s_dealer = stub_data.make_hand([['8', 'hearts'], ['3', 'hearts']]);
+                var s_player = stub_data.make_hand([['a', 'spades'], ['7', 'spades']]);
 
                 myservice.static_deck = stub_data.static_deck;
 
@@ -330,9 +350,9 @@
 
             };
 
-            $scope.set_example_hand = function(example_hand) {
+            $scope.set_example_hand = function (example_hand) {
 
-                 $scope.reset_game();
+                $scope.reset_game();
                 var stub_player_hand = example_hand.player_hand;
                 var stub_dealer_hand = example_hand.dealer_hand;
                 console.log(stub_dealer_hand);
@@ -342,7 +362,7 @@
                 logic.setup_static_deck();
                 $scope.current_deck = logic.blackjack_deal($scope.current_deck);
                 $scope.dealer_hand = [];
-                $scope.dealer_hand =  stub_dealer_hand;
+                $scope.dealer_hand = stub_dealer_hand;
                 //console.log(logic.dealer_hand);
 
                 $scope.dealer_hand_value = logic.calc_hand_value(stub_dealer_hand);

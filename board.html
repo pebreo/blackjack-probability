@@ -19,12 +19,13 @@
           <form role="form">
 
             <div class="form-group">
-              <button ng-click="ctrl.start_game()" ng-class="{disabled: ctrl.game.start_switch}" type="submit" class="btn btn-primary">
-                Deal
-              </button>
-              <button ng-click="ctrl.reset_game()" ng-class="{disabled: start_switch}" type="submit" class="btn btn-primary">
-                Clear Table
-              </button>
+
+                         <span ng-repeat="button in ctrl.buttons.dealer">
+            <button ng-class="{disabled: !start_switch}" ng-click="ctrl.buttonPress(button.who, $index)" type="submit" class="btn btn-primary disabled">
+              {{button.name}}
+            </button>
+          </span>
+
               <div class="dropdown" style="display:inline-block;">
 
                 <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -57,13 +58,15 @@
       <form role="form">
 
         <div class="form-group">
-          <button ng-class="{disabled: !start_switch}" ng-click="deal_to_player()" type="submit" class="btn btn-primary disabled">
-            Hit
-          </button>
-          <button ng-class="{disabled: !start_switch}" ng-click="player_stand()" type="submit" class="btn btn-primary disabled">
-            Stand
-          </button>
+
+           <span ng-repeat="button in ctrl.buttons.player">
+            <button ng-class="{disabled: !start_switch}" ng-click="ctrl.buttonPress(button.who, $index)" type="submit" class="btn btn-primary">
+              {{button.name}}
+            </button>
+          </span>
+
         </div>
+
 
       </form>
       <ul class="list-group">
