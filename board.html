@@ -19,12 +19,11 @@
           <form role="form">
 
             <div class="form-group">
-
-                         <span ng-repeat="button in ctrl.buttons.dealer">
-            <button ng-class="{disabled: !start_switch}" ng-click="ctrl.buttonPress(button.who, $index)" type="submit" class="btn btn-primary disabled">
-              {{button.name}}
-            </button>
-          </span>
+              <span ng-repeat="button in ctrl.buttons.dealer">
+                <button ng-class="{disabled: !start_switch}" ng-click="ctrl.buttonPress(button.who, $index)" type="submit" class="btn btn-primary disabled">
+                  {{button.name}}
+                </button>
+              </span>
 
               <div class="dropdown" style="display:inline-block;">
 
