@@ -19,7 +19,7 @@
 
             this.newGame = function () {
                 // build empty hands
-                BoardService.buildEmptyHands();
+                BoardService.buildEmptyHandsAndNewDeck();
 
                 // deal 2 cards to deal and 2 cards to dealer
                 BoardService.firstDeal();
