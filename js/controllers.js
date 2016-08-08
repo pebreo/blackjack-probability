@@ -32,7 +32,7 @@
 
             this.newGame = function () {
                 this.game.newGame();
-                console.log(this.buttons);
+                //console.log(this.buttons);
                 //this.startGame();
             };
 
@@ -47,8 +47,8 @@
             this.newGame();
 
             this.buttonPress = function (who, index) {
-              console.log(who);
-                console.log(index);
+                var action = this.buttons[who][index].action;
+                this.game.action(action);
             };
 
         }

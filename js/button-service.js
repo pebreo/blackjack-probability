@@ -5,12 +5,12 @@
         .service('ButtonService', ['math', 'BoardService', function (math, BoardService) {
             this.buttons = {
                 'dealer': [
-                    {name: 'Deal', action: null, who: 'dealer'},
-                    {name: 'Clear Table', action: null, who: 'dealer'}
+                    {name: 'Deal', action: 'deal', who: 'dealer'},
+                    {name: 'Clear Table', action: 'clear_table', who: 'dealer'}
                 ],
                 'player': [
-                    {name: 'Hit', action: null, who: 'player'},
-                    {name: 'Stand', action: null, who: 'player'}
+                    {name: 'Hit', action: 'hit', who: 'player'},
+                    {name: 'Stand', action: 'stand', who: 'player'}
                 ]
 
             }
