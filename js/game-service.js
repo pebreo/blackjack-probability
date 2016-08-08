@@ -6,23 +6,23 @@
 
 
             this.baz = BoardService.baz;
-            this.player_hand = [];
-            this.dealer_hand = [];
-            this.current_deck = [];
+            this.player_hand = BoardService.player_hand;
+            this.dealer_hand = BoardService.dealer_hand;
+            this.current_deck = BoardService.current_deck;
 
 
             this.reinit = function () {
                 this.gameOver = false;
-                this.win = false;
-                //this.currentScore = 0;
-                //this.highScore = this.getHighScore();
+                this.the_winner = null;
             };
             this.reinit();
 
             this.newGame = function () {
-                BoardService.buildEmptyGameBoard();
-                //BoardService.buildStartingPosition();
-                //this.reinit();
+                // build empty hands
+                BoardService.buildEmptyHands();
+
+                // deal 2 cards to deal and 2 cards to dealer
+                BoardService.firstDeal();
             };
 
             this.deal = function () {

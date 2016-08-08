@@ -29,27 +29,17 @@
                 console.log('starting game!');
             };
 
-
             this.newGame = function () {
                 this.game.newGame();
-                //console.log(this.buttons);
-                //this.startGame();
             };
-
-            this.startGame = function () {
-                var self = this;
-                KeyboardService.on(function (key) {
-                    self.game.move(key);
-                });
-            };
-
-
-            this.newGame();
 
             this.buttonPress = function (who, index) {
                 var action = this.buttons[who][index].action;
                 this.game.action(action);
             };
+
+            this.newGame();
+
 
         }
     ])
