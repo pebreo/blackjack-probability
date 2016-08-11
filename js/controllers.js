@@ -12,18 +12,20 @@
         '$interval',
         'GameManager',
         'ButtonService',
+        'CustomButtonService',
         'myservice',
         'transform',
         'math',
         'probService',
         'stub_data',
         'stats',
-        function ($rootScope, $scope, $log, $q, $timeout, $interval, GameManager, ButtonService, myservice, transform, math, probService, stub_data, stats) {
+        function ($rootScope, $scope, $log, $q, $timeout, $interval, GameManager, ButtonService, CustomButtonService, myservice, transform, math, probService, stub_data, stats) {
 
             this.baz = '';
             this.game = GameManager;
             this.buttons = ButtonService.buttons;
             this.ButtonService = ButtonService;
+            this.custom_button = CustomButtonService.custom_button;
 
             this.start_game = function () {
                 console.log('starting game!');
