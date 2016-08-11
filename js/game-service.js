@@ -4,10 +4,11 @@
     angular.module('Game', ['Math', 'Board'])
         .service('GameManager', ['math', 'BoardService', function (math, BoardService) {
 
-
             this.baz = BoardService.baz;
             this.player_hand = BoardService.player_hand;
             this.dealer_hand = BoardService.dealer_hand;
+            this.dealer_hand = [{rank:'a', suit:'diams',show:true},{rank:'k',suit:'hearts',show:true}];
+            this.player_hand = [{rank:'q', suit:'clubs',show:true},{rank:'9',suit:'spades',show:true}];
             this.current_deck = BoardService.current_deck;
 
 
