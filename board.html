@@ -32,7 +32,7 @@
                   <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
-                  <li ng-repeat="hand in example_hands" ng-click="set_example_hand(hand)">
+                  <li ng-repeat="hand in ctrl.custom_button.example_hands" ng-click="ctrl.setExampleHand($index)">
                     <a href="">{{hand.name}}</a></li>
                 </ul>
               </div>

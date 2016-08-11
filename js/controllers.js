@@ -40,6 +40,10 @@
                 this.game.action(action);
             };
 
+            this.setExampleHand = function(index) {
+                console.log(index);
+            };
+
             this.newGame();
 
 
