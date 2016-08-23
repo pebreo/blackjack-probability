@@ -1,8 +1,8 @@
 (function () {
     //'use strict';
 
-    angular.module('Stats', ['Math'])
-        .service('stats', ['math', function (math) {
+    angular.module('Stats', ['Math','Board'])
+        .service('stats', ['math', 'BoardService', function (math, BoardService) {
         this.player_hand = [];
         this.dealer_hand = [];
         this.current_deck = [];
@@ -707,8 +707,8 @@
         };
 
         this.get_available_cards = function (deck, player_hand, dealer_hand) {
-            player_hand = player_hand !== undefined ? player_hand : myservice.player_hand;
-            dealer_hand = dealer_hand !== undefined ? dealer_hand : myservice.dealer_hand;
+            player_hand = player_hand !== undefined ? player_hand : BoardService.player_hand;
+            dealer_hand = dealer_hand !== undefined ? dealer_hand : BoardService.dealer_hand;
             // console.log(deck.length);
             var player_dealer_cards = Array.prototype.concat([], player_hand, dealer_hand);
             var shown_cards = _.filter(player_dealer_cards, 'show');
@@ -723,8 +723,8 @@
         };
 
         this.get_player_dealer_hand_shown = function(player_hand, dealer_hand) {
-            player_hand = player_hand !== undefined ? player_hand : myservice.player_hand;
-            dealer_hand = dealer_hand !== undefined ? dealer_hand : myservice.dealer_hand;
+            player_hand = player_hand !== undefined ? player_hand : BoardService.player_hand;
+            dealer_hand = dealer_hand !== undefined ? dealer_hand : BoardService.dealer_hand;
             var player_dealer_cards = Array.prototype.concat([], player_hand, dealer_hand);
             return _.filter(player_dealer_cards, function(c){return c.show});
         };
@@ -735,8 +735,8 @@
             var desired_hands = dh_by_count["1"];
 
             // filter out the cards that are not in player hands
-            var avail_cards = self.get_available_cards(myservice.static_deck, myservice.player_hand, myservice.dealer_hand);
-            var player_dealer_hands = self.get_player_dealer_hand_shown(myservice.player_hand, myservice.dealer_hand);
+            var avail_cards = self.get_available_cards(BoardService.fresh_deck, BoardService.player_hand, BoardService.dealer_hand);
+            var player_dealer_hands = self.get_player_dealer_hand_shown(BoardService.player_hand, BoardService.dealer_hand);
             var x = _.filter(desired_hands, function(hand){
                return !(_.includes(player_dealer_hands, hand));
             });
@@ -798,7 +798,7 @@
             var desired_cards = dh_by_count["1"];
             desired_cards = _.map(desired_cards, function(hand){return hand.hand[0]});;
             // filter out the cards that are not in player hands
-            var avail_cards = self.get_available_cards(myservice.static_deck, myservice.player_hand, myservice.dealer_hand);
+            var avail_cards = self.get_available_cards(BoardService.fresh_deck, BoardService.player_hand, BoardService.dealer_hand);
             cards_by_suit = _.groupBy(avail_cards, 'suit');
             var cbs_string = self.make_string_of_cards_by_suit(cards_by_suit);
 
