@@ -260,18 +260,19 @@ xdescribe("make_string_of_cards_by_suit", function() {
 
 });
 
-xdescribe("get_prob_stats", function() {
-    var BoardService, transform, math, stub_data, stats;
+describe("get_prob_stats", function() {
+    var BoardService, math, stub_data, stats;
     // setup the angular module
-    beforeEach(module('myApp'));
+    beforeEach(module('Stats'));
+    beforeEach(module('Math'));
+    beforeEach(module('Board'));
+    beforeEach(module('Stub'));
 
     // setup the service
-    beforeEach(inject(function(_BoardService_, _transform_, _math_, _stub_data_, _serviceDebug_, _stats_) {
+    beforeEach(inject(function(_BoardService_, _math_, _stub_data_, _stats_) {
         BoardService = _BoardService_;
-        transform = _transform_;
         math = _math_;
         stub_data = _stub_data_;
-        serviceDebug = _serviceDebug_;
         stats = _stats_;
     }));
 
