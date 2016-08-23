@@ -7,13 +7,13 @@ i have to clean dh_by_count, line 691
 
 
 xdescribe("make_dh_by_count_and_count_card_combos", function() {
-    var myservice, transform, math, stub_data, stats;
+    var BoardService, transform, math, stub_data, stats;
     // setup the angular module
     beforeEach(module('myApp'));
 
     // setup the service
-    beforeEach(inject(function(_myservice_, _transform_, _math_, _stub_data_, _serviceDebug_, _stats_) {
-        myservice = _myservice_;
+    beforeEach(inject(function(_BoardService_, _transform_, _math_, _stub_data_, _serviceDebug_, _stats_) {
+        BoardService = _BoardService_;
         transform = _transform_;
         math = _math_;
         stub_data = _stub_data_;
@@ -35,13 +35,13 @@ xdescribe("make_dh_by_count_and_count_card_combos", function() {
 });
 
 xdescribe("clean_dh_by_count_with_uniq_objects", function() {
-    var myservice, transform, math, stub_data, stats;
+    var BoardService, transform, math, stub_data, stats;
     // setup the angular module
     beforeEach(module('myApp'));
 
     // setup the service
-    beforeEach(inject(function(_myservice_, _transform_, _math_, _stub_data_, _serviceDebug_, _stats_) {
-        myservice = _myservice_;
+    beforeEach(inject(function(_BoardService_, _transform_, _math_, _stub_data_, _serviceDebug_, _stats_) {
+        BoardService = _BoardService_;
         transform = _transform_;
         math = _math_;
         stub_data = _stub_data_;
@@ -66,13 +66,13 @@ xdescribe("clean_dh_by_count_with_uniq_objects", function() {
 
 
 xdescribe("make_and_reduce_combos_count", function() {
-    var myservice, transform, math, stub_data, stats;
+    var BoardService, transform, math, stub_data, stats;
     // setup the angular module
     beforeEach(module('myApp'));
 
     // setup the service
-    beforeEach(inject(function(_myservice_, _transform_, _math_, _stub_data_, _serviceDebug_, _stats_) {
-        myservice = _myservice_;
+    beforeEach(inject(function(_BoardService_, _transform_, _math_, _stub_data_, _serviceDebug_, _stats_) {
+        BoardService = _BoardService_;
         transform = _transform_;
         math = _math_;
         stub_data = _stub_data_;
@@ -99,13 +99,13 @@ xdescribe("make_and_reduce_combos_count", function() {
 });
 
 xdescribe("make_total_count_obj", function() {
-    var myservice, transform, math, stub_data, stats;
+    var BoardService, transform, math, stub_data, stats;
     // setup the angular module
     beforeEach(module('myApp'));
 
     // setup the service
-    beforeEach(inject(function(_myservice_, _transform_, _math_, _stub_data_, _serviceDebug_, _stats_) {
-        myservice = _myservice_;
+    beforeEach(inject(function(_BoardService_, _transform_, _math_, _stub_data_, _serviceDebug_, _stats_) {
+        BoardService = _BoardService_;
         transform = _transform_;
         math = _math_;
         stub_data = _stub_data_;
@@ -133,13 +133,13 @@ xdescribe("make_total_count_obj", function() {
 
 
 xdescribe("make_total_count_obj", function() {
-    var myservice, transform, math, stub_data, stats;
+    var BoardService, transform, math, stub_data, stats;
     // setup the angular module
     beforeEach(module('myApp'));
 
     // setup the service
-    beforeEach(inject(function(_myservice_, _transform_, _math_, _stub_data_, _serviceDebug_, _stats_) {
-        myservice = _myservice_;
+    beforeEach(inject(function(_BoardService_, _transform_, _math_, _stub_data_, _serviceDebug_, _stats_) {
+        BoardService = _BoardService_;
         transform = _transform_;
         math = _math_;
         stub_data = _stub_data_;
@@ -170,28 +170,29 @@ xdescribe("make_total_count_obj", function() {
 
 
 describe("make_k_1_desired_card_string", function() {
-    var myservice, transform, math, stub_data, stats;
+    var BoardService, math, stub_data, stats;
     // setup the angular module
-    beforeEach(module('myApp'));
+    beforeEach(module('Stats'));
+    beforeEach(module('Math'));
+    beforeEach(module('Board'));
+    beforeEach(module('Stub'));
 
     // setup the service
-    beforeEach(inject(function(_myservice_, _transform_, _math_, _stub_data_, _serviceDebug_, _stats_) {
-        myservice = _myservice_;
-        transform = _transform_;
+    beforeEach(inject(function(_BoardService_, _math_, _stub_data_, _stats_) {
+        BoardService = _BoardService_;
         math = _math_;
         stub_data = _stub_data_;
-        serviceDebug = _serviceDebug_;
         stats = _stats_;
     }));
 
 
     it("when ace + 9", function() {
-        myservice.setup_static_deck();
+
         var dealer_hand =  stub_data.make_hand([ ['8','hearts'], ['3','hearts'] ]);
         dealer_hand[1].show = false;
         var player_hand = stub_data.make_hand([ ['a','diams'], ['9','hearts'] ]);
-        myservice.player_hand = player_hand;
-        myservice.dealer_hand = dealer_hand;
+        BoardService.player_hand = player_hand;
+        BoardService.dealer_hand = dealer_hand;
 
         var hand_value = stats.calc_hand_value(player_hand);
         var deck = stub_data.static_deck;
@@ -207,14 +208,14 @@ describe("make_k_1_desired_card_string", function() {
 
 });
 
-describe("make_string_of_card_value", function() {
-    var myservice, transform, math, stub_data, stats;
+xdescribe("make_string_of_card_value", function() {
+    var BoardService, transform, math, stub_data, stats;
     // setup the angular module
     beforeEach(module('myApp'));
 
     // setup the service
-    beforeEach(inject(function(_myservice_, _transform_, _math_, _stub_data_, _serviceDebug_, _stats_) {
-        myservice = _myservice_;
+    beforeEach(inject(function(_BoardService_, _transform_, _math_, _stub_data_, _serviceDebug_, _stats_) {
+        BoardService = _BoardService_;
         transform = _transform_;
         math = _math_;
         stub_data = _stub_data_;
@@ -233,14 +234,14 @@ describe("make_string_of_card_value", function() {
 
 });
 
-describe("make_string_of_cards_by_suit", function() {
-    var myservice, transform, math, stub_data, stats;
+xdescribe("make_string_of_cards_by_suit", function() {
+    var BoardService, transform, math, stub_data, stats;
     // setup the angular module
     beforeEach(module('myApp'));
 
     // setup the service
-    beforeEach(inject(function(_myservice_, _transform_, _math_, _stub_data_, _serviceDebug_, _stats_) {
-        myservice = _myservice_;
+    beforeEach(inject(function(_BoardService_, _transform_, _math_, _stub_data_, _serviceDebug_, _stats_) {
+        BoardService = _BoardService_;
         transform = _transform_;
         math = _math_;
         stub_data = _stub_data_;
@@ -259,14 +260,14 @@ describe("make_string_of_cards_by_suit", function() {
 
 });
 
-describe("get_prob_stats", function() {
-    var myservice, transform, math, stub_data, stats;
+xdescribe("get_prob_stats", function() {
+    var BoardService, transform, math, stub_data, stats;
     // setup the angular module
     beforeEach(module('myApp'));
 
     // setup the service
-    beforeEach(inject(function(_myservice_, _transform_, _math_, _stub_data_, _serviceDebug_, _stats_) {
-        myservice = _myservice_;
+    beforeEach(inject(function(_BoardService_, _transform_, _math_, _stub_data_, _serviceDebug_, _stats_) {
+        BoardService = _BoardService_;
         transform = _transform_;
         math = _math_;
         stub_data = _stub_data_;
@@ -285,7 +286,7 @@ describe("get_prob_stats", function() {
         var dealer_hand =  stub_data.make_hand([ ['8','hearts'], ['3','hearts'] ]);
         dealer_hand[1].show = false;
          var static_deck = stub_data.static_deck;
-        hand_value = myservice.calc_hand_value(player_hand);
+        hand_value = BoardService.calc_hand_value(player_hand);
         var desired_hand_value = 21 - hand_value[0];
         var avail_deck = transform.get_available_cards(static_deck, player_hand, dealer_hand);
         //console.log(avail_deck.length);
@@ -305,7 +306,7 @@ describe("get_prob_stats", function() {
         var dealer_hand =  stub_data.make_hand([ ['i','hearts'], ['3','hearts'] ]);
         dealer_hand[1].show = false;
          var static_deck = stub_data.static_deck;
-        hand_value = myservice.calc_hand_value(player_hand);
+        hand_value = BoardService.calc_hand_value(player_hand);
         var desired_hand_value = 21 - hand_value[0];
         var avail_deck = transform.get_available_cards(static_deck, player_hand, dealer_hand);
          console.log(avail_deck.length);
@@ -325,7 +326,7 @@ describe("get_prob_stats", function() {
         var dealer_hand =  stub_data.make_hand([ ['i','hearts'], ['3','hearts'] ]);
         dealer_hand[1].show = false;
          var static_deck = stub_data.static_deck;
-        hand_value = myservice.calc_hand_value(player_hand);
+        hand_value = BoardService.calc_hand_value(player_hand);
         var desired_hand_value = 21 - hand_value[0];
         var avail_deck = transform.get_available_cards(static_deck, player_hand, dealer_hand);
          console.log(avail_deck.length);
@@ -345,7 +346,7 @@ describe("get_prob_stats", function() {
         var dealer_hand =  stub_data.make_hand([ ['j','hearts'], ['3','hearts'] ]);
         dealer_hand[1].show = false;
          var static_deck = stub_data.static_deck;
-        hand_value = myservice.calc_hand_value(player_hand);
+        hand_value = BoardService.calc_hand_value(player_hand);
         var desired_hand_value = 21 - hand_value[0];
         var avail_deck = transform.get_available_cards(static_deck, player_hand, dealer_hand);
          console.log(avail_deck.length);
@@ -365,7 +366,7 @@ describe("get_prob_stats", function() {
         var dealer_hand =  stub_data.make_hand([ ['i','hearts'], ['3','hearts'] ]);
         dealer_hand[1].show = false;
          var static_deck = stub_data.static_deck;
-        hand_value = myservice.calc_hand_value(player_hand);
+        hand_value = BoardService.calc_hand_value(player_hand);
         var desired_hand_value = 21 - hand_value[0];
         var avail_deck = transform.get_available_cards(static_deck, player_hand, dealer_hand);
          console.log(avail_deck.length);
@@ -385,7 +386,7 @@ describe("get_prob_stats", function() {
         var dealer_hand =  stub_data.make_hand([ ['8','hearts'], ['3','hearts'] ]);
         dealer_hand[1].show = false;
          var static_deck = stub_data.static_deck;
-        hand_value = myservice.calc_hand_value(player_hand);
+        hand_value = BoardService.calc_hand_value(player_hand);
         var desired_hand_value = 21 - hand_value[0];
         var avail_deck = transform.get_available_cards(static_deck, player_hand, dealer_hand);
          console.log(avail_deck.length);
@@ -406,7 +407,7 @@ describe("get_prob_stats", function() {
         var dealer_hand =  stub_data.make_hand([ ['8','hearts'], ['3','hearts'] ]);
         dealer_hand[1].show = false;
          var static_deck = stub_data.static_deck;
-        hand_value = myservice.calc_hand_value(player_hand);
+        hand_value = BoardService.calc_hand_value(player_hand);
         var desired_hand_value = 21 - hand_value[0];
         var avail_deck = transform.get_available_cards(static_deck, player_hand, dealer_hand);
          console.log(avail_deck.length);
@@ -426,7 +427,7 @@ describe("get_prob_stats", function() {
         var dealer_hand =  stub_data.make_hand([ ['8','hearts'], ['3','hearts'] ]);
         dealer_hand[1].show = false;
          var static_deck = stub_data.static_deck;
-        hand_value = myservice.calc_hand_value(player_hand);
+        hand_value = BoardService.calc_hand_value(player_hand);
         var desired_hand_value = 21 - hand_value[0];
         var avail_deck = transform.get_available_cards(static_deck, player_hand, dealer_hand);
         var result = stats.get_prob_stats(player_hand, avail_deck);
