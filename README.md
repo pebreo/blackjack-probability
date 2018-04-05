@@ -1,5 +1,5 @@
 
-# Permutations in Javascript
+# BlackJack Probabilities
 
 # http://pebreo.github.io/blackjack-probability
 
